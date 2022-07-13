@@ -5,7 +5,7 @@ using RestSharp;
 
 namespace BF1.ServerAdminTools.Features.API;
 
-public class BF1API
+public static class BF1API
 {
     private const string Host = "https://sparta-gw.battlelog.com/jsonrpc/pc/api";
 

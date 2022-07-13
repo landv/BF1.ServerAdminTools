@@ -2,7 +2,7 @@
 
 namespace BF1.ServerAdminTools.Features.API2;
 
-public class GTAPI
+public static class GTAPI
 {
     private const string Host = "https://api.gametools.network";
 

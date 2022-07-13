@@ -4,7 +4,7 @@ using BF1.ServerAdminTools.Features.Utils;
 
 namespace BF1.ServerAdminTools.Features.Chat;
 
-public class ChatHelper
+public static class ChatHelper
 {
     /// <summary>
     /// 按键间隔延迟，单位：毫秒

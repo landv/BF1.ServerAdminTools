@@ -2,17 +2,12 @@
 
 namespace BF1.ServerAdminTools.Features.Core;
 
-public class Memory
+public static class Memory
 {
     private static IntPtr windowHandle;
     private static IntPtr processHandle;
     private static int processId;
     private static long processBaseAddress;
-
-    public Memory()
-    {
-        // ...
-    }
 
     public static bool Initialize(string ProcessName)
     {

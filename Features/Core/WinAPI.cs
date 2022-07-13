@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.Features.Core;
 
-public class WinAPI
+public static class WinAPI
 {
     public const int WM_ACTIVATE = 0x0006;
     public const int WM_KILLFOCUS = 0x0008;

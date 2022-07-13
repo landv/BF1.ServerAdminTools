@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.Features.Core;
 
-public class Player
+public static class Player
 {
     /// <summary>
     /// 解密玩家指针

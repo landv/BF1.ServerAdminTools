@@ -2,7 +2,7 @@
 
 namespace BF1.ServerAdminTools.Features.Chat;
 
-public class ChatMsg
+public static class ChatMsg
 {
     /// <summary>
     /// 聊天框起始偏移
