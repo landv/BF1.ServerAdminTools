@@ -1,9 +1,8 @@
-﻿namespace BF1.ServerAdminTools.Features.API2
+﻿namespace BF1.ServerAdminTools.Features.API2;
+
+public class RespContent
 {
-    public class RespContent
-    {
-        public bool IsSuccess { get; set; }
-        public string Message { get; set; }
-        public double ExecTime { get; set; }
-    }
+    public bool IsSuccess { get; set; }
+    public string Message { get; set; }
+    public double ExecTime { get; set; }
 }

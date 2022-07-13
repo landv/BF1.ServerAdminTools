@@ -1,66 +1,65 @@
-﻿namespace BF1.ServerAdminTools.Common.Utils
+﻿namespace BF1.ServerAdminTools.Common.Utils;
+
+public static class ProcessUtil
 {
-    public class ProcessUtil
+    /// <summary>
+    /// 判断程序是否运行
+    /// </summary>
+    /// <param name="appName">程序名称</param>
+    /// <returns>正在运行返回true，未运行返回false</returns>
+    public static bool IsAppRun(string appName)
     {
-        /// <summary>
-        /// 判断程序是否运行
-        /// </summary>
-        /// <param name="appName">程序名称</param>
-        /// <returns>正在运行返回true，未运行返回false</returns>
-        public static bool IsAppRun(string appName)
-        {
-            return Process.GetProcessesByName(appName).ToList().Count > 0;
-        }
+        return Process.GetProcessesByName(appName).ToList().Count > 0;
+    }
 
-        /// <summary>
-        /// 判断战地1程序是否允许
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsBf1Run()
+    /// <summary>
+    /// 判断战地1程序是否允许
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsBf1Run()
+    {
+        var pArray = Process.GetProcessesByName(CoreUtil.TargetAppName);
+        if (pArray.Length > 0)
         {
-            var pArray = Process.GetProcessesByName(CoreUtil.TargetAppName);
-            if (pArray.Length > 0)
+            foreach (var item in pArray)
             {
-                foreach (var item in pArray)
-                {
-                    if (item.MainWindowTitle.Equals("Battlefield™ 1"))
-                        return true;
-                }
+                if (item.MainWindowTitle.Equals("Battlefield™ 1"))
+                    return true;
             }
-
-            return false;
         }
 
-        /// <summary>
-        /// 打开指定链接或程序
-        /// </summary>
-        /// <param name="link"></param>
-        public static void OpenLink(string link)
-        {
-            Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
-        }
+        return false;
+    }
 
-        /// <summary>
-        /// 打开指定链接或程序
-        /// </summary>
-        /// <param name="link"></param>
-        public static void OpenLink(string link, string path)
-        {
-            Process.Start(new ProcessStartInfo(link, path) { UseShellExecute = true });
-        }
+    /// <summary>
+    /// 打开指定链接或程序
+    /// </summary>
+    /// <param name="link"></param>
+    public static void OpenLink(string link)
+    {
+        Process.Start(new ProcessStartInfo(link) { UseShellExecute = true });
+    }
 
-        /// <summary>
-        /// 根据名字关闭指定程序
-        /// </summary>
-        /// <param name="processName">程序名字，不需要加.exe</param>
-        public static void CloseProcess(string processName)
+    /// <summary>
+    /// 打开指定链接或程序
+    /// </summary>
+    /// <param name="link"></param>
+    public static void OpenLink(string link, string path)
+    {
+        Process.Start(new ProcessStartInfo(link, path) { UseShellExecute = true });
+    }
+
+    /// <summary>
+    /// 根据名字关闭指定程序
+    /// </summary>
+    /// <param name="processName">程序名字，不需要加.exe</param>
+    public static void CloseProcess(string processName)
+    {
+        var appProcess = Process.GetProcesses();
+        foreach (var targetPro in appProcess)
         {
-            Process[] appProcess = Process.GetProcesses();
-            foreach (Process targetPro in appProcess)
-            {
-                if (targetPro.ProcessName.Equals(processName))
-                    targetPro.Kill();
-            }
+            if (targetPro.ProcessName.Equals(processName))
+                targetPro.Kill();
         }
     }
 }

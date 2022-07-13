@@ -1,17 +1,16 @@
-﻿namespace BF1.ServerAdminTools.Extension
+﻿namespace BF1.ServerAdminTools.Extension;
+
+public static class ObservableExtension
 {
-    public static class ObservableExtension
+    public static void Sort<T>(this ObservableCollection<T> collection) where T : IComparable<T>
     {
-        public static void Sort<T>(this ObservableCollection<T> collection) where T : IComparable<T>
+        var sortedList = collection.OrderBy(x => x).ToList();
+        for (int newIndex = 0; newIndex < sortedList.Count(); newIndex++)
         {
-            var sortedList = collection.OrderBy(x => x).ToList();
-            for (int newIndex = 0; newIndex < sortedList.Count(); newIndex++)
+            var oldIndex = collection.IndexOf(sortedList[newIndex]);
+            if (oldIndex != newIndex)
             {
-                var oldIndex = collection.IndexOf(sortedList[newIndex]);
-                if (oldIndex != newIndex)
-                {
-                    collection.Move(oldIndex, newIndex);
-                }
+                collection.Move(oldIndex, newIndex);
             }
         }
     }

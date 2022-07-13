@@ -17,6 +17,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Assets\Styles\Attached\**" />
+	  <EmbeddedResource Remove="Assets\Styles\Attached\**" />
+	  <None Remove="Assets\Styles\Attached\**" />
+	  <Page Remove="Assets\Styles\Attached\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="Assets\Fonts\iconfont.ttf" />
 		<None Remove="Assets\Images\afdian-logo.png" />
 		<None Remove="Assets\Images\Avatar.jpg" />
@@ -534,15 +541,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Chinese" Version="0.4.6" />
-		<PackageReference Include="Downloader" Version="2.3.3" />
+		<PackageReference Include="Chinese" Version="0.5.0" />
+		<PackageReference Include="Downloader" Version="2.3.5" />
 		<PackageReference Include="Emoji.Wpf" Version="0.3.3" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.3" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.7" />
 		<PackageReference Include="Microsoft.Toolkit.Mvvm" Version="7.1.2" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1150.38" />
-		<PackageReference Include="NLog" Version="4.7.15" />
-		<PackageReference Include="RestSharp" Version="107.3.0" />
-		<PackageReference Include="ScottPlot.WPF" Version="4.1.39" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1264.42" />
+		<PackageReference Include="NLog" Version="5.0.1" />
+		<PackageReference Include="RestSharp" Version="108.0.1" />
+		<PackageReference Include="ScottPlot.WPF" Version="4.1.52" />
 		<PackageReference Include="XamlAnimatedGif" Version="2.0.2" />
 	</ItemGroup>
 
@@ -1045,10 +1052,6 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Assets\Styles\Attached\" />
 	</ItemGroup>
 
 </Project>
