@@ -12,6 +12,7 @@
 		<AssemblyVersion>1.0.1.6</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 	</PropertyGroup>
 
 	<ItemGroup>
