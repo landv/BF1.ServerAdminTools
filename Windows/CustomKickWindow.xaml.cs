@@ -23,17 +23,13 @@ public partial class CustomKickWindow : Window
 
     private async void Button_KickPlayer_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         MainWindow._SetOperatingState(2, $"正在踢出玩家 {PlayerName} 中...");
 
         var reason = ChsUtil.ToTraditionalChinese(TextBox_CustomReason.Text.Trim());
 
-        if (reason == "@Kick")
-        {
-            reason = "ADMINPRIORITY";
-        }
-
         var result = await BF1API.AdminKickPlayer(PersonaId, reason);
-
         if (result.IsSuccess)
         {
             MainWindow._SetOperatingState(1, $"踢出玩家 {PlayerName} 成功  |  耗时: {result.ExecTime:0.00} 秒");

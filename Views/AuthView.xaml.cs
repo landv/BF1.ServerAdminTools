@@ -50,11 +50,11 @@ public partial class AuthView : UserControl
         TimerAutoRefresh_Elapsed(null, null);
     }
 
-    private async void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)
+    private void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)
     {
         try
         {
-            var str = await Search.SearchMemory(Offsets.SessionIDMask);
+            var str = Search.SearchMemory(Offsets.SessionIDMask);
             if (str != string.Empty)
             {
                 Globals.SessionId = str;
@@ -109,13 +109,15 @@ public partial class AuthView : UserControl
         }
     }
 
-    private async void Button_GetPlayerSessionId_Click(object sender, RoutedEventArgs e)
+    private void Button_GetPlayerSessionId_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         try
         {
             MainWindow._SetOperatingState(2, "正在获取中，请等待...");
 
-            var str = await Search.SearchMemory(Offsets.SessionIDMask);
+            var str = Search.SearchMemory(Offsets.SessionIDMask);
             if (str != string.Empty)
             {
                 Globals.SessionId = str;

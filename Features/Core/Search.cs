@@ -58,7 +58,7 @@ public static class Search
 
     private static List<CanReadAddress> canReads = new();
 
-    public static Task<string> SearchMemory(string mask)
+    public static string SearchMemory(string mask)
     {
         canReads.Clear();
 
@@ -97,12 +97,12 @@ public static class Search
                 str = str.Replace("X-GatewaySession:", "").Trim();
                 if (IsGuidByReg(str))
                 {
-                    return Task.FromResult(str);
+                    return str;
                 }
             }
         }
 
-        return Task.FromResult(string.Empty);
+        return string.Empty;
     }
 
     private static long FindPattern(string pattern, long baseAddress, int moduleSize)
