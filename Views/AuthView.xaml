@@ -2,7 +2,6 @@
     x:Class="BF1.ServerAdminTools.Views.AuthView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Auth"
@@ -17,35 +16,8 @@
         </Grid.ColumnDefinitions>
         <!--  ################################  -->
         <StackPanel Grid.Column="0">
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="第一步" />
-            <TextBlock Margin="5">
-                <Run>
-                    首先安装WebView2外部依赖
-                </Run>
-                <Hyperlink NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" RequestNavigate="Hyperlink_RequestNavigate">
-                    👉 点我下载安装
-                </Hyperlink>
-                <TextBlock.ToolTip>
-                    https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download-section
-                </TextBlock.ToolTip>
-            </TextBlock>
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：然后点击下面按钮，登录战地小帮手网页，然后点击获取玩家账号信息，提示成功获取到后即可关闭获取窗口"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Red"
-                Text="警告：除非需要更换账号或者修复Code获取失败，否则获取玩家账号信息功能只需要点一次，因为每次点击都会刷新remid、sid和sessionId"
-                TextWrapping="Wrap" />
-            <Button
-                x:Name="Button_GetPlayerSessionID"
-                Click="Button_GetPlayerSessionID_Click"
-                Content="获取玩家账号信息（仅第一次使用需要）"
-                Style="{StaticResource ButtonStyle_Web}" />
             <!--  ################################  -->
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="第二步" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="验证SessionID" />
             <TextBlock
                 x:Name="TextBlock_CheckSessionIdStatus"
                 Margin="5"
@@ -55,17 +27,11 @@
                 Foreground="White"
                 Text="等待玩家操作"
                 TextAlignment="Center" />
-            <TextBlock Margin="5" Text="获取玩家账号信息成功后，点击下面按钮验证SessionID有效性" />
             <TextBlock
                 Margin="5"
                 Foreground="Green"
                 Text="提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作"
                 TextWrapping="Wrap" />
-            <Button
-                x:Name="Button_RefreshPlayerSessionId"
-                Click="Button_RefreshPlayerSessionId_Click"
-                Content="刷新玩家SessionID"
-                Style="{StaticResource ButtonStyle_WebRed}" />
             <Button
                 x:Name="Button_VerifyPlayerSessionId"
                 Margin="5,0,5,5"
@@ -79,33 +45,9 @@
                 Foreground="Green"
                 Text="提示：如果欢迎语不是中文，请重新获取（必须是中文，英文可能会导致问题）"
                 TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="HotPink"
-                TextWrapping="Wrap">
-                提示：如果SessionID过期，点击刷新玩家SessionID即可。如果提示获取Code失败，请执行第一步修复Code获取失败，然后重新获取玩家账号信息
-            </TextBlock>
-            <TextBlock
-                Margin="5"
-                Foreground="DarkOrange"
-                TextWrapping="Wrap">
-                提示：如何让程序自动更新SessionID？首先打开获取玩家账号信息（第一步的按钮），然后点击右下角的修复Code获取失败，
-                此时网页会跳转，可能会让你登陆，然后网页变成127.0.0.1这样的显示时，点击左下角的获取玩家账号信息，这时弹窗三个数据都会发生变化，
-                点确定关闭窗口，然后点击第二步的刷新玩家SessionID，这样以后程序以后就会全自动刷新SessionID了。更换账号需要重复上面步骤
-            </TextBlock>
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：右侧表格如果没有加载出来，可以点击右键菜单更新"
-                TextWrapping="Wrap" />
+
         </StackPanel>
         <!--  ################################  -->
-        <Grid Grid.Column="1">
-            <UniformGrid Rows="2">
-                <ScottPlot:WpfPlot x:Name="WpfPlot_Main1" Margin="5,5,5,2.5" />
-                <ScottPlot:WpfPlot x:Name="WpfPlot_Main2" Margin="5,2.5,5,5" />
-            </UniformGrid>
-        </Grid>
 
     </Grid>
 

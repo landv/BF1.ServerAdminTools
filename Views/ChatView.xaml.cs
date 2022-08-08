@@ -4,7 +4,7 @@ using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Utils;
 
-using Microsoft.Toolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Input;
 
 namespace BF1.ServerAdminTools.Views;
 
