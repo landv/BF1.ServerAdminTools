@@ -101,7 +101,7 @@ public static class ChatMsg
     {
         // 单例原则
         if (AllocateMemoryAddress == IntPtr.Zero)
-            AllocateMemoryAddress = WinAPI.VirtualAllocEx(Memory.GetHandle(), IntPtr.Zero, (IntPtr)0x300, AllocationType.Commit, MemoryProtection.ReadWrite);
+            AllocateMemoryAddress = WinAPI.VirtualAllocEx(Memory.GetProcessHandle(), IntPtr.Zero, (IntPtr)0x300, AllocationType.Commit, MemoryProtection.ReadWrite);
 
         return AllocateMemoryAddress != IntPtr.Zero;
     }
@@ -121,6 +121,6 @@ public static class ChatMsg
     public static void FreeMemory()
     {
         if (AllocateMemoryAddress != IntPtr.Zero)
-            WinAPI.VirtualFreeEx(Memory.GetHandle(), AllocateMemoryAddress, 0, AllocationType.Reset);
+            WinAPI.VirtualFreeEx(Memory.GetProcessHandle(), AllocateMemoryAddress, 0, AllocationType.Reset);
     }
 }

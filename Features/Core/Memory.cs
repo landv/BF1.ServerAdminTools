@@ -4,10 +4,11 @@ namespace BF1.ServerAdminTools.Features.Core;
 
 public static class Memory
 {
+    public static Process process;
     private static IntPtr windowHandle;
     private static IntPtr processHandle;
     private static int processId;
-    private static long processBaseAddress;
+    private static long pBaseAddress;
 
     public static bool Initialize(string ProcessName)
     {
@@ -18,7 +19,7 @@ public static class Memory
             if (pArray.Length > 0)
             {
                 // 默认取第一个
-                Process process = pArray[0];
+                process = pArray[0];
                 // 二次验证
                 foreach (var item in pArray)
                 {
@@ -30,16 +31,12 @@ public static class Memory
                 LoggerHelper.Info($"目标程序窗口句柄 {windowHandle}");
                 processId = process.Id;
                 LoggerHelper.Info($"目标程序进程ID {processId}");
-                processHandle = WinAPI.OpenProcess(
-                    ProcessAccessFlags.VirtualMemoryRead |
-                    ProcessAccessFlags.VirtualMemoryWrite |
-                    ProcessAccessFlags.VirtualMemoryOperation,
-                    false, processId);
+                processHandle = WinAPI.OpenProcess(ProcessAccessFlags.All, false, processId);
                 LoggerHelper.Info($"目标程序进程句柄 {processHandle}");
                 if (process.MainModule != null)
                 {
-                    processBaseAddress = process.MainModule.BaseAddress.ToInt64();
-                    LoggerHelper.Info($"目标程序主模块基址 0x{processBaseAddress:x}");
+                    pBaseAddress = process.MainModule.BaseAddress.ToInt64();
+                    LoggerHelper.Info($"目标程序主模块基址 0x{pBaseAddress:x}");
                     return true;
                 }
                 else
@@ -72,17 +69,17 @@ public static class Memory
         return windowHandle;
     }
 
-    public static IntPtr GetHandle()
+    public static IntPtr GetProcessHandle()
     {
         return processHandle;
     }
 
     public static long GetBaseAddress()
     {
-        return processBaseAddress;
+        return pBaseAddress;
     }
 
-    public static bool IsTopMostWindow()
+    public static bool IsForegroundWindow()
     {
         return windowHandle == WinAPI.GetForegroundWindow();
     }

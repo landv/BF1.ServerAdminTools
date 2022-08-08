@@ -8,20 +8,11 @@
 		<Platforms>x64</Platforms>
 		<DebugType>full</DebugType>
 		<StartupObject>BF1.ServerAdminTools.App</StartupObject>
-		<FileVersion>1.0.1.5</FileVersion>
-		<AssemblyVersion>1.0.1.5</AssemblyVersion>
+		<FileVersion>1.0.1.6</FileVersion>
+		<AssemblyVersion>1.0.1.6</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-		<SignAssembly>False</SignAssembly>
-		<DelaySign>False</DelaySign>
 	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Assets\Styles\Attached\**" />
-	  <EmbeddedResource Remove="Assets\Styles\Attached\**" />
-	  <None Remove="Assets\Styles\Attached\**" />
-	  <Page Remove="Assets\Styles\Attached\**" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Remove="Assets\Fonts\iconfont.ttf" />
@@ -1035,21 +1026,6 @@
 		<Resource Include="Resources\Click_03.wav" />
 		<Resource Include="Resources\Click_04.wav" />
 		<Resource Include="Resources\Click_05.wav" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Update="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Update="Properties\Resources.resx">
-			<Generator>PublicResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

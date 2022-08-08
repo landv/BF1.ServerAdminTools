@@ -4,7 +4,7 @@ using BF1.ServerAdminTools.Common.Helper;
 
 using Downloader;
 
-namespace BF1.ServerAdminTools.Windows;
+namespace BF1.ServerAdminTools.Windows.Kits;
 
 /// <summary>
 /// UpdateWindow.xaml 的交互逻辑

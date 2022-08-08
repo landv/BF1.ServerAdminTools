@@ -33,6 +33,12 @@
                 Text="提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作"
                 TextWrapping="Wrap" />
             <Button
+                x:Name="Button_GetPlayerSessionId"
+                Margin="5,0,5,5"
+                Click="Button_GetPlayerSessionId_Click"
+                Content="手动获取玩家SessionID"
+                Style="{StaticResource ButtonStyle_Web}" />
+            <Button
                 x:Name="Button_VerifyPlayerSessionId"
                 Margin="5,0,5,5"
                 Click="Button_VerifyPlayerSessionId_Click"

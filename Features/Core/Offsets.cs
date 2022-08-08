@@ -8,6 +8,11 @@ public static class Offsets
 
     ////////////////////////////////////////////////////////////////////
 
+    public const string SessionIDMask = "58 2D 47 61 74 65 77 61 79 53 65 73 73 69 6F 6E";
+    public const string SessionIDStr = "X-GatewaySession";
+
+    ////////////////////////////////////////////////////////////////////
+
     public const int ServerName_Offset = 0x3A1F3F8;
     public const int ServerID_Offset = 0x37FF1A0;
     public const int ServerTime_Offset = 0x3A31138;
