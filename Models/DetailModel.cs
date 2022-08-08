@@ -10,8 +10,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerName
     {
-        get { return _serverName; }
-        set { _serverName = value; OnPropertyChanged(); }
+        get => _serverName;
+        set => SetProperty(ref _serverName, value);
     }
 
     private string _serverDescription;
@@ -20,8 +20,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerDescription
     {
-        get { return _serverDescription; }
-        set { _serverDescription = value; OnPropertyChanged(); }
+        get => _serverDescription;
+        set => SetProperty(ref _serverDescription, value);
     }
 
     private string _serverID;
@@ -30,8 +30,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerID
     {
-        get { return _serverID; }
-        set { _serverID = value; OnPropertyChanged(); }
+        get => _serverID;
+        set => SetProperty(ref _serverID, value);
     }
 
     private string _serverGameID;
@@ -40,8 +40,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerGameID
     {
-        get { return _serverGameID; }
-        set { _serverGameID = value; OnPropertyChanged(); }
+        get => _serverGameID;
+        set => SetProperty(ref _serverGameID, value);
     }
 
     private string _serverOwnerName;
@@ -50,8 +50,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerOwnerName
     {
-        get { return _serverOwnerName; }
-        set { _serverOwnerName = value; OnPropertyChanged(); }
+        get => _serverOwnerName;
+        set => SetProperty(ref _serverOwnerName, value);
     }
 
     private string _serverOwnerPersonaId;
@@ -60,8 +60,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerOwnerPersonaId
     {
-        get { return _serverOwnerPersonaId; }
-        set { _serverOwnerPersonaId = value; OnPropertyChanged(); }
+        get => _serverOwnerPersonaId;
+        set => SetProperty(ref _serverOwnerPersonaId, value);
     }
 
     private string _serverOwnerImage;
@@ -70,8 +70,8 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerOwnerImage
     {
-        get { return _serverOwnerImage; }
-        set { _serverOwnerImage = value; OnPropertyChanged(); }
+        get => _serverOwnerImage;
+        set => SetProperty(ref _serverOwnerImage, value);
     }
 
     private string _serverCurrentMap;
@@ -80,7 +80,7 @@ public class DetailModel : ObservableObject
     /// </summary>
     public string ServerCurrentMap
     {
-        get { return _serverCurrentMap; }
-        set { _serverCurrentMap = value; OnPropertyChanged(); }
+        get => _serverCurrentMap;
+        set => SetProperty(ref _serverCurrentMap, value);
     }
 }

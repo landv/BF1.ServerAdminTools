@@ -1,23 +1,18 @@
 ﻿namespace BF1.ServerAdminTools.Features.Data;
 
-public class ImageData
+public static class ImageData
 {
-    public static Dictionary<string, string> WeaponsDict = new Dictionary<string, string>();
-    public static Dictionary<string, string> VehiclesDict = new Dictionary<string, string>();
-    public static Dictionary<string, string> ClassesDict = new Dictionary<string, string>();
+    public static Dictionary<string, string> WeaponsDict = new();
+    public static Dictionary<string, string> VehiclesDict = new();
+    public static Dictionary<string, string> ClassesDict = new();
 
-    public static Dictionary<string, string> Weapons2Dict = new Dictionary<string, string>();
-    public static Dictionary<string, string> Vehicles2Dict = new Dictionary<string, string>();
-    public static Dictionary<string, string> Classes2Dict = new Dictionary<string, string>();
+    public static Dictionary<string, string> Weapons2Dict = new();
+    public static Dictionary<string, string> Vehicles2Dict = new();
+    public static Dictionary<string, string> Classes2Dict = new();
 
-    public static Dictionary<string, string> MapsDict = new Dictionary<string, string>();
+    public static Dictionary<string, string> MapsDict = new();
 
     private static bool isInit = false;
-
-    public ImageData()
-    {
-
-    }
 
     public static void InitDict()
     {

@@ -10,8 +10,8 @@ public class QueryModel : ObservableObject
     /// </summary>
     public string PlayerName
     {
-        get { return _playerName; }
-        set { _playerName = value; OnPropertyChanged(); }
+        get => _playerName;
+        set => SetProperty(ref _playerName, value);
     }
 
     private Visibility _loadingVisibility;
@@ -20,8 +20,8 @@ public class QueryModel : ObservableObject
     /// </summary>
     public Visibility LoadingVisibility
     {
-        get { return _loadingVisibility; }
-        set { _loadingVisibility = value; OnPropertyChanged(); }
+        get => _loadingVisibility;
+        set => SetProperty(ref _loadingVisibility, value);
     }
 
     //////////////////////////////////////
@@ -32,8 +32,8 @@ public class QueryModel : ObservableObject
     /// </summary>
     public string Avatar
     {
-        get { return _avatar; }
-        set { _avatar = value; OnPropertyChanged(); }
+        get => _avatar;
+        set => SetProperty(ref _avatar, value);
     }
 
     private string _userName;
@@ -42,8 +42,8 @@ public class QueryModel : ObservableObject
     /// </summary>
     public string UserName
     {
-        get { return _userName; }
-        set { _userName = value; OnPropertyChanged(); }
+        get => _userName;
+        set => SetProperty(ref _userName, value);
     }
 
     private string _rank;
@@ -52,8 +52,8 @@ public class QueryModel : ObservableObject
     /// </summary>
     public string Rank
     {
-        get { return _rank; }
-        set { _rank = value; OnPropertyChanged(); }
+        get => _rank;
+        set => SetProperty(ref _rank, value);
     }
 
     private string _rankImg;
@@ -62,8 +62,8 @@ public class QueryModel : ObservableObject
     /// </summary>
     public string RankImg
     {
-        get { return _rankImg; }
-        set { _rankImg = value; OnPropertyChanged(); }
+        get => _rankImg;
+        set => SetProperty(ref _rankImg, value);
     }
 
     private string _playerTime;
@@ -72,7 +72,7 @@ public class QueryModel : ObservableObject
     /// </summary>
     public string PlayerTime
     {
-        get { return _playerTime; }
-        set { _playerTime = value; OnPropertyChanged(); }
+        get => _playerTime;
+        set => SetProperty(ref _playerTime, value);
     }
 }

@@ -10,8 +10,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string ServerName
     {
-        get { return _serverName; }
-        set { _serverName = value; OnPropertyChanged(); }
+        get => _serverName;
+        set => SetProperty(ref _serverName, value);
     }
 
     private string _serverTime;
@@ -20,8 +20,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string ServerTime
     {
-        get { return _serverTime; }
-        set { _serverTime = value; OnPropertyChanged(); }
+        get => _serverTime;
+        set => SetProperty(ref _serverTime, value);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -32,8 +32,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team1Score
     {
-        get { return _team1Score; }
-        set { _team1Score = value; OnPropertyChanged(); }
+        get => _team1Score;
+        set => SetProperty(ref _team1Score, value);
     }
 
     private double _team1ScoreWidth;
@@ -42,8 +42,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public double Team1ScoreWidth
     {
-        get { return _team1ScoreWidth; }
-        set { _team1ScoreWidth = value; OnPropertyChanged(); }
+        get => _team1ScoreWidth;
+        set => SetProperty(ref _team1ScoreWidth, value);
     }
 
     private string _team1ScoreFlag;
@@ -52,8 +52,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team1FromeFlag
     {
-        get { return _team1ScoreFlag; }
-        set { _team1ScoreFlag = value; OnPropertyChanged(); }
+        get => _team1ScoreFlag;
+        set => SetProperty(ref _team1ScoreFlag, value);
     }
 
     private string _team1ScoreKill;
@@ -62,8 +62,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team1FromeKill
     {
-        get { return _team1ScoreKill; }
-        set { _team1ScoreKill = value; OnPropertyChanged(); }
+        get => _team1ScoreKill;
+        set => SetProperty(ref _team1ScoreKill, value);
     }
 
     private string _team1Info;
@@ -72,8 +72,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team1Info
     {
-        get { return _team1Info; }
-        set { _team1Info = value; OnPropertyChanged(); }
+        get => _team1Info;
+        set => SetProperty(ref _team1Info, value);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -84,8 +84,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team2Score
     {
-        get { return _team2Score; }
-        set { _team2Score = value; OnPropertyChanged(); }
+        get => _team2Score;
+        set => SetProperty(ref _team2Score, value);
     }
 
     private double _team2ScoreWidth;
@@ -94,8 +94,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public double Team2ScoreWidth
     {
-        get { return _team2ScoreWidth; }
-        set { _team2ScoreWidth = value; OnPropertyChanged(); }
+        get => _team2ScoreWidth;
+        set => SetProperty(ref _team2ScoreWidth, value);
     }
 
     private string _team2ScoreFlag;
@@ -104,8 +104,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team2FromeFlag
     {
-        get { return _team2ScoreFlag; }
-        set { _team2ScoreFlag = value; OnPropertyChanged(); }
+        get => _team2ScoreFlag;
+        set => SetProperty(ref _team2ScoreFlag, value);
     }
 
     private string _team2ScoreKill;
@@ -114,8 +114,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team2FromeKill
     {
-        get { return _team2ScoreKill; }
-        set { _team2ScoreKill = value; OnPropertyChanged(); }
+        get => _team2ScoreKill;
+        set => SetProperty(ref _team2ScoreKill, value);
     }
 
     private string _team2Info;
@@ -124,8 +124,8 @@ public class ServerInfoModel : ObservableObject
     /// </summary>
     public string Team2Info
     {
-        get { return _team2Info; }
-        set { _team2Info = value; OnPropertyChanged(); }
+        get => _team2Info;
+        set => SetProperty(ref _team2Info, value);
     }
 
     ///////////////////////////////////////////////////////////////////////

@@ -42,15 +42,12 @@ public static class Player
 
         long mpBucketArray = Memory.Read<long>(pObfuscationMgr + 0x10);
 
-        // 这两个用Int32读
         int mnBucketCount = Memory.Read<int>(pObfuscationMgr + 0x18);
         if (mnBucketCount == 0)
             return 0;
-        //int mnElementCount = RPM.ReadMemory<int>(pObfuscationMgr + 0x1C);
 
         int startCount = (int)PlayerListKey % mnBucketCount;
 
-        // node
         long mpBucketArray_startCount = Memory.Read<long>(mpBucketArray + Convert.ToInt64(startCount * 8));
         long node_first = Memory.Read<long>(mpBucketArray_startCount);
         long node_second = Memory.Read<long>(mpBucketArray_startCount + 0x8);
@@ -66,7 +63,6 @@ public static class Player
         }
 
         long EncryptedPlayerMgr = node_second;
-        //long MaxPlayerCount = RPM.ReadMemory<long>(EncryptedPlayerMgr + 0x18);
 
         return EncryptedPlayerMgr_GetPlayer(EncryptedPlayerMgr, id);
     }
@@ -97,11 +93,9 @@ public static class Player
         int mnBucketCount = Memory.Read<int>(pObfuscationMgr + 0x18);
         if (mnBucketCount == 0)
             return 0;
-        //int mnElementCount = RPM.ReadMemory<int>(pObfuscationMgr + 0x1C);
 
         int startCount = (int)LocalPlayerListKey % mnBucketCount;
 
-        // node
         long mpBucketArray_startCount = Memory.Read<long>(mpBucketArray + Convert.ToInt64(startCount * 8));
         long node_first = Memory.Read<long>(mpBucketArray_startCount);
         long node_second = Memory.Read<long>(mpBucketArray_startCount + 0x8);
@@ -117,7 +111,6 @@ public static class Player
         }
 
         long EncryptedPlayerMgr = node_second;
-        //long MaxPlayerCount = RPM.ReadMemory<long>(EncryptedPlayerMgr + 0x18);
 
         return EncryptedPlayerMgr_GetPlayer(EncryptedPlayerMgr, 0);
     }

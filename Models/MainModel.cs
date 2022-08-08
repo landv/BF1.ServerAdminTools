@@ -10,7 +10,7 @@ public class MainModel : ObservableObject
     /// </summary>
     public string AppRunTime
     {
-        get { return _appRunTime; }
-        set { _appRunTime = value; OnPropertyChanged(); }
+        get => _appRunTime;
+        set => SetProperty(ref _appRunTime, value);
     }
 }

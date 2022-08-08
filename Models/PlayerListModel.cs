@@ -10,8 +10,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public int Index
     {
-        get { return _index; }
-        set { _index = value; OnPropertyChanged(); }
+        get => _index;
+        set => SetProperty(ref _index, value);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -22,8 +22,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string Clan
     {
-        get { return _clan; }
-        set { _clan = value; OnPropertyChanged(); }
+        get => _clan;
+        set => SetProperty(ref _clan, value);
     }
 
     private string _name;
@@ -32,8 +32,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string Name
     {
-        get { return _name; }
-        set { _name = value; OnPropertyChanged(); }
+        get => _name;
+        set => SetProperty(ref _name, value);
     }
 
     private long _personaId;
@@ -42,8 +42,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public long PersonaId
     {
-        get { return _personaId; }
-        set { _personaId = value; OnPropertyChanged(); }
+        get => _personaId;
+        set => SetProperty(ref _personaId, value);
     }
 
     private string _squadId;
@@ -52,8 +52,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string SquadId
     {
-        get { return _squadId; }
-        set { _squadId = value; OnPropertyChanged(); }
+        get => _squadId;
+        set => SetProperty(ref _squadId, value);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -64,8 +64,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string Admin
     {
-        get { return _admin; }
-        set { _admin = value; OnPropertyChanged(); }
+        get => _admin;
+        set => SetProperty(ref _admin, value);
     }
 
     private string _vip;
@@ -74,8 +74,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string VIP
     {
-        get { return _vip; }
-        set { _vip = value; OnPropertyChanged(); }
+        get => _vip;
+        set => SetProperty(ref _vip, value);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -86,8 +86,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public int Rank
     {
-        get { return _rank; }
-        set { _rank = value; OnPropertyChanged(); }
+        get => _rank;
+        set => SetProperty(ref _rank, value);
     }
 
     private int _kill;
@@ -96,8 +96,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public int Kill
     {
-        get { return _kill; }
-        set { _kill = value; OnPropertyChanged(); }
+        get => _kill;
+        set => SetProperty(ref _kill, value);
     }
 
     private int _dead;
@@ -106,8 +106,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public int Dead
     {
-        get { return _dead; }
-        set { _dead = value; OnPropertyChanged(); }
+        get => _dead;
+        set => SetProperty(ref _dead, value);
     }
 
     private string _kd;
@@ -116,8 +116,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string KD
     {
-        get { return _kd; }
-        set { _kd = value; OnPropertyChanged(); }
+        get => _kd;
+        set => SetProperty(ref _kd, value);
     }
 
     private string _kpm;
@@ -126,8 +126,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string KPM
     {
-        get { return _kpm; }
-        set { _kpm = value; OnPropertyChanged(); }
+        get => _kpm;
+        set => SetProperty(ref _kpm, value);
     }
 
     private int _score;
@@ -136,8 +136,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public int Score
     {
-        get { return _score; }
-        set { _score = value; OnPropertyChanged(); }
+        get => _score;
+        set => SetProperty(ref _score, value);
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -148,8 +148,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS0
     {
-        get { return _weaponS0; }
-        set { _weaponS0 = value; OnPropertyChanged(); }
+        get => _weaponS0;
+        set => SetProperty(ref _weaponS0, value);
     }
 
     private string _weaponS1;
@@ -158,8 +158,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS1
     {
-        get { return _weaponS1; }
-        set { _weaponS1 = value; OnPropertyChanged(); }
+        get => _weaponS1;
+        set => SetProperty(ref _weaponS1, value);
     }
 
     private string _weaponS2;
@@ -168,8 +168,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS2
     {
-        get { return _weaponS2; }
-        set { _weaponS2 = value; OnPropertyChanged(); }
+        get => _weaponS2;
+        set => SetProperty(ref _weaponS2, value);
     }
 
     private string _weaponS3;
@@ -178,8 +178,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS3
     {
-        get { return _weaponS3; }
-        set { _weaponS3 = value; OnPropertyChanged(); }
+        get => _weaponS3;
+        set => SetProperty(ref _weaponS3, value);
     }
 
     private string _weaponS4;
@@ -188,8 +188,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS4
     {
-        get { return _weaponS4; }
-        set { _weaponS4 = value; OnPropertyChanged(); }
+        get => _weaponS4;
+        set => SetProperty(ref _weaponS4, value);
     }
 
     private string _weaponS5;
@@ -198,8 +198,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS5
     {
-        get { return _weaponS5; }
-        set { _weaponS5 = value; OnPropertyChanged(); }
+        get => _weaponS5;
+        set => SetProperty(ref _weaponS5, value);
     }
 
     private string _weaponS6;
@@ -208,8 +208,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS6
     {
-        get { return _weaponS6; }
-        set { _weaponS6 = value; OnPropertyChanged(); }
+        get => _weaponS6;
+        set => SetProperty(ref _weaponS6, value);
     }
 
     private string _weaponS7;
@@ -218,8 +218,8 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
     /// </summary>
     public string WeaponS7
     {
-        get { return _weaponS7; }
-        set { _weaponS7 = value; OnPropertyChanged(); }
+        get => _weaponS7;
+        set => SetProperty(ref _weaponS7, value);
     }
 
     public int CompareTo(PlayerListModel other)

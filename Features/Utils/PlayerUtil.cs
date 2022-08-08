@@ -2,7 +2,7 @@
 
 namespace BF1.ServerAdminTools.Features.Utils;
 
-public class PlayerUtil
+public static class PlayerUtil
 {
     /// <summary>
     /// 小数类型的时间秒，转为mm:ss格式

@@ -10,8 +10,8 @@ public class PlayerOtherModel : ObservableObject
     /// </summary>
     public string MySelfName
     {
-        get { return _mySelfName; }
-        set { _mySelfName = value; OnPropertyChanged(); }
+        get => _mySelfName;
+        set => SetProperty(ref _mySelfName, value);
     }
 
     private string _mySelfTeamID;
@@ -20,8 +20,8 @@ public class PlayerOtherModel : ObservableObject
     /// </summary>
     public string MySelfTeamID
     {
-        get { return _mySelfTeamID; }
-        set { _mySelfTeamID = value; OnPropertyChanged(); }
+        get => _mySelfTeamID;
+        set => SetProperty(ref _mySelfTeamID, value);
     }
 
     private string _serverPlayerCountInfo;
@@ -30,7 +30,7 @@ public class PlayerOtherModel : ObservableObject
     /// </summary>
     public string ServerPlayerCountInfo
     {
-        get { return _serverPlayerCountInfo; }
-        set { _serverPlayerCountInfo = value; OnPropertyChanged(); }
+        get => _serverPlayerCountInfo;
+        set => SetProperty(ref _serverPlayerCountInfo, value);
     }
 }

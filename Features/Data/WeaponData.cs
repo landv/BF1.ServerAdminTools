@@ -1,6 +1,6 @@
 ﻿namespace BF1.ServerAdminTools.Features.Data;
 
-public class WeaponData
+public static class WeaponData
 {
     public struct WeaponName
     {
@@ -12,7 +12,7 @@ public class WeaponData
     /// <summary>
     /// 全部武器信息，ShortTxt不超过16个字符
     /// </summary>
-    public static List<WeaponName> AllWeaponInfo = new List<WeaponName>()
+    public readonly static List<WeaponName> AllWeaponInfo = new List<WeaponName>()
     {
         // 配枪
         new WeaponName(){ English="======== 公用配枪 ========", Chinese="", ShortTxt="" },

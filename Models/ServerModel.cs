@@ -10,8 +10,8 @@ public class ServerModel : ObservableObject
     /// </summary>
     public string ServerName
     {
-        get { return serverName; }
-        set { serverName = value; OnPropertyChanged(); }
+        get => serverName;
+        set => SetProperty(ref serverName, value);
     }
 
     private Visibility loadingVisibility;
@@ -20,7 +20,7 @@ public class ServerModel : ObservableObject
     /// </summary>
     public Visibility LoadingVisibility
     {
-        get { return loadingVisibility; }
-        set { loadingVisibility = value; OnPropertyChanged(); }
+        get => loadingVisibility;
+        set => SetProperty(ref loadingVisibility, value);
     }
 }
