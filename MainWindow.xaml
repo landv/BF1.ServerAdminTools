@@ -2,6 +2,7 @@
     x:Class="BF1.ServerAdminTools.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:BF1.ServerAdminTools.Views"
@@ -37,57 +38,57 @@
             </TabControl.Resources>
 
             <!--  #############################################################################  -->
-            <TabItem Header="主页">
+            <TabItem attached:Icon.Value="🏡" Header="主页">
                 <views:HomeView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="查询">
+            <TabItem attached:Icon.Value="🔍" Header="查询">
                 <views:QueryView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="服务器">
+            <TabItem attached:Icon.Value="🌎" Header="服务器">
                 <views:ServerView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="权限">
+            <TabItem attached:Icon.Value="🔑" Header="权限">
                 <views:AuthView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="得分板">
+            <TabItem attached:Icon.Value="📖" Header="得分板">
                 <views:ScoreView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="详情">
+            <TabItem attached:Icon.Value="🗂" Header="详情">
                 <views:DetailView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="规则">
+            <TabItem attached:Icon.Value="🖥" Header="规则">
                 <views:RuleView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="日志">
+            <TabItem attached:Icon.Value="🧾" Header="日志">
                 <views:LogView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="聊天栏">
+            <TabItem attached:Icon.Value="💬" Header="聊天栏">
                 <views:ChatView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="选项">
+            <TabItem attached:Icon.Value="⚙" Header="选项">
                 <views:OptionView />
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem Header="关于">
+            <TabItem attached:Icon.Value="🎈" Header="关于">
                 <views:AboutView />
             </TabItem>
         </TabControl>
