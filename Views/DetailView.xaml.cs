@@ -13,7 +13,7 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class DetailView : UserControl
 {
-    public DetailModel DetailModel { get; set; }
+    public DetailModel DetailModel { get; set; } = new();
 
     public class Map
     {
@@ -40,10 +40,7 @@ public partial class DetailView : UserControl
     public DetailView()
     {
         InitializeComponent();
-
         this.DataContext = this;
-
-        DetailModel = new DetailModel();
 
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
     }

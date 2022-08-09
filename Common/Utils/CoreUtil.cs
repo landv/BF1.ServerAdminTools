@@ -13,12 +13,11 @@ public static class CoreUtil
     /// </summary>
     public const string MainAppWindowName = "战地1服务器管理工具 v";
 
-    //public const string WebSite_Address = "https://bfkits.neocities.org";
+    public const string WebSite_Address = "https://battlefield.vip";
 
-    //public const string Config_Address = "https://bfkits.neocities.org/server/config.json";
-
-    //public static string Notice_Address = "https://bfkits.neocities.org/server/notice.txt";
-    //public static string Change_Address = "https://bfkits.neocities.org/server/change.txt";
+    public static string Config_Address = WebSite_Address + "/server/config.json";
+    public static string Notice_Address = WebSite_Address + "/server/notice.txt";
+    public static string Change_Address = WebSite_Address + "/server/change.txt";
 
     public static string Update_Address = "https://github.com/CrazyZhang666/BF1.ServerAdminTools/releases/download/update/BF1.ServerAdminTools.exe";
 

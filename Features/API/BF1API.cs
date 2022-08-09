@@ -44,10 +44,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> GetWelcomeMessage()
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -100,10 +100,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> SetAPILocale()
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -155,10 +155,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> AdminKickPlayer(string personaId, string reason)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -213,10 +213,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> AdminMovePlayer(string personaId, string teamId)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -273,10 +273,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> ChangeServerMap(string persistedGameId, string levelIndex)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -330,10 +330,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> GetFullServerDetails()
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -386,10 +386,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> AddServerAdmin(string personaName)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -443,10 +443,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> RemoveServerAdmin(string personaId)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -500,10 +500,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> AddServerVip(string personaName)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -557,10 +557,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> RemoveServerVip(string personaId)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -614,10 +614,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> AddServerBan(string personaName)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -671,10 +671,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> RemoveServerBan(string personaId)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -728,10 +728,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> GetServerDetails()
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -784,10 +784,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> UpdateServer(UpdateServerReqBody reqBody)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -828,10 +828,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> GetEnvIdViaAuthCode(string authCode)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -884,10 +884,10 @@ public static class BF1API
     /// </summary>
     public static async Task<RespContent> GetCareerForOwnedGamesByPersonaId(string personaId)
     {
-        Stopwatch sw = new Stopwatch();
+        var sw = new Stopwatch();
         sw.Start();
 
-        RespContent respContent = new RespContent();
+        var respContent = new RespContent();
 
         try
         {
@@ -902,6 +902,66 @@ public static class BF1API
                 {
                     game = "tunguska",
                     personaId = personaId
+                },
+                id = Guid.NewGuid()
+            };
+
+            var request = new RestRequest()
+                .AddHeaders(headers)
+                .AddJsonBody(reqBody);
+
+            var response = await client.ExecutePostAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                respContent.IsSuccess = true;
+                respContent.Message = response.Content;
+            }
+            else
+            {
+                var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                respContent.Message = $"{respError.error.code} {respError.error.message}";
+            }
+        }
+        catch (Exception ex)
+        {
+            respContent.Message = ex.Message;
+        }
+
+        sw.Stop();
+        respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+        return respContent;
+    }
+
+    /// <summary>
+    /// 搜索服务器
+    /// </summary>
+    /// <param name="serverName"></param>
+    /// <returns></returns>
+    public static async Task<RespContent> SearchServers(string serverName)
+    {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        var respContent = new RespContent();
+
+        try
+        {
+            headers["X-GatewaySession"] = Globals.SessionId;
+            respContent.IsSuccess = false;
+
+            var reqBody = new
+            {
+                jsonrpc = "2.0",
+                method = "GameServer.searchServers",
+                @params = new
+                {
+                    filterJson = "{\"version\":6,\"name\":\"" + serverName + "\"}",
+                    game = "tunguska",
+                    limit = 20,
+                    protocolVersion = "3779779"
                 },
                 id = Guid.NewGuid()
             };
