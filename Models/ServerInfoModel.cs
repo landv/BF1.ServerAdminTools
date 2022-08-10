@@ -14,6 +14,36 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _serverName, value);
     }
 
+    private string _serverGameID;
+    /// <summary>
+    /// 服务器GameID
+    /// </summary>
+    public string ServerGameID
+    {
+        get => _serverGameID;
+        set => SetProperty(ref _serverGameID, value);
+    }
+
+    private string _serverMapMode;
+    /// <summary>
+    /// 服务器地图模式
+    /// </summary>
+    public string ServerMapMode
+    {
+        get => _serverMapMode;
+        set => SetProperty(ref _serverMapMode, value);
+    }
+
+    private string _serverMapName;
+    /// <summary>
+    /// 服务器地图名称
+    /// </summary>
+    public string ServerMapName
+    {
+        get => _serverMapName;
+        set => SetProperty(ref _serverMapName, value);
+    }
+
     private string _serverTime;
     /// <summary>
     /// 服务器时间

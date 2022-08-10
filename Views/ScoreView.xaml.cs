@@ -15,22 +15,22 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class ScoreView : UserControl
 {
-    public ServerInfoModel ServerInfoModel { get; set; }
-    public PlayerOtherModel PlayerOtherModel { get; set; }
+    private List<PlayerData> PlayerList_All = new();
+    private List<PlayerData> PlayerList_Team0 = new();
+    private List<PlayerData> PlayerList_Team1 = new();
+    private List<PlayerData> PlayerList_Team2 = new();
 
-    private List<PlayerData> PlayerList_All = new List<PlayerData>();
-    private List<PlayerData> PlayerList_Team0 = new List<PlayerData>();
-    private List<PlayerData> PlayerList_Team1 = new List<PlayerData>();
-    private List<PlayerData> PlayerList_Team2 = new List<PlayerData>();
-
-    public static List<PlayerData> PlayerDatas_Team1 = new List<PlayerData>();
-    public static List<PlayerData> PlayerDatas_Team2 = new List<PlayerData>();
+    public static List<PlayerData> PlayerDatas_Team1 = new();
+    public static List<PlayerData> PlayerDatas_Team2 = new();
 
     // 正在执行踢人请求的玩家列表，保留指定时间秒数
-    private List<BreakRuleInfo> Kicking_PlayerList = new List<BreakRuleInfo>();
+    private List<BreakRuleInfo> Kicking_PlayerList = new();
 
-    public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; }
-    public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; }
+    public ServerInfoModel ServerInfoModel { get; set; } = new();
+    public PlayerOtherModel PlayerOtherModel { get; set; } = new();
+
+    public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; } = new();
+    public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; } = new();
 
     private const int MaxPlayer = 74;
 
@@ -50,18 +50,20 @@ public partial class ScoreView : UserControl
     {
         public long Offset0;
 
-        public string ServerName;
-        public long ServerID;
-        public float ServerTime;
+        public string Name;
+        public string GameID;
+        public float Time;
+
+        public string MapName;
 
         public int Team1Score;
         public int Team2Score;
 
-        public int Team1FromeKill;
-        public int Team2FromeKill;
+        public int Team1Kill;
+        public int Team2Kill;
 
-        public int Team1FromeFlag;
-        public int Team2FromeFlag;
+        public int Team1Flag;
+        public int Team2Flag;
     }
     private ServerInfo _serverInfo;
 
@@ -80,25 +82,18 @@ public partial class ScoreView : UserControl
     public ScoreView()
     {
         InitializeComponent();
-
         this.DataContext = this;
 
-        ServerInfoModel = new ServerInfoModel();
-        PlayerOtherModel = new PlayerOtherModel();
-
-        PlayerList_All = new List<PlayerData>();
-        PlayerList_Team0 = new List<PlayerData>();
-        PlayerList_Team1 = new List<PlayerData>();
-        PlayerList_Team2 = new List<PlayerData>();
-
-        DataGrid_PlayerList_Team1 = new ObservableCollection<PlayerListModel>();
-        DataGrid_PlayerList_Team2 = new ObservableCollection<PlayerListModel>();
-
-        var thread0 = new Thread(UpdatePlayerList);
-        thread0.IsBackground = true;
+        var thread0 = new Thread(UpdatePlayerList)
+        {
+            IsBackground = true
+        };
         thread0.Start();
     }
 
+    /// <summary>
+    /// 更新玩家列表
+    /// </summary>
     private void UpdatePlayerList()
     {
         while (true)
@@ -150,14 +145,17 @@ public partial class ScoreView : UserControl
             //////////////////////////////// 服务器数据 ////////////////////////////////
 
             // 服务器名称
-            _serverInfo.ServerName = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
-            _serverInfo.ServerName = _serverInfo.ServerName == "" ? "未知" : _serverInfo.ServerName;
+            _serverInfo.Name = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
+            _serverInfo.Name = string.IsNullOrEmpty(_serverInfo.Name) ? "未知" : _serverInfo.Name;
+            // 服务器地图名称
+            _serverInfo.MapName = Memory.ReadString(Offsets.OFFSET_CLIENTGAMECONTEXT, Offsets.ServerMapName, 64);
+            _serverInfo.MapName = string.IsNullOrEmpty(_serverInfo.MapName) ? "未知" : _serverInfo.MapName;
 
             // 如果玩家没有进入服务器，要进行一些数据清理
-            if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.ServerName == "未知")
+            if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.Name == "未知")
             {
                 // 清理服务器ID（GameID）
-                _serverInfo.ServerID = 0;
+                _serverInfo.GameID = string.Empty;
                 Globals.GameId = string.Empty;
 
                 Globals.Server_AdminList.Clear();
@@ -167,12 +165,12 @@ public partial class ScoreView : UserControl
             else
             {
                 // 服务器数字ID
-                _serverInfo.ServerID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID);
-                Globals.GameId = _serverInfo.ServerID.ToString();
+                _serverInfo.GameID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID).ToString();
+                Globals.GameId = _serverInfo.GameID;
             }
 
             // 服务器时间
-            _serverInfo.ServerTime = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
+            _serverInfo.Time = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
 
             _serverInfo.Offset0 = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
 
@@ -181,12 +179,12 @@ public partial class ScoreView : UserControl
             _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x08);
 
             // 队伍1、队伍2从击杀获取得分
-            _serverInfo.Team1FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x60);
-            _serverInfo.Team2FromeKill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x68);
+            _serverInfo.Team1Kill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x60);
+            _serverInfo.Team2Kill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x68);
 
             // 队伍1、队伍2从旗帜获取得分
-            _serverInfo.Team1FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x100);
-            _serverInfo.Team2FromeFlag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x108);
+            _serverInfo.Team1Flag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x100);
+            _serverInfo.Team2Flag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x108);
 
             //////////////////////////////// 玩家数据 ////////////////////////////////
 
@@ -296,7 +294,7 @@ public partial class ScoreView : UserControl
                     PlayerList_All[index].Dead = _dead;
                     PlayerList_All[index].Score = _score;
                     PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(_kill, _dead);
-                    PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(_kill, PlayerUtil.SecondsToMM(_serverInfo.ServerTime));
+                    PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(_kill, PlayerUtil.SecondsToMM(_serverInfo.Time));
                 }
             }
 
@@ -425,9 +423,11 @@ public partial class ScoreView : UserControl
 
             //////////////////////////////// 统计信息数据 ////////////////////////////////
 
-            ServerInfoModel.ServerName = $"服务器名称 : {_serverInfo.ServerName}  |  GameID : {_serverInfo.ServerID}";
+            ServerInfoModel.ServerName = _serverInfo.Name;
+            ServerInfoModel.ServerGameID = _serverInfo.GameID;
+            ServerInfoModel.ServerMapName = PlayerUtil.GetMapChsName(_serverInfo.MapName);
 
-            ServerInfoModel.ServerTime = PlayerUtil.SecondsToMMSS(_serverInfo.ServerTime);
+            ServerInfoModel.ServerTime = PlayerUtil.SecondsToMMSS(_serverInfo.Time);
 
             if (_serverInfo.Team1Score >= 0 && _serverInfo.Team1Score <= 1000 &&
                 _serverInfo.Team2Score >= 0 && _serverInfo.Team2Score <= 1000)
@@ -456,31 +456,31 @@ public partial class ScoreView : UserControl
                 ServerInfoModel.Team2Score = "0";
             }
 
-            if (_serverInfo.Team1FromeFlag < 0 || _serverInfo.Team1FromeFlag > 2000)
+            if (_serverInfo.Team1Flag < 0 || _serverInfo.Team1Flag > 2000)
             {
-                _serverInfo.Team1FromeFlag = 0;
+                _serverInfo.Team1Flag = 0;
             }
 
-            if (_serverInfo.Team1FromeKill < 0 || _serverInfo.Team1FromeKill > 2000)
+            if (_serverInfo.Team1Kill < 0 || _serverInfo.Team1Kill > 2000)
             {
-                _serverInfo.Team1FromeKill = 0;
+                _serverInfo.Team1Kill = 0;
             }
 
-            if (_serverInfo.Team2FromeFlag < 0 || _serverInfo.Team2FromeFlag > 2000)
+            if (_serverInfo.Team2Flag < 0 || _serverInfo.Team2Flag > 2000)
             {
-                _serverInfo.Team2FromeFlag = 0;
+                _serverInfo.Team2Flag = 0;
             }
 
-            if (_serverInfo.Team2FromeKill < 0 || _serverInfo.Team2FromeKill > 2000)
+            if (_serverInfo.Team2Kill < 0 || _serverInfo.Team2Kill > 2000)
             {
-                _serverInfo.Team2FromeKill = 0;
+                _serverInfo.Team2Kill = 0;
             }
 
-            ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team1FromeFlag}";
-            ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {_serverInfo.Team1FromeKill}";
+            ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team1Flag}";
+            ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {_serverInfo.Team1Kill}";
 
-            ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team2FromeFlag}";
-            ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {_serverInfo.Team2FromeKill}";
+            ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team2Flag}";
+            ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {_serverInfo.Team2Kill}";
 
             ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {_statisticData_Team1.PlayerCount} / {_statisticData_Team1.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team1.AllKillCount}  |  总死亡数 : {_statisticData_Team1.AllDeadCount}";
             ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {_statisticData_Team2.PlayerCount} / {_statisticData_Team2.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team2.AllKillCount}  |  总死亡数 : {_statisticData_Team2.AllDeadCount}";

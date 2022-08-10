@@ -91,7 +91,7 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_WeaponList_Path))
         {
-            using (StreamReader file = new StreamReader(FileUtil.F_WeaponList_Path, Encoding.Default))
+            using (var file = new StreamReader(FileUtil.F_WeaponList_Path, Encoding.Default))
             {
                 string s = "";
                 while (s != null)
@@ -116,7 +116,7 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_BlackList_Path))
         {
-            using (StreamReader file = new StreamReader(FileUtil.F_BlackList_Path, Encoding.Default))
+            using (var file = new StreamReader(FileUtil.F_BlackList_Path, Encoding.Default))
             {
                 string s = "";
                 while (s != null)
@@ -132,7 +132,7 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_WhiteList_Path))
         {
-            using (StreamReader file = new StreamReader(FileUtil.F_WhiteList_Path, Encoding.Default))
+            using (var file = new StreamReader(FileUtil.F_WhiteList_Path, Encoding.Default))
             {
                 string s = "";
                 while (s != null)

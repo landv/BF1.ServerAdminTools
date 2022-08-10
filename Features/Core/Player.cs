@@ -48,7 +48,7 @@ public static class Player
 
         int startCount = (int)PlayerListKey % mnBucketCount;
 
-        long mpBucketArray_startCount = Memory.Read<long>(mpBucketArray + Convert.ToInt64(startCount * 8));
+        long mpBucketArray_startCount = Memory.Read<long>(mpBucketArray + startCount * 8);
         long node_first = Memory.Read<long>(mpBucketArray_startCount);
         long node_second = Memory.Read<long>(mpBucketArray_startCount + 0x8);
         long node_mpNext = Memory.Read<long>(mpBucketArray_startCount + 0x10);
@@ -63,7 +63,6 @@ public static class Player
         }
 
         long EncryptedPlayerMgr = node_second;
-
         return EncryptedPlayerMgr_GetPlayer(EncryptedPlayerMgr, id);
     }
 
@@ -96,7 +95,7 @@ public static class Player
 
         int startCount = (int)LocalPlayerListKey % mnBucketCount;
 
-        long mpBucketArray_startCount = Memory.Read<long>(mpBucketArray + Convert.ToInt64(startCount * 8));
+        long mpBucketArray_startCount = Memory.Read<long>(mpBucketArray + startCount * 8);
         long node_first = Memory.Read<long>(mpBucketArray_startCount);
         long node_second = Memory.Read<long>(mpBucketArray_startCount + 0x8);
         long node_mpNext = Memory.Read<long>(mpBucketArray_startCount + 0x10);
@@ -111,7 +110,6 @@ public static class Player
         }
 
         long EncryptedPlayerMgr = node_second;
-
         return EncryptedPlayerMgr_GetPlayer(EncryptedPlayerMgr, 0);
     }
 }

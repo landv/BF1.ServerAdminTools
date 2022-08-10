@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Score"
     d:DesignHeight="900"
@@ -90,14 +91,32 @@
             BorderBrush="Gray"
             BorderThickness="0,0,0,0.6">
             <StackPanel Orientation="Vertical">
-                <TextBlock
-                    Margin="5"
+                <StackPanel
                     HorizontalAlignment="Center"
-                    FontFamily="等线"
-                    FontSize="16"
-                    FontWeight="Bold"
-                    Foreground="Orange"
-                    Text="{Binding ServerInfoModel.ServerName, FallbackValue='服务器名称 :   服务器数字ID : '}" />
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        FontFamily="等线"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Orange"
+                        Text="{Binding ServerInfoModel.ServerName, FallbackValue='服务器名称'}" />
+                    <emoji:TextBlock
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="🔥" />
+                    <TextBlock
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        FontFamily="等线"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Orange"
+                        Text="{Binding ServerInfoModel.ServerMapName, FallbackValue='地图名称'}" />
+                </StackPanel>
                 <Grid Margin="0,3,0,7">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -120,7 +139,7 @@
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team1FromeFlag, FallbackValue='从旗帜获取的得分 : 30'}" />
+                            Text="{Binding ServerInfoModel.Team1Flag, FallbackValue='从旗帜获取的得分 : 30'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#3A6CB4"
@@ -131,7 +150,7 @@
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team1FromeKill, FallbackValue='从击杀获取的得分 : 40'}" />
+                            Text="{Binding ServerInfoModel.Team1Kill, FallbackValue='从击杀获取的得分 : 40'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#3A6CB4"
@@ -244,7 +263,7 @@
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team2FromeFlag, FallbackValue='从旗帜获取的得分 : 30'}" />
+                            Text="{Binding ServerInfoModel.Team2Flag, FallbackValue='从旗帜获取的得分 : 30'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#AB312D"
@@ -255,7 +274,7 @@
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team2FromeKill, FallbackValue='从击杀获取的得分 : 40'}" />
+                            Text="{Binding ServerInfoModel.Team2Kill, FallbackValue='从击杀获取的得分 : 40'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#AB312D"

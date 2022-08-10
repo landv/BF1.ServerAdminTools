@@ -113,12 +113,12 @@ public static class PlayerUtil
         if (string.IsNullOrEmpty(str))
             return 0;
 
-        ASCIIEncoding ascii = new ASCIIEncoding();
+        var ascii = new ASCIIEncoding();
         int tempLen = 0;
         byte[] s = ascii.GetBytes(str);
         for (int i = 0; i < s.Length; i++)
         {
-            if ((int)s[i] == 63)
+            if (s[i] == 63)
             {
                 tempLen += 3;
             }
@@ -159,10 +159,8 @@ public static class PlayerUtil
             return "";
 
         int index = originalName.IndexOf("]");
-
-        string clan = string.Empty;
-        string name = string.Empty;
-
+        string clan;
+        string name;
         if (index != -1)
         {
             clan = originalName.Substring(1, index - 1);
@@ -181,7 +179,21 @@ public static class PlayerUtil
     }
 
     /// <summary>
-    /// 获取武器对应的中文名称
+    /// 获取地图对应中文名称
+    /// </summary>
+    /// <param name="originMapName"></param>
+    /// <returns></returns>
+    public static string GetMapChsName(string originMapName)
+    {
+        int index = MapData.AllMapInfo.FindIndex(var => var.English == originMapName);
+        if (index != -1)
+            return MapData.AllMapInfo[index].Chinese;
+        else
+            return originMapName;
+    }
+
+    /// <summary>
+    /// 获取武器对应中文名称
     /// </summary>
     /// <param name="originWeaponName"></param>
     /// <returns></returns>

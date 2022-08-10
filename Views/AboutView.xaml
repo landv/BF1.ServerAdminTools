@@ -39,19 +39,19 @@
                 BorderBrush="Gray"
                 BorderThickness="0,1,0,1">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource TextBlockStyle_IconFontAbout}" ToolTip="QQ群 : 710801277">
+                    <TextBlock Style="{StaticResource TextBlockStyle_IconFontAbout}" ToolTip="官方网站">
+                        <Hyperlink NavigateUri="https://battlefield.vip" RequestNavigate="Hyperlink_RequestNavigate">
+                            &#xe65b;
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        Style="{StaticResource TextBlockStyle_IconFontAbout}"
+                        ToolTip="QQ群 : 710801277">
                         <Hyperlink NavigateUri="https://jq.qq.com/?_wv=1027&amp;k=ajEymecs" RequestNavigate="Hyperlink_RequestNavigate">
                             &#xe604;
                         </Hyperlink>
                     </TextBlock>
-                    <!--<TextBlock
-                            Margin="10,0,0,0"
-                            Style="{StaticResource TextBlockStyle_IconFontAbout}"
-                            ToolTip="官方网站">
-                            <Hyperlink NavigateUri="https://bfkits.neocities.org" RequestNavigate="Hyperlink_RequestNavigate">
-                                &#xe65b;
-                            </Hyperlink>
-                        </TextBlock>-->
                     <TextBlock
                         Margin="10,0,0,0"
                         Style="{StaticResource TextBlockStyle_IconFontAbout}"
@@ -74,7 +74,7 @@
                         FontWeight="Bold"
                         Foreground="#8563dd"
                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                        Text="支持作者"
+                        Text="捐赠作者"
                         ToolTip="https://afdian.net/@crazyzhang" />
                     <Image
                         Height="50"
