@@ -1,5 +1,4 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common.Helper;
+﻿using CommunityToolkit.Mvvm.Messaging;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -12,33 +11,19 @@ public partial class HomeView : UserControl
     {
         InitializeComponent();
 
-        Task.Run(() =>
+        WeakReferenceMessenger.Default.Register<string, string>(this, "Notice", (s, e) =>
         {
-            string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
-            string change = HttpHelper.HttpClientGET(CoreUtil.Change_Address).Result;
-
             this.Dispatcher.Invoke(() =>
             {
-                TextBox_Notice.Text = notice;
-                TextBox_Change.Text = change;
+                TextBox_Notice.Text = e;
             });
         });
-    }
 
-    private void MenuItem_RefushNotice_Click(object sender, RoutedEventArgs e)
-    {
-        Task.Run(() =>
+        WeakReferenceMessenger.Default.Register<string, string>(this, "Change", (s, e) =>
         {
             this.Dispatcher.Invoke(() =>
             {
-                TextBox_Notice.Text = "加载中...";
-            });
-
-            string notice = HttpHelper.HttpClientGET(CoreUtil.Notice_Address).Result;
-
-            this.Dispatcher.Invoke(() =>
-            {
-                TextBox_Notice.Text = notice;
+                TextBox_Change.Text = e;
             });
         });
     }

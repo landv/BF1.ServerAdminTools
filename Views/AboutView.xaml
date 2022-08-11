@@ -37,7 +37,8 @@
                 Padding="10,0,10,0"
                 HorizontalAlignment="Center"
                 BorderBrush="Gray"
-                BorderThickness="0,1,0,1">
+                BorderThickness="0,1,0,1"
+                SnapsToDevicePixels="True">
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <TextBlock Style="{StaticResource TextBlockStyle_IconFontAbout}" ToolTip="官方网站">
                         <Hyperlink NavigateUri="https://battlefield.vip" RequestNavigate="Hyperlink_RequestNavigate">
@@ -64,7 +65,8 @@
                     <Border
                         Margin="15,10,15,10"
                         BorderBrush="Gray"
-                        BorderThickness="0.5,0,0.5,0" />
+                        BorderThickness="1,0,0,0"
+                        SnapsToDevicePixels="True" />
                     <!--  ################################  -->
                     <TextBlock
                         Padding="0,0,10,0"

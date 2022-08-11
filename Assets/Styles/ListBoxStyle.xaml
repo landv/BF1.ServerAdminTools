@@ -53,7 +53,7 @@
                         <Image
                             VerticalAlignment="Center"
                             RenderOptions.BitmapScalingMode="HighQuality"
-                            Source="{Binding mapImage}"
+                            Source="{Binding mapImage, Converter={StaticResource MyImageConverter}}"
                             Stretch="UniformToFill" />
                         <UniformGrid Grid.Row="1" Rows="2">
                             <TextBlock
@@ -129,7 +129,7 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             RenderOptions.BitmapScalingMode="HighQuality"
-                            Source="{Binding avatar}"
+                            Source="{Binding avatar, Converter={StaticResource MyImageConverter}}"
                             Stretch="UniformToFill" />
                         <UniformGrid Grid.Column="2" Rows="2">
                             <TextBlock
@@ -205,7 +205,7 @@
                             Grid.Column="1"
                             VerticalAlignment="Center"
                             RenderOptions.BitmapScalingMode="HighQuality"
-                            Source="{Binding Avatar}"
+                            Source="{Binding Avatar, Converter={StaticResource MyImageConverter}}"
                             Stretch="UniformToFill" />
                         <UniformGrid Grid.Column="2" Rows="2">
                             <TextBlock

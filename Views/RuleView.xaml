@@ -134,6 +134,7 @@
                     <TextBlock Text="{Binding ElementName=Slider_LifeMaxWeaponStar, Path=Value, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
                     <Slider
                         x:Name="Slider_LifeMaxWeaponStar"
+                        IsEnabled="False"
                         Maximum="100"
                         Minimum="0"
                         TickFrequency="1"
@@ -141,6 +142,7 @@
                     <TextBlock Text="{Binding ElementName=Slider_LifeMaxVehicleStar, Path=Value, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
                     <Slider
                         x:Name="Slider_LifeMaxVehicleStar"
+                        IsEnabled="False"
                         Maximum="100"
                         Minimum="0"
                         TickFrequency="1"

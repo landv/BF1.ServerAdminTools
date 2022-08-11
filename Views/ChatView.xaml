@@ -109,8 +109,8 @@
                     TextWrapping="Wrap" />
                 <TextBlock
                     Margin="5"
-                    Foreground="Red"
-                    Text="警告：输入法必须处于美式键盘状态才可以正常使用中文输入"
+                    Foreground="Orange"
+                    Text="提示：输入法必须处于美式键盘状态才可以正常使用中文输入"
                     TextWrapping="Wrap" />
                 <Image
                     Height="150"

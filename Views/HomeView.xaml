@@ -26,24 +26,15 @@
                 Padding="5"
                 Cursor="Arrow"
                 IsReadOnly="True"
-                Text="加载中..."
-                TextWrapping="Wrap">
-                <TextBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem
-                            Name="MenuItem_RefushNotice"
-                            Click="MenuItem_RefushNotice_Click"
-                            Header="刷新通知公告" />
-                    </ContextMenu>
-                </TextBox.ContextMenu>
-            </TextBox>
+                Text="正在加载中，请稍后..."
+                TextWrapping="Wrap" />
             <TextBox
                 x:Name="TextBox_Change"
                 Margin="2.5,5,5,5"
                 Padding="5"
                 Cursor="Arrow"
                 IsReadOnly="True"
-                Text="加载中..."
+                Text="正在加载中，请稍后..."
                 TextWrapping="Wrap" />
         </UniformGrid>
     </Grid>

@@ -5,6 +5,9 @@ using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Chat;
+using BF1.ServerAdminTools.Windows.Kits;
+
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BF1.ServerAdminTools;
 
@@ -17,18 +20,13 @@ public partial class MainWindow : Window
     /// 主窗口全局提示信息委托
     /// </summary>
     public static Action<int, string> _SetOperatingState;
-    /// <summary>
-    /// 主窗口选项卡控件选择委托
-    /// </summary>
-    public static Action<int> _TabControlSelect;
 
     public delegate void ClosingDispose();
     public static event ClosingDispose ClosingDisposeEvent;
 
-
     public static MainWindow ThisMainWindow;
 
-    public MainModel MainModel { get; set; }
+    public MainModel MainModel { get; set; } = new();
 
     // 声明一个变量，用于存储软件开始运行的时间
     private DateTime Origin_DateTime;
@@ -44,10 +42,6 @@ public partial class MainWindow : Window
     {
         // 提示信息委托
         _SetOperatingState = SetOperatingState;
-        // TabControl 选择切换委托
-        _TabControlSelect = TabControlSelect;
-
-        MainModel = new MainModel();
 
         MainModel.AppRunTime = "运行时间 : Loading...";
 
@@ -55,7 +49,7 @@ public partial class MainWindow : Window
 
         ////////////////////////////////
 
-        Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo 
+        Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo
             + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
 
         // 获取当前时间，存储到对于变量中
@@ -96,7 +90,7 @@ public partial class MainWindow : Window
         LoggerHelper.Info($"程序关闭\n\n");
     }
 
-    private void InitThread()
+    private async void InitThread()
     {
         // 读取SessionId
         Globals.SessionId = IniHelper.ReadString("Globals", "SessionId", "", FileUtil.F_Settings_Path);
@@ -104,6 +98,63 @@ public partial class MainWindow : Window
         // 调用刷新SessionID功能
         LoggerHelper.Info($"开始调用刷新SessionID功能");
         AuthView._AutoRefreshSID();
+
+        ///////////////////////////////////////////////////////////
+
+        CoreUtil.FlushDNSCache();
+        LoggerHelper.Info("刷新DNS缓存成功");
+
+        LoggerHelper.Info($"正在检测版本更新...");
+        // 获取版本更新
+        var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
+        if (!string.IsNullOrEmpty(webConfig))
+        {
+            var updateInfo = JsonUtil.JsonDese<UpdateInfo>(webConfig);
+
+            CoreUtil.ServerVersionInfo = new Version(updateInfo.Version);
+            CoreUtil.Notice_Address = updateInfo.Address.Notice;
+            CoreUtil.Change_Address = updateInfo.Address.Change;
+
+            // 获取最新公告
+            await HttpHelper.HttpClientGET(CoreUtil.Notice_Address).ContinueWith((t) =>
+            {
+                if (t != null)
+                    WeakReferenceMessenger.Default.Send(t.Result, "Notice");
+                else
+                    WeakReferenceMessenger.Default.Send("获取最新公告内容失败！", "Notice");
+            });
+            // 获取更新日志
+            await HttpHelper.HttpClientGET(CoreUtil.Change_Address).ContinueWith((t) =>
+            {
+                if (t != null)
+                    WeakReferenceMessenger.Default.Send(t.Result, "Change");
+                else
+                    WeakReferenceMessenger.Default.Send("获取更新日志信息失败！", "Change");
+            });
+
+            if (CoreUtil.ServerVersionInfo > CoreUtil.ClientVersionInfo)
+            {
+                LoggerHelper.Info($"发现新版本 {CoreUtil.ServerVersionInfo}");
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (MessageBox.Show($"检测到新版本已发布，是否立即前往更新？                   " +
+                        $"\n\n{updateInfo.Latest.Date}\n{updateInfo.Latest.Change}\n\n强烈建议大家使用最新版本呢！",
+                        "发现新版本", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    {
+                        var UpdateWindow = new UpdateWindow(updateInfo)
+                        {
+                            Owner = this
+                        };
+                        UpdateWindow.ShowDialog();
+                    }
+                });
+            }
+            else
+            {
+                LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+            }
+        }
     }
 
     private void UpdateState()
@@ -115,7 +166,7 @@ public partial class MainWindow : Window
 
             if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                this.Dispatcher.Invoke(() =>
                 {
                     this.Close();
                 });
@@ -157,11 +208,4 @@ public partial class MainWindow : Window
         e.Handled = true;
     }
     #endregion
-
-    ///////////////////////////////////////////////////////
-
-    private void TabControlSelect(int index)
-    {
-        TabControl_Main.SelectedIndex = index;
-    }
 }

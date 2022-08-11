@@ -25,8 +25,8 @@
                     VerticalAlignment="Center"
                     DockPanel.Dock="Left"
                     Style="{StaticResource TextBlockStyle_Update}"
-                    ToolTip="https://github.com/CrazyZhang666/BF1.Server/releases">
-                    <Hyperlink NavigateUri="https://github.com/CrazyZhang666/BF1.Server/releases" RequestNavigate="Hyperlink_RequestNavigate">手动下载最新版本</Hyperlink>
+                    ToolTip="https://www.123pan.com/s/QEorVv-Eazv3">
+                    <Hyperlink NavigateUri="https://www.123pan.com/s/QEorVv-Eazv3" RequestNavigate="Hyperlink_RequestNavigate">手动下载最新版本</Hyperlink>
                 </TextBlock>
                 <Button
                     x:Name="Button_CancelUpdate"

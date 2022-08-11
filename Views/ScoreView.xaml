@@ -57,11 +57,11 @@
             <MenuItem
                 Name="MenuItem_QueryPlayerRecordWeb_BT"
                 Click="MenuItem_QueryPlayerRecordWeb_BT_Click"
-                Header="查询玩家数据（BT）" />
+                Header="查询玩家数据（BT-网页）" />
             <MenuItem
                 Name="MenuItem_QueryPlayerRecordWeb_GT"
                 Click="MenuItem_QueryPlayerRecordWeb_GT_Click"
-                Header="查询玩家数据（GT）" />
+                Header="查询玩家数据（GT-网页）" />
             <MenuItem Header="其他">
                 <MenuItem
                     Name="MenuItem_ClearScoreSort"
@@ -139,18 +139,18 @@
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team1Flag, FallbackValue='从旗帜获取的得分 : 30'}" />
+                            Text="{Binding ServerInfoModel.Team1Flag, FallbackValue='从旗帜获取的得分 : 0'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#3A6CB4"
                             Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe9f5;" />
-                        <TextBlock Margin="10,0,5,0" Text="│" />
+                        <TextBlock Margin="10,0,5,0" Text="|" />
                         <TextBlock
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team1Kill, FallbackValue='从击杀获取的得分 : 40'}" />
+                            Text="{Binding ServerInfoModel.Team1Kill, FallbackValue='从击杀获取的得分 : 0'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#3A6CB4"
@@ -168,7 +168,7 @@
                             <Border Background="#3A6CB4" Opacity="0.3" />
                             <Border BorderBrush="#3A6CB4" BorderThickness="0.7" />
                             <Border
-                                Width="{Binding ServerInfoModel.Team1ScoreWidth, FallbackValue=20}"
+                                Width="{Binding ServerInfoModel.Team1ScoreWidth, FallbackValue=0}"
                                 HorizontalAlignment="Right"
                                 Background="#3A6CB4" />
                             <TextBlock
@@ -179,7 +179,7 @@
                                 FontSize="14"
                                 FontWeight="Bold"
                                 Foreground="White"
-                                Text="{Binding ServerInfoModel.Team1Score, FallbackValue='9999'}" />
+                                Text="{Binding ServerInfoModel.Team1Score, FallbackValue='0'}" />
                         </Grid>
                         <!--  队伍1 标识  -->
                         <Border BorderBrush="#3A6CB4" BorderThickness="0.7">
@@ -233,7 +233,7 @@
                             <Border Background="#AB312D" Opacity="0.3" />
                             <Border BorderBrush="#AB312D" BorderThickness="0.7" />
                             <Border
-                                Width="{Binding ServerInfoModel.Team2ScoreWidth, FallbackValue=50}"
+                                Width="{Binding ServerInfoModel.Team2ScoreWidth, FallbackValue=0}"
                                 HorizontalAlignment="Left"
                                 Background="#AB312D" />
                             <TextBlock
@@ -244,7 +244,7 @@
                                 FontSize="14"
                                 FontWeight="Bold"
                                 Foreground="White"
-                                Text="{Binding ServerInfoModel.Team2Score, FallbackValue='9999'}" />
+                                Text="{Binding ServerInfoModel.Team2Score, FallbackValue='0'}" />
                         </Grid>
                     </StackPanel>
                     <!--  ################################  -->
@@ -263,18 +263,18 @@
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team2Flag, FallbackValue='从旗帜获取的得分 : 30'}" />
+                            Text="{Binding ServerInfoModel.Team2Flag, FallbackValue='从旗帜获取的得分 : 0'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#AB312D"
                             Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe9f5;" />
-                        <TextBlock Margin="10,0,5,0" Text="│" />
+                        <TextBlock Margin="10,0,5,0" Text="|" />
                         <TextBlock
                             Margin="5"
                             FontFamily="等线"
                             FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team2Kill, FallbackValue='从击杀获取的得分 : 40'}" />
+                            Text="{Binding ServerInfoModel.Team2Kill, FallbackValue='从击杀获取的得分 : 0'}" />
                         <TextBlock
                             FontSize="14"
                             Foreground="#AB312D"

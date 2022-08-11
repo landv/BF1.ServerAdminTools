@@ -68,29 +68,17 @@ public partial class QueryRecordWindow : Window
     {
         this.DataContext = this;
 
-        this.Title = $"{this.Title} - 玩家ID : {PlayerName}";
+        this.Title = $"{this.Title} - 玩家ID : {PlayerName} - 数字ID : {PersonaId}";
 
         if (!string.IsNullOrEmpty(PersonaId))
         {
             QueryModel.LoadingVisibility = Visibility.Visible;
             count = 0;
 
-            GetPersonas().ContinueWith((t) =>
-            {
-                IsAllFinish();
-            });
-            DetailedStats().ContinueWith((t) =>
-            {
-                IsAllFinish();
-            });
-            GetWeapons().ContinueWith((t) =>
-            {
-                IsAllFinish();
-            });
-            GetVehicles().ContinueWith((t) =>
-            {
-                IsAllFinish();
-            });
+            GetPersonas();
+            DetailedStats();
+            GetWeapons();
+            GetVehicles();
         }
     }
 
@@ -109,7 +97,7 @@ public partial class QueryRecordWindow : Window
         }
     }
 
-    private async Task GetPersonas()
+    private async void GetPersonas()
     {
         QueryModel.Avatar = string.Empty;
         QueryModel.PlayerName = string.Empty;
@@ -125,10 +113,12 @@ public partial class QueryRecordWindow : Window
             QueryModel.PlayerName = PlayerName;
             QueryModel.PersonaId = $"{PersonaId}";
             QueryModel.Rank = $"等级 : {Rank}";
+
+            IsAllFinish();
         }
     }
 
-    private async Task DetailedStats()
+    private async void DetailedStats()
     {
         PlayerDataOC.Clear();
 
@@ -142,6 +132,8 @@ public partial class QueryRecordWindow : Window
             var basic = detailed.result.basicStats;
             QueryModel.PlayTime = $"时长 : {PlayerUtil.GetPlayTime(basic.timePlayed)}";
 
+            IsAllFinish();
+
             await Task.Run(() =>
             {
                 AddPlayerInfo($"KD : {PlayerUtil.GetPlayerKD(basic.kills, basic.deaths):0.00}");
@@ -149,7 +141,7 @@ public partial class QueryRecordWindow : Window
                 AddPlayerInfo($"SPM : {basic.spm}");
 
                 AddPlayerInfo($"命中率 : {detailed.result.accuracyRatio * 100:0.00}%");
-                AddPlayerInfo($"爆头率 : {detailed.result.headShots / basic.kills * 100:0.00}%");
+                AddPlayerInfo($"爆头率 : {PlayerUtil.GetPlayerPercentage(detailed.result.headShots, basic.kills)}");
                 AddPlayerInfo($"爆头数 : {detailed.result.headShots}");
 
                 AddPlayerInfo($"最高连续击杀数 : {detailed.result.highestKillStreak}");
@@ -184,7 +176,7 @@ public partial class QueryRecordWindow : Window
         }
     }
 
-    private async Task GetWeapons()
+    private async void GetWeapons()
     {
         WeaponStatsOC.Clear();
 
@@ -221,6 +213,8 @@ public partial class QueryRecordWindow : Window
 
             weapons.Sort((a, b) => b.kills.CompareTo(a.kills));
 
+            IsAllFinish();
+
             await Task.Run(() =>
             {
                 foreach (var item in weapons)
@@ -234,7 +228,7 @@ public partial class QueryRecordWindow : Window
         }
     }
 
-    private async Task GetVehicles()
+    private async void GetVehicles()
     {
         VehicleStatsOC.Clear();
 
@@ -265,6 +259,8 @@ public partial class QueryRecordWindow : Window
             }
 
             vehicles.Sort((a, b) => b.kills.CompareTo(a.kills));
+
+            IsAllFinish();
 
             await Task.Run(() =>
             {

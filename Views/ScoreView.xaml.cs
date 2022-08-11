@@ -476,11 +476,11 @@ public partial class ScoreView : UserControl
                 _serverInfo.Team2Kill = 0;
             }
 
-            ServerInfoModel.Team1FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team1Flag}";
-            ServerInfoModel.Team1FromeKill = $"从击杀获取的得分 : {_serverInfo.Team1Kill}";
+            ServerInfoModel.Team1Flag = $"从旗帜获取的得分 : {_serverInfo.Team1Flag}";
+            ServerInfoModel.Team1Kill = $"从击杀获取的得分 : {_serverInfo.Team1Kill}";
 
-            ServerInfoModel.Team2FromeFlag = $"从旗帜获取的得分 : {_serverInfo.Team2Flag}";
-            ServerInfoModel.Team2FromeKill = $"从击杀获取的得分 : {_serverInfo.Team2Kill}";
+            ServerInfoModel.Team2Flag = $"从旗帜获取的得分 : {_serverInfo.Team2Flag}";
+            ServerInfoModel.Team2Kill = $"从击杀获取的得分 : {_serverInfo.Team2Kill}";
 
             ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {_statisticData_Team1.PlayerCount} / {_statisticData_Team1.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team1.AllKillCount}  |  总死亡数 : {_statisticData_Team1.AllDeadCount}";
             ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {_statisticData_Team2.PlayerCount} / {_statisticData_Team2.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team2.AllKillCount}  |  总死亡数 : {_statisticData_Team2.AllDeadCount}";

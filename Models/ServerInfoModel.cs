@@ -76,24 +76,24 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _team1ScoreWidth, value);
     }
 
-    private string _team1ScoreFlag;
+    private string _team1Flag;
     /// <summary>
     /// 队伍1从旗帜获取的得分
     /// </summary>
-    public string Team1FromeFlag
+    public string Team1Flag
     {
-        get => _team1ScoreFlag;
-        set => SetProperty(ref _team1ScoreFlag, value);
+        get => _team1Flag;
+        set => SetProperty(ref _team1Flag, value);
     }
 
-    private string _team1ScoreKill;
+    private string _team1Kill;
     /// <summary>
     /// 队伍1从击杀获取的得分
     /// </summary>
-    public string Team1FromeKill
+    public string Team1Kill
     {
-        get => _team1ScoreKill;
-        set => SetProperty(ref _team1ScoreKill, value);
+        get => _team1Kill;
+        set => SetProperty(ref _team1Kill, value);
     }
 
     private string _team1Info;
@@ -128,24 +128,24 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _team2ScoreWidth, value);
     }
 
-    private string _team2ScoreFlag;
+    private string _team2Flag;
     /// <summary>
     /// 队伍2从旗帜获取的得分
     /// </summary>
-    public string Team2FromeFlag
+    public string Team2Flag
     {
-        get => _team2ScoreFlag;
-        set => SetProperty(ref _team2ScoreFlag, value);
+        get => _team2Flag;
+        set => SetProperty(ref _team2Flag, value);
     }
 
-    private string _team2ScoreKill;
+    private string _team2Kill;
     /// <summary>
     /// 队伍2从击杀获取的得分
     /// </summary>
-    public string Team2FromeKill
+    public string Team2Kill
     {
-        get => _team2ScoreKill;
-        set => SetProperty(ref _team2ScoreKill, value);
+        get => _team2Kill;
+        set => SetProperty(ref _team2Kill, value);
     }
 
     private string _team2Info;
