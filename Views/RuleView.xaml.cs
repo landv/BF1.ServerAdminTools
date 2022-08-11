@@ -280,24 +280,24 @@ public partial class RuleView : UserControl
         if (Globals.Custom_WhiteList.Contains(data.Name))
             return;
 
-        var resultTemp = await BF1API.GetCareerForOwnedGamesByPersonaId(data.PersonaId.ToString());
+        var resultTemp = await BF1API.DetailedStatsByPersonaId(data.PersonaId.ToString());
 
         if (resultTemp.IsSuccess)
         {
-            var career = JsonUtil.JsonDese<CareerForOwnedGamesByPersonaId>(resultTemp.Message);
+            var detailedStats = JsonUtil.JsonDese<DetailedStats>(resultTemp.Message);
 
             // 拿到该玩家的生涯数据
-            int kills = career.result.gameStats.tunguska.kills;
-            int deaths = career.result.gameStats.tunguska.deaths;
+            int kills = detailedStats.result.basicStats.kills;
+            int deaths = detailedStats.result.basicStats.deaths;
 
             float kd = (float)Math.Round((double)kills / deaths, 2);
-            float kpm = career.result.gameStats.tunguska.kpm;
+            float kpm = detailedStats.result.basicStats.kpm;
 
-            int weaponStar = (int)career.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
-            int vehicleStar = (int)career.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
+            //int weaponStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
+            //int vehicleStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
 
-            weaponStar = weaponStar / 100;
-            vehicleStar = vehicleStar / 100;
+            //weaponStar = weaponStar / 100;
+            //vehicleStar = vehicleStar / 100;
 
             // 限制玩家生涯KD
             if (ServerRule.LifeMaxKD != 0 && kd > ServerRule.LifeMaxKD)
@@ -325,31 +325,31 @@ public partial class RuleView : UserControl
                 return;
             }
 
-            // 限制玩家武器星级
-            if (ServerRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRule.LifeMaxWeaponStar)
-            {
-                AutoKickPlayer(new BreakRuleInfo
-                {
-                    Name = data.Name,
-                    PersonaId = data.PersonaId,
-                    Reason = $"Life Weapon Star Limit {ServerRule.LifeMaxWeaponStar:0}"
-                });
+            //// 限制玩家武器星级
+            //if (ServerRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRule.LifeMaxWeaponStar)
+            //{
+            //    AutoKickPlayer(new BreakRuleInfo
+            //    {
+            //        Name = data.Name,
+            //        PersonaId = data.PersonaId,
+            //        Reason = $"Life Weapon Star Limit {ServerRule.LifeMaxWeaponStar:0}"
+            //    });
 
-                return;
-            }
+            //    return;
+            //}
 
-            // 限制玩家载具星级
-            if (ServerRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRule.LifeMaxVehicleStar)
-            {
-                AutoKickPlayer(new BreakRuleInfo
-                {
-                    Name = data.Name,
-                    PersonaId = data.PersonaId,
-                    Reason = $"Life Vehicle Star Limit {ServerRule.LifeMaxVehicleStar:0}"
-                });
+            //// 限制玩家载具星级
+            //if (ServerRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRule.LifeMaxVehicleStar)
+            //{
+            //    AutoKickPlayer(new BreakRuleInfo
+            //    {
+            //        Name = data.Name,
+            //        PersonaId = data.PersonaId,
+            //        Reason = $"Life Vehicle Star Limit {ServerRule.LifeMaxVehicleStar:0}"
+            //    });
 
-                return;
-            }
+            //    return;
+            //}
         }
     }
 

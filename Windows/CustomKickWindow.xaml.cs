@@ -14,7 +14,6 @@ public partial class CustomKickWindow : Window
     public CustomKickWindow(string playerName, string personaId)
     {
         InitializeComponent();
-
         this.DataContext = this;
 
         PlayerName = playerName;

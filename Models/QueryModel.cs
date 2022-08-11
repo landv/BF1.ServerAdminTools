@@ -4,16 +4,6 @@ namespace BF1.ServerAdminTools.Models;
 
 public class QueryModel : ObservableObject
 {
-    private string _playerName;
-    /// <summary>
-    /// 玩家名称
-    /// </summary>
-    public string PlayerName
-    {
-        get => _playerName;
-        set => SetProperty(ref _playerName, value);
-    }
-
     private Visibility _loadingVisibility;
     /// <summary>
     /// 加载动画
@@ -36,14 +26,24 @@ public class QueryModel : ObservableObject
         set => SetProperty(ref _avatar, value);
     }
 
-    private string _userName;
+    private string _playerName;
     /// <summary>
     /// 玩家名称
     /// </summary>
-    public string UserName
+    public string PlayerName
     {
-        get => _userName;
-        set => SetProperty(ref _userName, value);
+        get => _playerName;
+        set => SetProperty(ref _playerName, value);
+    }
+
+    private string _personaId;
+    /// <summary>
+    /// 玩家数字ID
+    /// </summary>
+    public string PersonaId
+    {
+        get => _personaId;
+        set => SetProperty(ref _personaId, value);
     }
 
     private string _rank;
@@ -56,23 +56,13 @@ public class QueryModel : ObservableObject
         set => SetProperty(ref _rank, value);
     }
 
-    private string _rankImg;
-    /// <summary>
-    /// 玩家等级图片
-    /// </summary>
-    public string RankImg
-    {
-        get => _rankImg;
-        set => SetProperty(ref _rankImg, value);
-    }
-
-    private string _playerTime;
+    private string _playTime;
     /// <summary>
     /// 玩家游玩时间
     /// </summary>
-    public string PlayerTime
+    public string PlayTime
     {
-        get => _playerTime;
-        set => SetProperty(ref _playerTime, value);
+        get => _playTime;
+        set => SetProperty(ref _playTime, value);
     }
 }

@@ -824,9 +824,11 @@ public static class BF1API
     }
 
     /// <summary>
-    /// 获取玩家SessionID
+    /// 搜索服务器
     /// </summary>
-    public static async Task<RespContent> GetEnvIdViaAuthCode(string authCode)
+    /// <param name="serverName"></param>
+    /// <returns></returns>
+    public static async Task<RespContent> SearchServers(string serverName)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -841,11 +843,13 @@ public static class BF1API
             var reqBody = new
             {
                 jsonrpc = "2.0",
-                method = "Authentication.getEnvIdViaAuthCode",
+                method = "GameServer.searchServers",
                 @params = new
                 {
-                    authCode = authCode,
-                    locale = "zh-tw"
+                    filterJson = "{\"version\":6,\"name\":\"" + serverName + "\"}",
+                    game = "tunguska",
+                    limit = 20,
+                    protocolVersion = "3779779"
                 },
                 id = Guid.NewGuid()
             };
@@ -880,9 +884,10 @@ public static class BF1API
     }
 
     /// <summary>
-    /// 获取玩家SessionID
+    /// 离开当前服务器
     /// </summary>
-    public static async Task<RespContent> GetCareerForOwnedGamesByPersonaId(string personaId)
+    /// <returns></returns>
+    public static async Task<RespContent> LeaveGame()
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -897,7 +902,120 @@ public static class BF1API
             var reqBody = new
             {
                 jsonrpc = "2.0",
-                method = "Stats.getCareerForOwnedGamesByPersonaId",
+                method = "Game.leaveGame",
+                @params = new
+                {
+                    game = "tunguska",
+                    gameId = Globals.GameId
+                },
+                id = Guid.NewGuid()
+            };
+
+            var request = new RestRequest()
+                .AddHeaders(headers)
+                .AddJsonBody(reqBody);
+
+            var response = await client.ExecutePostAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                respContent.IsSuccess = true;
+                respContent.Message = response.Content;
+            }
+            else
+            {
+                var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                respContent.Message = $"{respError.error.code} {respError.error.message}";
+            }
+        }
+        catch (Exception ex)
+        {
+            respContent.Message = ex.Message;
+        }
+
+        sw.Stop();
+        respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+        return respContent;
+    }
+
+    /// <summary>
+    /// 获取玩家PersonasByIds
+    /// </summary>
+    /// <returns></returns>
+    public static async Task<RespContent> GetPersonasByIds(string personaId)
+    {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        var respContent = new RespContent();
+
+        try
+        {
+            headers["X-GatewaySession"] = Globals.SessionId;
+            respContent.IsSuccess = false;
+
+            var reqBody = new
+            {
+                jsonrpc = "2.0",
+                method = "RSP.getPersonasByIds",
+                @params = new
+                {
+                    game = "tunguska",
+                    personaIds = new[] { personaId }
+                },
+                id = Guid.NewGuid()
+            };
+
+            var request = new RestRequest()
+                .AddHeaders(headers)
+                .AddJsonBody(reqBody);
+
+            var response = await client.ExecutePostAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                respContent.IsSuccess = true;
+                respContent.Message = response.Content;
+            }
+            else
+            {
+                var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                respContent.Message = $"{respError.error.code} {respError.error.message}";
+            }
+        }
+        catch (Exception ex)
+        {
+            respContent.Message = ex.Message;
+        }
+
+        sw.Stop();
+        respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+        return respContent;
+    }
+
+    /// <summary>
+    /// 获取玩家战绩
+    /// </summary>
+    public static async Task<RespContent> DetailedStatsByPersonaId(string personaId)
+    {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        var respContent = new RespContent();
+
+        try
+        {
+            headers["X-GatewaySession"] = Globals.SessionId;
+            respContent.IsSuccess = false;
+
+            var reqBody = new
+            {
+                jsonrpc = "2.0",
+                method = "Stats.detailedStatsByPersonaId",
                 @params = new
                 {
                     game = "tunguska",
@@ -936,11 +1054,9 @@ public static class BF1API
     }
 
     /// <summary>
-    /// 搜索服务器
+    /// 获取玩家武器
     /// </summary>
-    /// <param name="serverName"></param>
-    /// <returns></returns>
-    public static async Task<RespContent> SearchServers(string serverName)
+    public static async Task<RespContent> GetWeaponsByPersonaId(string personaId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -955,13 +1071,67 @@ public static class BF1API
             var reqBody = new
             {
                 jsonrpc = "2.0",
-                method = "GameServer.searchServers",
+                method = "Progression.getWeaponsByPersonaId",
                 @params = new
                 {
-                    filterJson = "{\"version\":6,\"name\":\"" + serverName + "\"}",
                     game = "tunguska",
-                    limit = 20,
-                    protocolVersion = "3779779"
+                    personaId = personaId
+                },
+                id = Guid.NewGuid()
+            };
+
+            var request = new RestRequest()
+                .AddHeaders(headers)
+                .AddJsonBody(reqBody);
+
+            var response = await client.ExecutePostAsync(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                respContent.IsSuccess = true;
+                respContent.Message = response.Content;
+            }
+            else
+            {
+                var respError = JsonUtil.JsonDese<RespError>(response.Content);
+
+                respContent.Message = $"{respError.error.code} {respError.error.message}";
+            }
+        }
+        catch (Exception ex)
+        {
+            respContent.Message = ex.Message;
+        }
+
+        sw.Stop();
+        respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+        return respContent;
+    }
+
+    /// <summary>
+    /// 获取玩家载具
+    /// </summary>
+    public static async Task<RespContent> GetVehiclesByPersonaId(string personaId)
+    {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        var respContent = new RespContent();
+
+        try
+        {
+            headers["X-GatewaySession"] = Globals.SessionId;
+            respContent.IsSuccess = false;
+
+            var reqBody = new
+            {
+                jsonrpc = "2.0",
+                method = "Progression.getVehiclesByPersonaId",
+                @params = new
+                {
+                    game = "tunguska",
+                    personaId = personaId
                 },
                 id = Guid.NewGuid()
             };

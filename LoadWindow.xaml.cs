@@ -2,7 +2,6 @@
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.API;
-using BF1.ServerAdminTools.Features.API2;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Data;
@@ -140,9 +139,6 @@ public partial class LoadWindow : Window
 
                     BF1API.Init();
                     LoggerHelper.Info("战地1API模块初始化成功");
-
-                    GTAPI.Init();
-                    LoggerHelper.Info("GameToolsAPI模块初始化成功");
 
                     ImageData.InitDict();
                     LoggerHelper.Info("本地图片缓存库初始化成功");

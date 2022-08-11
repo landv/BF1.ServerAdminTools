@@ -294,7 +294,7 @@ public partial class ScoreView : UserControl
                     PlayerList_All[index].Dead = _dead;
                     PlayerList_All[index].Score = _score;
                     PlayerList_All[index].KD = PlayerUtil.GetPlayerKD(_kill, _dead);
-                    PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(_kill, PlayerUtil.SecondsToMM(_serverInfo.Time));
+                    PlayerList_All[index].KPM = PlayerUtil.GetPlayerKPM(_kill, PlayerUtil.SecondsToMinute(_serverInfo.Time));
                 }
             }
 
@@ -1213,8 +1213,8 @@ public partial class ScoreView : UserControl
         if (_dataGridSelcContent.IsOK)
         {
             // 查询玩家战绩
-            MainWindow._TabControlSelect(1);
-            QueryView._QuickQueryPalyer(_dataGridSelcContent.Name);
+            var queryRecordWindow = new QueryRecordWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId, _dataGridSelcContent.Rank);
+            queryRecordWindow.Show();
         }
         else
         {
@@ -1336,7 +1336,7 @@ public partial class ScoreView : UserControl
 
     private void Update_DateGrid_Selection()
     {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
         if (_dataGridSelcContent.IsOK)
         {

@@ -11,52 +11,36 @@ public static class PlayerUtil
     /// <returns></returns>
     public static string SecondsToMMSS(float time)
     {
-        try
+        if (time >= 0 && time <= 36000)
         {
-            if (time >= 0 && time <= 36000)
-            {
-                TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
 
-                DateTime dateTime = DateTime.Parse(timeSpan.ToString());
+            DateTime dateTime = DateTime.Parse(timeSpan.ToString());
 
-                return $"{dateTime:mm:ss}";
-            }
-            else
-            {
-                return $"00:00";
-            }
+            return $"{dateTime:mm:ss}";
         }
-        catch (Exception) { throw; }
+        else
+        {
+            return $"00:00";
+        }
     }
 
     /// <summary>
-    /// 小数类型的时间秒，转为mm格式
+    /// 小数类型的时间秒，转为分钟
     /// </summary>
-    /// <param name="time"></param>
+    /// <param name="second"></param>
     /// <returns></returns>
-    public static int SecondsToMM(float time)
+    public static int SecondsToMinute(float second)
     {
-        try
+        if (second >= 0 && second <= 36000)
         {
-            if (time >= 0 && time <= 36000)
-            {
-                int a = (int)(time / 60);
-
-                if (a != 0)
-                {
-                    return a;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
+            int minute = (int)(second / 60);
+            return minute;
         }
-        catch (Exception) { throw; }
+        else
+        {
+            return 0;
+        }
     }
 
     /// <summary>
@@ -100,6 +84,43 @@ public static class PlayerUtil
         else
         {
             return 0.0f;
+        }
+    }
+
+    /// <summary>
+    /// 获取玩家KPM
+    /// </summary>
+    /// <param name="kill"></param>
+    /// <param name="time"></param>
+    /// <returns></returns>
+    public static string GetPlayerKPM(float kill, float time)
+    {
+        if (time < 60)
+        {
+            return "0.00";
+        }
+        else
+        {
+            var minute = (int)(time / 60);
+            return $"{kill / minute:0.00}";
+        }
+    }
+
+    /// <summary>
+    /// 计算百分比
+    /// </summary>
+    /// <param name="num1"></param>
+    /// <param name="num2"></param>
+    /// <returns></returns>
+    public static string GetPlayerPercentage(float num1, float num2)
+    {
+        if (num2 != 0)
+        {
+            return $"{num1 / num2 * 100:0.00}%";
+        }
+        else
+        {
+            return "0%";
         }
     }
 

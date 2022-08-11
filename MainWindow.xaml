@@ -43,11 +43,6 @@
             </TabItem>
 
             <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🔍" Header="查询">
-                <views:QueryView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
             <TabItem attached:Icon.Value="🌎" Header="服务器">
                 <views:ServerView />
             </TabItem>
