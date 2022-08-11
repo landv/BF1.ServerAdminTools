@@ -8,7 +8,7 @@ public class StringToImageSourceConverter : IValueConverter
         string path = (string)value;
         if (!string.IsNullOrEmpty(path))
         {
-            return new BitmapImage(new Uri(path, UriKind.Absolute));
+            return new BitmapImage(new Uri(path, UriKind.RelativeOrAbsolute));
         }
         else
         {

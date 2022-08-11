@@ -1,11 +1,11 @@
 ﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
-using RestSharp;
-using BF1.ServerAdminTools.Features.Core;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -14,8 +14,6 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class AuthView : UserControl
 {
-    public static Action _AutoRefreshSID;
-
     public AuthView()
     {
         InitializeComponent();
@@ -30,7 +28,11 @@ public partial class AuthView : UserControl
         timerAutoRefresh.Elapsed += TimerAutoRefresh_Elapsed;
         timerAutoRefresh.Start();
 
-        _AutoRefreshSID = AutoRefresh;
+        WeakReferenceMessenger.Default.Register<string, string>(this, "RefreshData", (s, e) =>
+        {
+            LoggerHelper.Info($"调用刷新SessionID功能成功");
+            TimerAutoRefresh_Elapsed(null, null);
+        });
     }
 
     private void MainWindow_ClosingDisposeEvent()
@@ -42,12 +44,6 @@ public partial class AuthView : UserControl
     {
         ProcessUtil.OpenLink(e.Uri.OriginalString);
         e.Handled = true;
-    }
-
-    private void AutoRefresh()
-    {
-        LoggerHelper.Info($"调用刷新SessionID功能成功");
-        TimerAutoRefresh_Elapsed(null, null);
     }
 
     private void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)

@@ -6,6 +6,8 @@ using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
+using CommunityToolkit.Mvvm.Messaging;
+
 namespace BF1.ServerAdminTools.Views;
 
 /// <summary>
@@ -43,6 +45,14 @@ public partial class DetailView : UserControl
         this.DataContext = this;
 
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+
+        WeakReferenceMessenger.Default.Register<string, string>(this, "RefreshData", (s, e) =>
+        {
+            this.Dispatcher.BeginInvoke(() =>
+            {
+                GetFullServerDetails();
+            });
+        });
     }
 
     private void MainWindow_ClosingDisposeEvent()
@@ -50,10 +60,8 @@ public partial class DetailView : UserControl
 
     }
 
-    private async void Button_GetFullServerDetails_Click(object sender, RoutedEventArgs e)
+    private async void GetFullServerDetails()
     {
-        AudioUtil.ClickSound();
-
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
             if (!string.IsNullOrEmpty(Globals.GameId))
@@ -183,6 +191,13 @@ public partial class DetailView : UserControl
         {
             MainWindow._SetOperatingState(2, "请先获取玩家SessionID");
         }
+    }
+
+    private void Button_GetFullServerDetails_Click(object sender, RoutedEventArgs e)
+    {
+        AudioUtil.ClickSound();
+
+        GetFullServerDetails();
     }
 
     private async void ListBox_Map_SelectionChanged(object sender, SelectionChangedEventArgs e)

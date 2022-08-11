@@ -76,7 +76,7 @@
             VerticalAlignment="Bottom"
             Foreground="White"
             Opacity="0.8"
-            Text="{Binding LoadModel.VersionInfo, FallbackValue='2022/01/21 00:00'}" />
+            Text="{Binding LoadModel.BuildDate, FallbackValue='2022/01/21 00:00'}" />
     </Grid>
 
 </Window>

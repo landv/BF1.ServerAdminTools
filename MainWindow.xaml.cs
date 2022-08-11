@@ -97,7 +97,7 @@ public partial class MainWindow : Window
 
         // 调用刷新SessionID功能
         LoggerHelper.Info($"开始调用刷新SessionID功能");
-        AuthView._AutoRefreshSID();
+        WeakReferenceMessenger.Default.Send("", "RefreshData");
 
         ///////////////////////////////////////////////////////////
 

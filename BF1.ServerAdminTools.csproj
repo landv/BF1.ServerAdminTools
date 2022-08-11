@@ -9,7 +9,7 @@
 		<DebugType>full</DebugType>
 		<StartupObject>BF1.ServerAdminTools.App</StartupObject>
 		<FileVersion>1.0.1.6</FileVersion>
-		<AssemblyVersion>1.0.0.6</AssemblyVersion>
+		<AssemblyVersion>1.0.1.6</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
