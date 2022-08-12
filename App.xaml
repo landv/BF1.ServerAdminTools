@@ -19,6 +19,7 @@
                 <ResourceDictionary Source="Assets/Styles/TextBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/BorderStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/ImageStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ProgressBarStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/ListBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/DataGridStyle.xaml" />

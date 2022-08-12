@@ -13,9 +13,9 @@ public static class PlayerUtil
     {
         if (time >= 0 && time <= 36000)
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(time);
+            var timeSpan = TimeSpan.FromSeconds(time);
 
-            DateTime dateTime = DateTime.Parse(timeSpan.ToString());
+            var dateTime = DateTime.Parse(timeSpan.ToString());
 
             return $"{dateTime:mm:ss}";
         }
@@ -214,6 +214,20 @@ public static class PlayerUtil
     }
 
     /// <summary>
+    /// 获取地图对应预览图
+    /// </summary>
+    /// <param name="originMapName"></param>
+    /// <returns></returns>
+    public static string GetMapPrevImage(string originMapName)
+    {
+        int index = MapData.AllMapInfo.FindIndex(var => var.English == originMapName);
+        if (index != -1)
+            return MapData.AllMapInfo[index].Image;
+        else
+            return "";
+    }
+
+    /// <summary>
     /// 获取武器对应中文名称
     /// </summary>
     /// <param name="originWeaponName"></param>
@@ -359,6 +373,28 @@ public static class PlayerUtil
                 return "橘子";
             default:
                 return squadID.ToString();
+        }
+    }
+
+    /// <summary>
+    /// 获取队伍阵营图片路径
+    /// </summary>
+    /// <param name="mapName"></param>
+    /// <param name="team1Path"></param>
+    /// <param name="team2Path"></param>
+    public static void GetTeamImage(string mapName, out string team1Path, out string team2Path)
+    {
+        team1Path = team2Path = string.Empty;
+
+        int index = MapData.AllMapInfo.FindIndex(var => var.English.Equals(mapName));
+        if (index != -1 && mapName != "ID_M_LEVEL_MENU")
+        {
+            team1Path = $"\\Assets\\Images\\Game\\Teams\\{MapData.AllMapInfo[index].Team1}.png";
+            team2Path = $"\\Assets\\Images\\Game\\Teams\\{MapData.AllMapInfo[index].Team2}.png";
+        }
+        else
+        {
+            team1Path = team2Path = "\\Assets\\Images\\Game\\Teams\\_DEF.png";
         }
     }
 }

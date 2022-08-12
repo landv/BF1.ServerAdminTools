@@ -44,6 +44,16 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _serverMapName, value);
     }
 
+    private string _serverMapImg;
+    /// <summary>
+    /// 服务器地图预览图
+    /// </summary>
+    public string ServerMapImg
+    {
+        get => _serverMapImg;
+        set => SetProperty(ref _serverMapImg, value);
+    }
+
     private string _serverTime;
     /// <summary>
     /// 服务器时间
@@ -76,24 +86,34 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _team1ScoreWidth, value);
     }
 
-    private string _team1Flag;
+    private int _team1Flag;
     /// <summary>
     /// 队伍1从旗帜获取的得分
     /// </summary>
-    public string Team1Flag
+    public int Team1Flag
     {
         get => _team1Flag;
         set => SetProperty(ref _team1Flag, value);
     }
 
-    private string _team1Kill;
+    private int _team1Kill;
     /// <summary>
     /// 队伍1从击杀获取的得分
     /// </summary>
-    public string Team1Kill
+    public int Team1Kill
     {
         get => _team1Kill;
         set => SetProperty(ref _team1Kill, value);
+    }
+
+    private string _team1Img;
+    /// <summary>
+    /// 队伍1图片
+    /// </summary>
+    public string Team1Img
+    {
+        get => _team1Img;
+        set => SetProperty(ref _team1Img, value);
     }
 
     private string _team1Info;
@@ -128,24 +148,34 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _team2ScoreWidth, value);
     }
 
-    private string _team2Flag;
+    private int _team2Flag;
     /// <summary>
     /// 队伍2从旗帜获取的得分
     /// </summary>
-    public string Team2Flag
+    public int Team2Flag
     {
         get => _team2Flag;
         set => SetProperty(ref _team2Flag, value);
     }
 
-    private string _team2Kill;
+    private int _team2Kill;
     /// <summary>
     /// 队伍2从击杀获取的得分
     /// </summary>
-    public string Team2Kill
+    public int Team2Kill
     {
         get => _team2Kill;
         set => SetProperty(ref _team2Kill, value);
+    }
+
+    private string _team2Img;
+    /// <summary>
+    /// 队伍2图片
+    /// </summary>
+    public string Team2Img
+    {
+        get => _team2Img;
+        set => SetProperty(ref _team2Img, value);
     }
 
     private string _team2Info;

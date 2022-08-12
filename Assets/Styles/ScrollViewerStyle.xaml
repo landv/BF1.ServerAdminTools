@@ -5,6 +5,7 @@
     <!--  全黑 透明色  -->
     <SolidColorBrush x:Key="TransparentBlackColor" Color="#00000000" />
 
+    <!--  滚动条按钮样式  -->
     <Style x:Key="RepeatStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="Template">
@@ -16,6 +17,7 @@
         </Setter>
     </Style>
 
+    <!--  垂直滑块样式  -->
     <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -79,6 +81,7 @@
         </Setter>
     </Style>
 
+    <!--  水平滑块样式  -->
     <Style x:Key="ScrollBarThumbHorizontal" TargetType="{x:Type Thumb}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -142,6 +145,7 @@
         </Setter>
     </Style>
 
+    <!--  水平垂直滚动条样式  -->
     <Style x:Key="ScrollBarStyle" TargetType="{x:Type ScrollBar}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -204,6 +208,7 @@
     <Style x:Key="ScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Background" Value="{StaticResource TransparentColor}" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">

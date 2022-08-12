@@ -2,6 +2,7 @@
     x:Class="BF1.ServerAdminTools.Views.ScoreView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -90,199 +91,156 @@
             Margin="5,0,5,3"
             BorderBrush="Gray"
             BorderThickness="0,0,0,0.6">
-            <StackPanel Orientation="Vertical">
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        FontFamily="等线"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Foreground="Orange"
-                        Text="{Binding ServerInfoModel.ServerName, FallbackValue='服务器名称'}" />
-                    <emoji:TextBlock
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="🔥" />
-                    <TextBlock
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        FontFamily="等线"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Foreground="Orange"
-                        Text="{Binding ServerInfoModel.ServerMapName, FallbackValue='地图名称'}" />
-                </StackPanel>
-                <Grid Margin="0,3,0,7">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <!--  ################################  -->
+            <Grid>
+                <StackPanel Orientation="Vertical">
                     <StackPanel
-                        Grid.Column="0"
-                        HorizontalAlignment="Right"
-                        Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="FontSize" Value="14" />
-                                <Setter Property="Foreground" Value="#3A6CB4" />
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock
-                            Margin="5"
-                            FontFamily="等线"
-                            FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team1Flag, FallbackValue='从旗帜获取的得分 : 0'}" />
-                        <TextBlock
-                            FontSize="14"
-                            Foreground="#3A6CB4"
-                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
-                            Text="&#xe9f5;" />
-                        <TextBlock Margin="10,0,5,0" Text="|" />
-                        <TextBlock
-                            Margin="5"
-                            FontFamily="等线"
-                            FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team1Kill, FallbackValue='从击杀获取的得分 : 0'}" />
-                        <TextBlock
-                            FontSize="14"
-                            Foreground="#3A6CB4"
-                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
-                            Text="&#xe629;" />
-                    </StackPanel>
-                    <!--  ################################  -->
-                    <StackPanel
-                        Grid.Column="1"
-                        Margin="10,0,10,0"
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Orientation="Horizontal">
-                        <!--  队伍1 进度条  -->
-                        <Grid Width="160">
-                            <Border Background="#3A6CB4" Opacity="0.3" />
-                            <Border BorderBrush="#3A6CB4" BorderThickness="0.7" />
-                            <Border
-                                Width="{Binding ServerInfoModel.Team1ScoreWidth, FallbackValue=0}"
-                                HorizontalAlignment="Right"
-                                Background="#3A6CB4" />
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            FontFamily="等线"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="Orange"
+                            Text="{Binding ServerInfoModel.ServerName, FallbackValue='服务器名称'}" />
+                        <emoji:TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="🔥" />
+                        <TextBlock
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            FontFamily="等线"
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="Orange"
+                            Text="{Binding ServerInfoModel.ServerMapName, FallbackValue='地图名称'}" />
+                    </StackPanel>
+                    <Grid Margin="0,3,0,7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <!--  ################################  -->
+                        <StackPanel
+                            Grid.Column="0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="Foreground" Value="{StaticResource Color_BF1_Blue}" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </StackPanel.Resources>
                             <TextBlock
-                                Margin="0,0,5,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
+                                Margin="5"
                                 FontFamily="等线"
-                                FontSize="14"
                                 FontWeight="Bold"
-                                Foreground="White"
-                                Text="{Binding ServerInfoModel.Team1Score, FallbackValue='0'}" />
-                        </Grid>
-                        <!--  队伍1 标识  -->
-                        <Border BorderBrush="#3A6CB4" BorderThickness="0.7">
-                            <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
-                                <TextBlock
-                                    FontSize="14"
-                                    Foreground="#3A6CB4"
-                                    Style="{StaticResource TextBlockStyle_IconFontNormal}"
-                                    Text="&#xe62f;" />
-                                <TextBlock
-                                    Margin="3,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Foreground="#3A6CB4"
-                                    Text="1" />
-                            </StackPanel>
-                        </Border>
-                        <!--  时间  -->
-                        <Border
-                            Margin="7,0,7,0"
-                            Background="#292929"
-                            CornerRadius="3">
+                                Text="{Binding ServerInfoModel.Team1Flag, StringFormat='旗帜得分 : {0:0}'}" />
                             <TextBlock
-                                Width="45"
+                                FontSize="14"
+                                Foreground="{StaticResource Color_BF1_Blue}"
+                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
+                                Text="&#xe9f5;" />
+                            <TextBlock Margin="10,0,5,0" Text="|" />
+                            <TextBlock
+                                Margin="5"
+                                FontFamily="等线"
+                                FontWeight="Bold"
+                                Text="{Binding ServerInfoModel.Team1Kill, StringFormat='击杀得分 : {0:0}'}" />
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource Color_BF1_Blue}"
+                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
+                                Text="&#xe629;" />
+                        </StackPanel>
+                        <!--  ################################  -->
+                        <StackPanel
+                            Grid.Column="1"
+                            Margin="10,0,10,0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <!--  队伍1 进度条  -->
+                            <ProgressBar
+                                attached:Icon.Value="{Binding ServerInfoModel.Team1Img}"
+                                attached:Text.Value="{Binding ServerInfoModel.Team1Score}"
+                                Style="{StaticResource ProgressBarStyle_Team1}"
+                                Value="{Binding ServerInfoModel.Team1ScoreWidth, FallbackValue='0'}" />
+                            <!--  时间  -->
+                            <Border
                                 Margin="5,0,5,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="等线"
-                                FontSize="14"
-                                FontWeight="Bold"
-                                Foreground="White"
-                                Text="{Binding ServerInfoModel.ServerTime, FallbackValue='23:59'}"
-                                TextAlignment="Center" />
-                        </Border>
-                        <!--  队伍2 标识  -->
-                        <Border BorderBrush="#AB312D" BorderThickness="0.7">
-                            <StackPanel Margin="5,0,5,0" Orientation="Horizontal">
+                                Background="{StaticResource Color_BF1_Green}"
+                                SnapsToDevicePixels="True">
                                 <TextBlock
-                                    FontSize="14"
-                                    Foreground="#AB312D"
-                                    Style="{StaticResource TextBlockStyle_IconFontNormal}"
-                                    Text="&#xe62f;" />
-                                <TextBlock
-                                    Margin="3,0,0,0"
+                                    Width="45"
+                                    Margin="5,0,5,0"
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Foreground="#AB312D"
-                                    Text="2" />
-                            </StackPanel>
-                        </Border>
-                        <!--  队伍2 进度条  -->
-                        <Grid Width="160">
-                            <Border Background="#AB312D" Opacity="0.3" />
-                            <Border BorderBrush="#AB312D" BorderThickness="0.7" />
-                            <Border
-                                Width="{Binding ServerInfoModel.Team2ScoreWidth, FallbackValue=0}"
-                                HorizontalAlignment="Left"
-                                Background="#AB312D" />
+                                    FontSize="14"
+                                    Foreground="White"
+                                    Text="{Binding ServerInfoModel.ServerTime, FallbackValue='23:59'}"
+                                    TextAlignment="Center" />
+                            </Border>
+                            <!--  队伍2 进度条  -->
+                            <ProgressBar
+                                attached:Icon.Value="{Binding ServerInfoModel.Team2Img}"
+                                attached:Text.Value="{Binding ServerInfoModel.Team2Score}"
+                                Style="{StaticResource ProgressBarStyle_Team2}"
+                                Value="{Binding ServerInfoModel.Team2ScoreWidth, FallbackValue='0'}" />
+                        </StackPanel>
+                        <!--  ################################  -->
+                        <StackPanel
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            Orientation="Horizontal">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="FontSize" Value="14" />
+                                    <Setter Property="Foreground" Value="{StaticResource Color_BF1_Red}" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </StackPanel.Resources>
                             <TextBlock
-                                Margin="5,0,0,0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
+                                Margin="5"
                                 FontFamily="等线"
-                                FontSize="14"
                                 FontWeight="Bold"
-                                Foreground="White"
-                                Text="{Binding ServerInfoModel.Team2Score, FallbackValue='0'}" />
-                        </Grid>
-                    </StackPanel>
-                    <!--  ################################  -->
-                    <StackPanel
-                        Grid.Column="2"
-                        HorizontalAlignment="Left"
-                        Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="FontSize" Value="14" />
-                                <Setter Property="Foreground" Value="#AB312D" />
-                                <Setter Property="VerticalAlignment" Value="Center" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <TextBlock
-                            Margin="5"
-                            FontFamily="等线"
-                            FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team2Flag, FallbackValue='从旗帜获取的得分 : 0'}" />
-                        <TextBlock
-                            FontSize="14"
-                            Foreground="#AB312D"
-                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
-                            Text="&#xe9f5;" />
-                        <TextBlock Margin="10,0,5,0" Text="|" />
-                        <TextBlock
-                            Margin="5"
-                            FontFamily="等线"
-                            FontWeight="Bold"
-                            Text="{Binding ServerInfoModel.Team2Kill, FallbackValue='从击杀获取的得分 : 0'}" />
-                        <TextBlock
-                            FontSize="14"
-                            Foreground="#AB312D"
-                            Style="{StaticResource TextBlockStyle_IconFontNormal}"
-                            Text="&#xe629;" />
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
+                                Text="{Binding ServerInfoModel.Team2Flag, StringFormat='旗帜得分 : {0:0}'}" />
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource Color_BF1_Red}"
+                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
+                                Text="&#xe9f5;" />
+                            <TextBlock Margin="10,0,5,0" Text="|" />
+                            <TextBlock
+                                Margin="5"
+                                FontFamily="等线"
+                                FontWeight="Bold"
+                                Text="{Binding ServerInfoModel.Team2Kill, StringFormat='杀获得分 : {0:0}'}" />
+                            <TextBlock
+                                FontSize="14"
+                                Foreground="{StaticResource Color_BF1_Red}"
+                                Style="{StaticResource TextBlockStyle_IconFontNormal}"
+                                Text="&#xe629;" />
+                        </StackPanel>
+
+                    </Grid>
+                </StackPanel>
+                <Image
+                    Height="30"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Source="/Assets/Images/Other/BF1_Logo.png" />
+                <Image
+                    Height="60"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Source="{Binding ServerInfoModel.ServerMapImg, Converter={StaticResource MyImageConverter}}" />
+            </Grid>
         </Border>
         <!--  ################################  -->
         <Grid Grid.Row="1">
@@ -301,18 +259,18 @@
                         <TextBlock
                             Margin="0,0,5,0"
                             FontSize="14"
-                            Foreground="#3A6CB4"
+                            Foreground="{StaticResource Color_BF1_Blue}"
                             Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe62f;" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontWeight="Bold"
-                            Foreground="#3A6CB4"
+                            Foreground="{StaticResource Color_BF1_Blue}"
                             Text="队伍1  |  " />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontWeight="Bold"
-                            Foreground="#3A6CB4"
+                            Foreground="{StaticResource Color_BF1_Blue}"
                             Text="{Binding ServerInfoModel.Team1Info, FallbackValue='...'}" />
                     </StackPanel>
                     <!--  ################################  -->
@@ -455,18 +413,18 @@
                         <TextBlock
                             Margin="0,0,5,0"
                             FontSize="14"
-                            Foreground="#AB312D"
+                            Foreground="{StaticResource Color_BF1_Red}"
                             Style="{StaticResource TextBlockStyle_IconFontNormal}"
                             Text="&#xe62f;" />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontWeight="Bold"
-                            Foreground="#AB312D"
+                            Foreground="{StaticResource Color_BF1_Red}"
                             Text="队伍2  |  " />
                         <TextBlock
                             VerticalAlignment="Center"
                             FontWeight="Bold"
-                            Foreground="#AB312D"
+                            Foreground="{StaticResource Color_BF1_Red}"
                             Text="{Binding ServerInfoModel.Team2Info, FallbackValue='...'}" />
                     </StackPanel>
                     <!--  ################################  -->
