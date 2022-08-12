@@ -166,8 +166,8 @@ public partial class ScoreView : UserControl
             if (_serverInfo.Team1Score >= 0 && _serverInfo.Team1Score <= 1000 &&
                 _serverInfo.Team2Score >= 0 && _serverInfo.Team2Score <= 1000)
             {
-                ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score * 0.15625;
-                ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score * 0.15625;
+                ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / 8;
+                ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / 8;
 
                 ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
                 ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();
@@ -175,8 +175,8 @@ public partial class ScoreView : UserControl
             else if (_serverInfo.Team1Score > 1000 && _serverInfo.Team1Score <= 2000 ||
                 _serverInfo.Team2Score > 1000 && _serverInfo.Team2Score <= 2000)
             {
-                ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score * 0.3125;
-                ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score * 0.3125;
+                ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / 4;
+                ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / 4;
 
                 ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
                 ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();

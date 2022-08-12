@@ -416,6 +416,14 @@
                 Content="获取当前服务器详情数据"
                 DockPanel.Dock="Bottom"
                 Style="{StaticResource ButtonStyle_Web}" />
+            <Button
+                x:Name="Button_LeaveCurrentGame"
+                Margin="0,5,5,0"
+                Click="Button_LeaveCurrentGame_Click"
+                Content="离开当前服务器"
+                DockPanel.Dock="Bottom"
+                Foreground="Orange"
+                Style="{StaticResource ButtonStyle_Web}" />
             <!--  ################################  -->
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock

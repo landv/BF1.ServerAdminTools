@@ -119,7 +119,7 @@
                             Foreground="Orange"
                             Text="{Binding ServerInfoModel.ServerMapName, FallbackValue='地图名称'}" />
                     </StackPanel>
-                    <Grid Margin="0,3,0,7">
+                    <Grid Margin="0,0,0,7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition Width="Auto" />
@@ -220,7 +220,7 @@
                                 Margin="5"
                                 FontFamily="等线"
                                 FontWeight="Bold"
-                                Text="{Binding ServerInfoModel.Team2Kill, StringFormat='杀获得分 : {0:0}'}" />
+                                Text="{Binding ServerInfoModel.Team2Kill, StringFormat='击杀得分 : {0:0}'}" />
                             <TextBlock
                                 FontSize="14"
                                 Foreground="{StaticResource Color_BF1_Red}"
@@ -231,12 +231,12 @@
                     </Grid>
                 </StackPanel>
                 <Image
-                    Height="30"
+                    Height="25"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Source="/Assets/Images/Other/BF1_Logo.png" />
                 <Image
-                    Height="60"
+                    Height="50"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Source="{Binding ServerInfoModel.ServerMapImg, Converter={StaticResource MyImageConverter}}" />

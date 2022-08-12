@@ -34,7 +34,7 @@ public static class MapData
         new() { English="ID_M_MP_LEVEL_CHATEAU", Chinese="流血宴厅", Team1="USA", Team2="GER", Image=@"\Assets\Images\Game\Maps\MP_Chateau_LandscapeLarge-244d5987.jpg" },
         new() { English="ID_M_MP_LEVEL_SCAR", Chinese="圣康坦的伤痕", Team1="UK", Team2="GER", Image=@"\Assets\Images\Game\Maps\MP_Scar_LandscapeLarge-ee25fbd6.jpg" },
         new() { English="ID_M_MP_LEVEL_DESERT", Chinese="西奈沙漠", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Game\Maps\MP_Desert_LandscapeLarge-d8f749da.jpg" },
-        new() { English="ID_M_MP_LEVEL_AMIENS", Chinese="亚眠", Team1="UK", Team2="GER", Image=@"\Assets\Images\Game\Maps\MP_Amiens_LandscapeLarge-e195589d.jpg" },
+        new() { English="ID_M_MP_LEVEL_AMIENS", Chinese="亚眠", Team1="GER", Team2="UK", Image=@"\Assets\Images\Game\Maps\MP_Amiens_LandscapeLarge-e195589d.jpg" },
         new() { English="ID_M_MP_LEVEL_SUEZ", Chinese="苏伊士", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Game\Maps\MP_Suez_LandscapeLarge-f630fc76.jpg" },
         new() { English="ID_M_MP_LEVEL_FAOFORTRESS", Chinese="法欧堡", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Game\Maps\MP_FaoFortress_LandscapeLarge-cad1748e.jpg" },
         new() { English="ID_M_MP_LEVEL_GIANT", Chinese="庞然暗影", Team1="UK", Team2="GER", Image=@"\Assets\Images\Game\Maps\MP_Giant_LandscapeLarge-dd0b93ef.jpg" },

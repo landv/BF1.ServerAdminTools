@@ -200,6 +200,27 @@ public partial class DetailView : UserControl
         GetFullServerDetails();
     }
 
+    private async void Button_LeaveCurrentGame_Click(object sender, RoutedEventArgs e)
+    {
+        AudioUtil.ClickSound();
+
+        if (!string.IsNullOrEmpty(Globals.SessionId))
+        {
+            if (!string.IsNullOrEmpty(Globals.GameId))
+            {
+                await BF1API.LeaveGame();
+            }
+            else
+            {
+                MainWindow._SetOperatingState(2, "请先进入服务器获取GameID");
+            }
+        }
+        else
+        {
+            MainWindow._SetOperatingState(2, "请先获取玩家SessionID");
+        }
+    }
+
     private async void ListBox_Map_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         int index = ListBox_Map.SelectedIndex;
