@@ -208,7 +208,17 @@ public partial class DetailView : UserControl
         {
             if (!string.IsNullOrEmpty(Globals.GameId))
             {
-                await BF1API.LeaveGame();
+                MainWindow._SetOperatingState(2, $"正在离开服务器 {Globals.GameId} 中...");
+
+                var result = await BF1API.LeaveGame();
+                if (result.IsSuccess)
+                {
+                    MainWindow._SetOperatingState(1, $"离开服务器 {Globals.GameId} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                }
+                else
+                {
+                    MainWindow._SetOperatingState(3, $"离开服务器 {Globals.GameId} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                }
             }
             else
             {
@@ -240,7 +250,6 @@ public partial class DetailView : UserControl
                     MainWindow._SetOperatingState(2, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
 
                     var result = await BF1API.ChangeServerMap(Globals.PersistedGameId, index.ToString());
-
                     if (result.IsSuccess)
                     {
                         MainWindow._SetOperatingState(1, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
