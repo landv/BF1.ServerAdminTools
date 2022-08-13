@@ -1,5 +1,4 @@
 ﻿using BF1.ServerAdminTools.Models;
-using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.API;
@@ -115,7 +114,7 @@ public partial class LoadWindow : Window
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    MainWindow mainWindow = new MainWindow();
+                    var mainWindow = new MainWindow();
                     mainWindow.Show();
                     // 转移主程序控制权
                     Application.Current.MainWindow = mainWindow;

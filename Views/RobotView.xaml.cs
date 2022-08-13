@@ -34,7 +34,7 @@ public partial class RobotView : UserControl
     {
         if (ProcessUtil.IsAppRun("go-cqhttp"))
         {
-            MsgBoxUtil.Information("请不要重复打开，go-cqhttp 程序已经在运行了");
+            MsgBoxUtil.Warning("请不要重复打开，go-cqhttp 程序已经在运行了");
             return;
         }
 
@@ -49,9 +49,15 @@ public partial class RobotView : UserControl
 
     private void Button_RunWebsocketServer_Click(object sender, RoutedEventArgs e)
     {
+        if (!ProcessUtil.IsAppRun("go-cqhttp"))
+        {
+            MsgBoxUtil.Warning("请先启动 go-cqhttp 程序");
+            return;
+        }
+
         if (_isBusy)
         {
-            MsgBoxUtil.Information("请不要重复打开，Websocket 程序已经在运行了");
+            MsgBoxUtil.Warning("请不要重复打开，Websocket 程序已经在运行了");
             return;
         }
 
