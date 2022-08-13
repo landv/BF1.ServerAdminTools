@@ -64,7 +64,7 @@ namespace BF1.ServerAdminTools
         /// <returns>异常字符串文本</returns>
         private static string GetExceptionMsg(Exception ex, string backStr)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.AppendLine("【出现时间】：" + DateTime.Now.ToString());
             if (ex != null)
             {

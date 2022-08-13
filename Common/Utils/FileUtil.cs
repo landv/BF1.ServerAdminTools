@@ -4,9 +4,7 @@ namespace BF1.ServerAdminTools.Common.Utils;
 
 public class FileUtil
 {
-    public static string MyDocument = @"C:\ProgramData";
-
-    public static string Default_Path = MyDocument + @"\BF1 Server";
+    public static string Default_Path = @"C:\ProgramData\BF1 Server";
 
     public static string D_Admin_Path = Default_Path + @"\Admin";
     public static string D_Config_Path = Default_Path + @"\Config";
@@ -65,7 +63,7 @@ public class FileUtil
         {
             string path = D_Log_Path + @"\ErrorLog";
             Directory.CreateDirectory(path);
-            path += $@"\#ErrorLog# { DateTime.Now:yyyyMMdd_HH-mm-ss_ffff}.log";
+            path += $@"\#ErrorLog# {DateTime.Now:yyyyMMdd_HH-mm-ss_ffff}.log";
             File.WriteAllText(path, logContent);
         }
         catch (Exception) { }

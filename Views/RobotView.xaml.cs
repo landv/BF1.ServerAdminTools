@@ -1,5 +1,4 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
-
 using Websocket.Client;
 
 namespace BF1.ServerAdminTools.Views;
@@ -71,14 +70,24 @@ public partial class RobotView : UserControl
             using (var client = new WebsocketClient(url))
             {
                 client.ReconnectTimeout = TimeSpan.FromMinutes(5);
-                client.ReconnectionHappened.Subscribe(info =>
-                AppendLog($"重新连接了, 类型: {info.Type}"));
+                client.ReconnectionHappened.Subscribe(info => AppendLog($"客户端重新连接, 类型: {info.Type}"));
 
-                client.MessageReceived.Subscribe(msg => AppendLog($"收到信息: {msg}"));
+                client.MessageReceived.Subscribe(msg => Message(msg));
                 client.Start();
 
                 exitEvent.WaitOne();
             }
         });
+    }
+
+    private void Message(ResponseMessage msg)
+    {
+        var jNode = JsonNode.Parse(msg.Text);
+        if (jNode["post_type"].GetValue<string>() == "meta_event")
+        {
+            return;
+        }
+
+        AppendLog($"收到信息: {msg}");
     }
 }

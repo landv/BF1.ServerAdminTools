@@ -12,7 +12,7 @@ public static class LoggerHelper
 
         var logfile = new NLog.Targets.FileTarget("logfile")
         {
-            FileName = "${specialfolder:folder=MyDocuments}/BF1 Server/Log/InfoLog/${shortdate}.log",
+            FileName = "C:/ProgramData/BF1 Server/Log/InfoLog/${shortdate}.log",
             Layout = "${longdate} ${level:upperCase=true} ${message}",
             MaxArchiveFiles = 10,
             ArchiveAboveSize = 1024 * 1024,
