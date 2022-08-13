@@ -87,8 +87,9 @@ public partial class LoadWindow : Window
                 Directory.CreateDirectory(FileUtil.D_Admin_Path);
                 Directory.CreateDirectory(FileUtil.D_Cache_Path);
                 Directory.CreateDirectory(FileUtil.D_Config_Path);
-                Directory.CreateDirectory(FileUtil.D_DB_Path);
+                Directory.CreateDirectory(FileUtil.D_Data_Path);
                 Directory.CreateDirectory(FileUtil.D_Log_Path);
+                Directory.CreateDirectory(FileUtil.D_Robot_Path);
 
                 // 创建ini文件
                 if (!File.Exists(FileUtil.F_Settings_Path))
@@ -101,6 +102,10 @@ public partial class LoadWindow : Window
                     File.Create(FileUtil.F_BlackList_Path).Close();
                 if (!File.Exists(FileUtil.F_WhiteList_Path))
                     File.Create(FileUtil.F_WhiteList_Path).Close();
+
+                // 释放必要文件
+                FileUtil.ExtractResFile(FileUtil.Resource_Path + "config.yml", FileUtil.D_Robot_Path + "\\config.yml");
+                FileUtil.ExtractResFile(FileUtil.Resource_Path + "go-cqhttp.exe", FileUtil.D_Robot_Path + "\\go-cqhttp.exe");
 
                 SQLiteHelper.Initialize();
                 LoggerHelper.Info($"SQLite数据库初始化成功");

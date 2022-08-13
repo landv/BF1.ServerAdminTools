@@ -1,22 +1,27 @@
-﻿namespace BF1.ServerAdminTools.Common.Utils;
+﻿using System.Reflection;
+
+namespace BF1.ServerAdminTools.Common.Utils;
 
 public class FileUtil
 {
-    public static string MyDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+    public static string MyDocument = @"C:\ProgramData";
 
     public static string Default_Path = MyDocument + @"\BF1 Server";
 
     public static string D_Admin_Path = Default_Path + @"\Admin";
     public static string D_Config_Path = Default_Path + @"\Config";
     public static string D_Cache_Path = Default_Path + @"\Cache";
-    public static string D_DB_Path = Default_Path + @"\DB";
+    public static string D_Data_Path = Default_Path + @"\Data";
     public static string D_Log_Path = Default_Path + @"\Log";
+    public static string D_Robot_Path = Default_Path + @"\Robot";
 
     public static string F_Settings_Path = D_Config_Path + @"\Settings.ini";
 
     public static string F_BlackList_Path = D_Admin_Path + @"\BlackList.txt";
     public static string F_WeaponList_Path = D_Admin_Path + @"\WeaponList.txt";
     public static string F_WhiteList_Path = D_Admin_Path + @"\WhiteList.txt";
+
+    public const string Resource_Path = "BF1.ServerAdminTools.Features.Files.";
 
     /// <summary>
     /// 获取当前运行文件完整路径
@@ -64,5 +69,98 @@ public class FileUtil
             File.WriteAllText(path, logContent);
         }
         catch (Exception) { }
+    }
+
+    /// <summary>
+    /// 从资源文件中抽取资源文件
+    /// </summary>
+    /// <param name="resFileName">资源文件名称（资源文件名称必须包含目录，目录间用“.”隔开,最外层是项目默认命名空间）</param>
+    /// <param name="outputFile">输出文件</param>
+    public static void ExtractResFile(string resFileName, string outputFile)
+    {
+        BufferedStream inStream = null;
+        FileStream outStream = null;
+        try
+        {
+            // 读取嵌入式资源
+            Assembly asm = Assembly.GetExecutingAssembly();
+            inStream = new BufferedStream(asm.GetManifestResourceStream(resFileName));
+            outStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write);
+
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = inStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                outStream.Write(buffer, 0, length);
+            }
+            outStream.Flush();
+        }
+        finally
+        {
+            if (outStream != null)
+            {
+                outStream.Close();
+            }
+            if (inStream != null)
+            {
+                inStream.Close();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 清空指定文件夹下的文件及文件夹
+    /// </summary>
+    /// <param name="srcPath">文件夹路径</param>
+    public static void DelectDir(string srcPath)
+    {
+        try
+        {
+            var dir = new DirectoryInfo(srcPath);
+            var fileinfo = dir.GetFileSystemInfos();                    // 返回目录中所有文件和子目录
+            foreach (var file in fileinfo)
+            {
+                if (file is DirectoryInfo)                              // 判断是否文件夹
+                {
+                    var subdir = new DirectoryInfo(file.FullName);
+                    subdir.Delete(true);                                // 删除子目录和文件
+                }
+                else
+                {
+                    File.Delete(file.FullName);                         // 删除指定文件
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MsgBoxUtil.Exception(ex);
+        }
+    }
+
+    /// <summary>
+    /// 判断文件是否被占用
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
+    public static bool IsOccupied(string filePath)
+    {
+        FileStream stream = null;
+        try
+        {
+            stream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            return false;
+        }
+        catch
+        {
+            return true;
+        }
+        finally
+        {
+            if (stream != null)
+            {
+                stream.Close();
+            }
+        }
     }
 }

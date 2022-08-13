@@ -185,21 +185,24 @@ public partial class MainWindow : Window
     /// <param name="str">消息内容</param>
     private void SetOperatingState(int index, string str)
     {
-        if (index == 1)
+        this.Dispatcher.BeginInvoke(() =>
         {
-            Border_OperateState.Background = Brushes.Green;
-            TextBlock_OperateState.Text = $"信息 : {str}";
-        }
-        else if (index == 2)
-        {
-            Border_OperateState.Background = Brushes.Gray;
-            TextBlock_OperateState.Text = $"警告 : {str}";
-        }
-        else if (index == 3)
-        {
-            Border_OperateState.Background = Brushes.Red;
-            TextBlock_OperateState.Text = $"错误 : {str}";
-        }
+            if (index == 1)
+            {
+                Border_OperateState.Background = Brushes.Green;
+                TextBlock_OperateState.Text = $"信息 : {str}";
+            }
+            else if (index == 2)
+            {
+                Border_OperateState.Background = Brushes.Gray;
+                TextBlock_OperateState.Text = $"警告 : {str}";
+            }
+            else if (index == 3)
+            {
+                Border_OperateState.Background = Brushes.Red;
+                TextBlock_OperateState.Text = $"错误 : {str}";
+            }
+        });
     }
 
     private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

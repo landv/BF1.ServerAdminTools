@@ -7,7 +7,6 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.Utils;
-using static BF1.ServerAdminTools.Features.API.RespJson.FullServerDetails.Result;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -181,9 +180,17 @@ public partial class ScoreView : UserControl
             _serverInfo.Team1Score = PlayerUtil.FixedServerScore(_serverInfo.Team1Score);
             _serverInfo.Team2Score = PlayerUtil.FixedServerScore(_serverInfo.Team2Score);
 
-            var scale = (float)_serverInfo.MaxScore / 1000;
-            ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / (8 * scale);
-            ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / (8 * scale);
+            if (_serverInfo.MaxScore != 0)
+            {
+                var scale = _serverInfo.MaxScore / 1000.0f;
+                ServerInfoModel.Team1ScoreWidth = PlayerUtil.FixedServerScore(_serverInfo.Team1Score / (8 * scale));
+                ServerInfoModel.Team2ScoreWidth = PlayerUtil.FixedServerScore(_serverInfo.Team2Score / (8 * scale));
+            }
+            else
+            {
+                ServerInfoModel.Team1ScoreWidth = 0;
+                ServerInfoModel.Team2ScoreWidth = 0;
+            }
 
             ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
             ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();

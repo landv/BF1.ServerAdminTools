@@ -38,7 +38,7 @@ public partial class UpdateWindow : Window
         }
         catch (Exception ex)
         {
-            MsgBoxUtil.ExceptionMsgBox(ex);
+            MsgBoxUtil.Exception(ex);
         }
     }
 
@@ -164,7 +164,7 @@ public partial class UpdateWindow : Window
                 }
                 catch (Exception ex)
                 {
-                    MsgBoxUtil.ExceptionMsgBox(ex);
+                    MsgBoxUtil.Exception(ex);
                     LoggerHelper.Error("下载错误", ex);
                 }
             }

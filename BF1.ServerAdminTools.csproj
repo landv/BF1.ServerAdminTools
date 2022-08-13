@@ -8,8 +8,8 @@
 		<Platforms>x64</Platforms>
 		<DebugType>full</DebugType>
 		<StartupObject>BF1.ServerAdminTools.App</StartupObject>
-		<FileVersion>1.0.1.7</FileVersion>
-		<AssemblyVersion>1.0.1.7</AssemblyVersion>
+		<FileVersion>1.0.1.8</FileVersion>
+		<AssemblyVersion>1.0.1.8</AssemblyVersion>
 		<ApplicationIcon>Assets\Images\Battlefield-1-Favicon.ico</ApplicationIcon>
 		<ApplicationManifest>Properties\app.manifest</ApplicationManifest>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
@@ -518,6 +518,8 @@
 		<None Remove="Assets\Images\Game\Weapons\WinchesterM1897-bb453195.png" />
 		<None Remove="Assets\Images\Game\Weapons\WinchesterM1907-3e99346c.png" />
 		<None Remove="Assets\Images\Game\Weapons\YataganSword-be484415.png" />
+		<None Remove="Features\Files\config.yml" />
+		<None Remove="Features\Files\go-cqhttp.exe" />
 		<None Remove="Resources\Click_01.wav" />
 		<None Remove="Resources\Click_02.wav" />
 		<None Remove="Resources\Click_03.wav" />
@@ -527,6 +529,11 @@
 
 	<ItemGroup>
 		<Content Include="Assets\Images\Battlefield-1-Favicon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Features\Files\config.yml" />
+	  <EmbeddedResource Include="Features\Files\go-cqhttp.exe" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -550,9 +557,10 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 		<PackageReference Include="Downloader" Version="2.3.5" />
 		<PackageReference Include="Emoji.Wpf" Version="0.3.3" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.7" />
-		<PackageReference Include="NLog" Version="5.0.1" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.8" />
+		<PackageReference Include="NLog" Version="5.0.2" />
 		<PackageReference Include="RestSharp" Version="108.0.1" />
+		<PackageReference Include="Websocket.Client" Version="4.4.43" />
 		<PackageReference Include="XamlAnimatedGif" Version="2.0.2" />
 	</ItemGroup>
 

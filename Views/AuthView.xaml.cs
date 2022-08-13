@@ -17,7 +17,6 @@ public partial class AuthView : UserControl
     public AuthView()
     {
         InitializeComponent();
-
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
         var timerAutoRefresh = new Timer
@@ -111,18 +110,22 @@ public partial class AuthView : UserControl
 
         try
         {
-            MainWindow._SetOperatingState(2, "正在获取中，请等待...");
+            Task.Run(() =>
+            {
+                MainWindow._SetOperatingState(2, "正在获取中，请等待...");
 
-            var str = Search.SearchMemory(Offsets.SessionIDMask);
-            if (str != string.Empty)
-            {
-                Globals.SessionId = str;
-                MainWindow._SetOperatingState(1, $"获取玩家SessionID成功");
-            }
-            else
-            {
-                LoggerHelper.Error($"获取玩家SessionID失败");
-            }
+                var str = Search.SearchMemory(Offsets.SessionIDMask);
+                if (str != string.Empty)
+                {
+                    Globals.SessionId = str;
+                    MainWindow._SetOperatingState(1, $"获取玩家SessionID成功");
+                }
+                else
+                {
+                    LoggerHelper.Error($"获取玩家SessionID失败");
+                    MainWindow._SetOperatingState(2, $"获取玩家SessionID失败");
+                }
+            });
         }
         catch (Exception ex)
         {

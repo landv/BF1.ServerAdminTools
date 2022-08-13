@@ -78,6 +78,11 @@
             </TabItem>
 
             <!--  #############################################################################  -->
+            <TabItem attached:Icon.Value="🐧" Header="机器人">
+                <views:RobotView />
+            </TabItem>
+
+            <!--  #############################################################################  -->
             <TabItem attached:Icon.Value="⚙" Header="选项">
                 <views:OptionView />
             </TabItem>

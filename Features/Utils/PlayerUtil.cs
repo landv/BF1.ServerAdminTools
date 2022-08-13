@@ -426,4 +426,14 @@ public static class PlayerUtil
     {
         return score < 0 || score > 2000 ? 0 : score;
     }
+
+    /// <summary>
+    /// 修正服务器得分数据
+    /// </summary>
+    /// <param name="score"></param>
+    /// <returns></returns>
+    public static double FixedServerScore(double score)
+    {
+        return score < 0 || score > 125 ? 0 : score;
+    }
 }

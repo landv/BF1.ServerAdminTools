@@ -8,7 +8,7 @@ namespace BF1.ServerAdminTools.Common.Helper;
 
 public static class SQLiteHelper
 {
-    private static string kickDbFile = FileUtil.D_DB_Path + @"\AdminLog.db";
+    private static string kickDbFile = FileUtil.D_Data_Path + @"\AdminLog.db";
 
     private static SqliteConnection connection = null;
 
