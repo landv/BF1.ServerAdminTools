@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Features.Data;
+using static BF1.ServerAdminTools.Features.API.RespJson.FullServerDetails.Result;
 
 namespace BF1.ServerAdminTools.Features.Utils;
 
@@ -396,5 +397,33 @@ public static class PlayerUtil
         {
             team1Path = team2Path = "\\Assets\\Images\\Game\\Teams\\_DEF.png";
         }
+    }
+
+    /// <summary>
+    /// 获取当前地图游戏模式
+    /// </summary>
+    /// <param name="modeName"></param>
+    /// <returns></returns>
+    public static string GetGameMode(string modeName)
+    {
+        int index = ModeData.AllModeInfo.FindIndex(var => var.Mark.Equals(modeName));
+        if (index != -1)
+        {
+            return ModeData.AllModeInfo[index].Chinese;
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    /// <summary>
+    /// 修正服务器得分数据
+    /// </summary>
+    /// <param name="score"></param>
+    /// <returns></returns>
+    public static int FixedServerScore(int score)
+    {
+        return score < 0 || score > 2000 ? 0 : score;
     }
 }

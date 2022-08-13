@@ -116,8 +116,14 @@
                             FontFamily="等线"
                             FontSize="16"
                             FontWeight="Bold"
-                            Foreground="Orange"
-                            Text="{Binding ServerInfoModel.ServerMapName, FallbackValue='地图名称'}" />
+                            Foreground="Orange">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} - {1}">
+                                    <Binding Path="ServerInfoModel.ServerGameMode" />
+                                    <Binding Path="ServerInfoModel.ServerMapName" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </StackPanel>
                     <Grid Margin="0,0,0,7">
                         <Grid.ColumnDefinitions>

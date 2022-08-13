@@ -7,6 +7,7 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.Utils;
+using static BF1.ServerAdminTools.Features.API.RespJson.FullServerDetails.Result;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -48,14 +49,16 @@ public partial class ScoreView : UserControl
 
     private struct ServerInfo
     {
-        public long Offset0;
+        public long OffsetTemp;
 
         public string Name;
-        public string GameID;
+        public long GameID;
         public float Time;
 
+        public string GameMode;
         public string MapName;
-        public string MapImg;
+
+        public int MaxScore;
 
         public int Team1Score;
         public int Team2Score;
@@ -108,7 +111,7 @@ public partial class ScoreView : UserControl
     {
         while (true)
         {
-            //////////////////////////////// 服务器数据 ////////////////////////////////
+            //////////////////////////////// 服务器数据获取 ////////////////////////////////
 
             // 服务器名称
             _serverInfo.Name = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerName_Offset, Offsets.ServerName, 64);
@@ -121,7 +124,7 @@ public partial class ScoreView : UserControl
             if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.Name == "未知")
             {
                 // 清理服务器ID（GameID）
-                _serverInfo.GameID = string.Empty;
+                _serverInfo.GameID = 0;
                 Globals.GameId = string.Empty;
 
                 Globals.Server_AdminList.Clear();
@@ -131,31 +134,41 @@ public partial class ScoreView : UserControl
             else
             {
                 // 服务器数字ID
-                _serverInfo.GameID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerID).ToString();
-                Globals.GameId = _serverInfo.GameID;
+                _serverInfo.GameID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerGameID);
+                Globals.GameId = _serverInfo.GameID.ToString();
             }
 
             // 服务器时间
             _serverInfo.Time = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
+            // 服务器游戏模式
+            _serverInfo.GameMode = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerGameMode, 64);
 
-            _serverInfo.Offset0 = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
-
+            // 比分数据地址
+            _serverInfo.OffsetTemp = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
+            // 最大比分
+            _serverInfo.MaxScore = Memory.Read<int>(_serverInfo.OffsetTemp + 0x120);
             // 队伍1、队伍2分数
-            _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0);
-            _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x08);
-
+            _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.OffsetTemp + 0xE8);
+            _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.OffsetTemp + 0x118);
             // 队伍1、队伍2从击杀获取得分
-            _serverInfo.Team1Kill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x60);
-            _serverInfo.Team2Kill = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x68);
-
+            _serverInfo.Team1Kill = Memory.Read<int>(_serverInfo.OffsetTemp + 0x230);
+            _serverInfo.Team2Kill = Memory.Read<int>(_serverInfo.OffsetTemp + 0x238);
             // 队伍1、队伍2从旗帜获取得分
-            _serverInfo.Team1Flag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x100);
-            _serverInfo.Team2Flag = Memory.Read<int>(_serverInfo.Offset0 + 0x2B0 + 0x108);
+            _serverInfo.Team1Flag = Memory.Read<int>(_serverInfo.OffsetTemp + 0x250);
+            _serverInfo.Team2Flag = Memory.Read<int>(_serverInfo.OffsetTemp + 0x258);
+
+            //////////////////////////////// 服务器数据整理 ////////////////////////////////
 
             ServerInfoModel.ServerName = _serverInfo.Name;
-            ServerInfoModel.ServerGameID = _serverInfo.GameID;
+            ServerInfoModel.ServerGameID = _serverInfo.GameID.ToString();
             ServerInfoModel.ServerMapName = PlayerUtil.GetMapChsName(_serverInfo.MapName);
             ServerInfoModel.ServerMapImg = PlayerUtil.GetMapPrevImage(_serverInfo.MapName);
+
+            _serverInfo.GameMode = PlayerUtil.GetGameMode(_serverInfo.GameMode);
+            if (_serverInfo.MapName == "未知" || ServerInfoModel.ServerMapName == "大厅菜单")
+                ServerInfoModel.ServerGameMode = "未知";
+            else
+                ServerInfoModel.ServerGameMode = _serverInfo.GameMode;
 
             PlayerUtil.GetTeamImage(_serverInfo.MapName, out _serverInfo.Team1Img, out _serverInfo.Team2Img);
             ServerInfoModel.Team1Img = _serverInfo.Team1Img;
@@ -163,58 +176,23 @@ public partial class ScoreView : UserControl
 
             ServerInfoModel.ServerTime = PlayerUtil.SecondsToMMSS(_serverInfo.Time);
 
-            if (_serverInfo.Team1Score >= 0 && _serverInfo.Team1Score <= 1000 &&
-                _serverInfo.Team2Score >= 0 && _serverInfo.Team2Score <= 1000)
-            {
-                ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / 8;
-                ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / 8;
+            //////////////////////////////// 修正服务器得分数据 ////////////////////////////////
 
-                ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
-                ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();
-            }
-            else if (_serverInfo.Team1Score > 1000 && _serverInfo.Team1Score <= 2000 ||
-                _serverInfo.Team2Score > 1000 && _serverInfo.Team2Score <= 2000)
-            {
-                ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / 4;
-                ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / 4;
+            _serverInfo.Team1Score = PlayerUtil.FixedServerScore(_serverInfo.Team1Score);
+            _serverInfo.Team2Score = PlayerUtil.FixedServerScore(_serverInfo.Team2Score);
 
-                ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
-                ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();
-            }
-            else
-            {
-                ServerInfoModel.Team1ScoreWidth = 0;
-                ServerInfoModel.Team2ScoreWidth = 0;
+            var scale = (float)_serverInfo.MaxScore / 1000;
+            ServerInfoModel.Team1ScoreWidth = _serverInfo.Team1Score / (8 * scale);
+            ServerInfoModel.Team2ScoreWidth = _serverInfo.Team2Score / (8 * scale);
 
-                ServerInfoModel.Team1Score = "0";
-                ServerInfoModel.Team2Score = "0";
-            }
+            ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
+            ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();
 
-            if (_serverInfo.Team1Flag < 0 || _serverInfo.Team1Flag > 2000)
-            {
-                _serverInfo.Team1Flag = 0;
-            }
+            ServerInfoModel.Team1Flag = PlayerUtil.FixedServerScore(_serverInfo.Team1Flag);
+            ServerInfoModel.Team1Kill = PlayerUtil.FixedServerScore(_serverInfo.Team1Kill);
 
-            if (_serverInfo.Team1Kill < 0 || _serverInfo.Team1Kill > 2000)
-            {
-                _serverInfo.Team1Kill = 0;
-            }
-
-            if (_serverInfo.Team2Flag < 0 || _serverInfo.Team2Flag > 2000)
-            {
-                _serverInfo.Team2Flag = 0;
-            }
-
-            if (_serverInfo.Team2Kill < 0 || _serverInfo.Team2Kill > 2000)
-            {
-                _serverInfo.Team2Kill = 0;
-            }
-
-            ServerInfoModel.Team1Flag = _serverInfo.Team1Flag;
-            ServerInfoModel.Team1Kill = _serverInfo.Team1Kill;
-
-            ServerInfoModel.Team2Flag = _serverInfo.Team2Flag;
-            ServerInfoModel.Team2Kill = _serverInfo.Team2Kill;
+            ServerInfoModel.Team2Flag = PlayerUtil.FixedServerScore(_serverInfo.Team2Flag);
+            ServerInfoModel.Team2Kill = PlayerUtil.FixedServerScore(_serverInfo.Team2Kill);
 
             ////////////////////////////////////////////////////////////////////////////////
 

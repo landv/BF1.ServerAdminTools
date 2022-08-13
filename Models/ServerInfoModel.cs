@@ -24,14 +24,14 @@ public class ServerInfoModel : ObservableObject
         set => SetProperty(ref _serverGameID, value);
     }
 
-    private string _serverMapMode;
+    private string _serverGameMode;
     /// <summary>
-    /// 服务器地图模式
+    /// 服务器地图游戏模式
     /// </summary>
-    public string ServerMapMode
+    public string ServerGameMode
     {
-        get => _serverMapMode;
-        set => SetProperty(ref _serverMapMode, value);
+        get => _serverGameMode;
+        set => SetProperty(ref _serverGameMode, value);
     }
 
     private string _serverMapName;
