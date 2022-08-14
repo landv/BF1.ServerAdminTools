@@ -4,7 +4,7 @@ namespace BF1.ServerAdminTools.Features.Core;
 
 public static class Memory
 {
-    public static Process process;
+    private static Process process;
     private static IntPtr windowHandle;
     private static IntPtr processHandle;
     private static int processId;
@@ -92,6 +92,45 @@ public static class Memory
     public static int GetProcessId()
     {
         return processId;
+    }
+
+    public static WindowData GetGameWindowData()
+    {
+        // 获取指定窗口句柄的窗口矩形数据和客户区矩形数据
+        WinAPI.GetWindowRect(windowHandle, out W32RECT windowRect);
+        WinAPI.GetClientRect(windowHandle, out W32RECT clientRect);
+
+        // 计算窗口区的宽和高
+        int windowWidth = windowRect.Right - windowRect.Left;
+        int windowHeight = windowRect.Bottom - windowRect.Top;
+
+        // 处理窗口最小化
+        if (windowRect.Left == -32000)
+        {
+            return new WindowData()
+            {
+                Left = 0,
+                Top = 0,
+                Width = 1,
+                Height = 1
+            };
+        }
+
+        // 计算客户区的宽和高
+        int clientWidth = clientRect.Right - clientRect.Left;
+        int clientHeight = clientRect.Bottom - clientRect.Top;
+
+        // 计算边框
+        int borderWidth = (windowWidth - clientWidth) / 2;
+        int borderHeight = windowHeight - clientHeight - borderWidth;
+
+        return new WindowData()
+        {
+            Left = windowRect.Left += borderWidth,
+            Top = windowRect.Top += borderHeight,
+            Width = clientWidth,
+            Height = clientHeight
+        };
     }
 
     private static long GetPtrAddress(long pointer, int[] offset)
@@ -221,4 +260,12 @@ public static class Memory
         Marshal.FreeHGlobal(pointer);
         return array;
     }
+}
+
+public struct WindowData
+{
+    public int Left;
+    public int Top;
+    public int Width;
+    public int Height;
 }

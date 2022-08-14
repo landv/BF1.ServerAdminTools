@@ -50,8 +50,15 @@ public static class WinAPI
     [DllImport("user32.dll")]
     public static extern int SetForegroundWindow(IntPtr hwnd);
 
-    [DllImport("dnsapi.dll", EntryPoint = "DnsFlushResolverCache")]
+    [DllImport("dnsapi.dll")]
     public static extern uint DnsFlushResolverCache();
+
+    [DllImport("user32.dll")]
+    public static extern bool GetWindowRect(IntPtr hWnd, out W32RECT lpRect);
+
+    [DllImport("user32.dll")]
+    public static extern bool GetClientRect(IntPtr hWnd, out W32RECT lpRect);
+
 }
 
 // OpenProcess signture https://www.pinvoke.net/default.aspx/kernel32.openprocess
@@ -102,4 +109,13 @@ public enum MemoryProtection
     GuardModifierflag = 0x100,
     NoCacheModifierflag = 0x200,
     WriteCombineModifierflag = 0x400
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct W32RECT
+{
+    public int Left;
+    public int Top;
+    public int Right;
+    public int Bottom;
 }

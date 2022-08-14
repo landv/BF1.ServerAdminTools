@@ -1,7 +1,14 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Features.Chat;
+using BF1.ServerAdminTools.Features.Core;
+
 using RestSharp;
 using Websocket.Client;
+
+using System.Drawing;
+using System.Drawing.Imaging;
+using Point = System.Drawing.Point;
+using Size = System.Drawing.Size;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -130,7 +137,20 @@ public partial class RobotView : UserControl
     private void SendChatChs(int group_id, string message)
     {
         ChatHelper.SendText2Bf1Game(message);
-        SendGroupMsg(group_id, "发送成功");
+
+        var windowData = Memory.GetGameWindowData();
+
+        var bitmap = new Bitmap(windowData.Width / 4, windowData.Height);
+        var graphics = Graphics.FromImage(bitmap);
+        graphics.CopyFromScreen(new Point(windowData.Left, windowData.Top), new Point(0, 0), new Size(windowData.Width / 4, windowData.Height));
+
+        var file = $"BF1#{DateTime.Now:yyyyMMdd_HH-mm-ss-ffff}.png";
+        var path = $"{FileUtil.D_Robot_Path}\\data\\images\\{file}";
+        bitmap.Save(path, ImageFormat.Png);
+        graphics.Dispose();
+
+        SendGroupMsg(group_id, $"[CQ:image,file={file}]");
+
     }
 
     /// <summary>
