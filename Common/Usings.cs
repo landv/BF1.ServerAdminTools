@@ -30,5 +30,6 @@ global using System.Text.Unicode;
 global using System.Text.Encodings.Web;
 global using System.Text.RegularExpressions;
 global using System.Collections.ObjectModel;
+global using System.Reactive.Linq;
 
 global using Timer = System.Timers.Timer;

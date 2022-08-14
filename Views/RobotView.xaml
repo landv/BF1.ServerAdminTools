@@ -29,11 +29,18 @@
                 Click="Button_RunGoCqHttpServer_Click"
                 Content="启动QQ机器人服务"
                 Style="{StaticResource ButtonStyle_Web}" />
-            <Button
-                x:Name="Button_RunWebsocketServer"
-                Click="Button_RunWebsocketServer_Click"
-                Content="启动正向Websocket服务"
-                Style="{StaticResource ButtonStyle_Web}" />
+            <UniformGrid Columns="2">
+                <Button
+                    x:Name="Button_RunWebsocketServer"
+                    Click="Button_RunWebsocketServer_Click"
+                    Content="启动Websocket服务"
+                    Style="{StaticResource ButtonStyle_Web}" />
+                <Button
+                    x:Name="Button_StopWebsocketServer"
+                    Click="Button_StopWebsocketServer_Click"
+                    Content="关闭Websocket服务"
+                    Style="{StaticResource ButtonStyle_Web}" />
+            </UniformGrid>
         </StackPanel>
 
     </Grid>
