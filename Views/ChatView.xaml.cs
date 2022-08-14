@@ -27,7 +27,6 @@ public partial class ChatView : UserControl
     public ChatView()
     {
         InitializeComponent();
-
         this.DataContext = this;
 
         defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.F_Settings_Path);
@@ -83,7 +82,7 @@ public partial class ChatView : UserControl
     private void SetIMEState()
     {
         // 设置输入法为英文
-        Application.Current.Dispatcher.Invoke(() =>
+        this.Dispatcher.Invoke(() =>
         {
             InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
         });
