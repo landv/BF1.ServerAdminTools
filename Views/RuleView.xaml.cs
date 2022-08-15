@@ -91,21 +91,14 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_WeaponList_Path))
         {
-            using (var file = new StreamReader(FileUtil.F_WeaponList_Path, Encoding.Default))
+            string[] lines = File.ReadAllLines(FileUtil.F_WeaponList_Path);
+            foreach (string line in lines)
             {
-                string s = "";
-                while (s != null)
+                ListBox_BreakWeaponInfo.Items.Add(new WeaponInfo()
                 {
-                    s = file.ReadLine();
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        ListBox_BreakWeaponInfo.Items.Add(new WeaponInfo()
-                        {
-                            English = s,
-                            Chinese = PlayerUtil.GetWeaponChsName(s)
-                        });
-                    }
-                }
+                    English = line,
+                    Chinese = PlayerUtil.GetWeaponChsName(line)
+                });
             }
         }
 
@@ -116,33 +109,19 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_BlackList_Path))
         {
-            using (var file = new StreamReader(FileUtil.F_BlackList_Path, Encoding.Default))
+            string[] lines = File.ReadAllLines(FileUtil.F_BlackList_Path);
+            foreach (string line in lines)
             {
-                string s = "";
-                while (s != null)
-                {
-                    s = file.ReadLine();
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        ListBox_Custom_BlackList.Items.Add(s);
-                    }
-                }
+                ListBox_Custom_BlackList.Items.Add(line);
             }
         }
 
         if (File.Exists(FileUtil.F_WhiteList_Path))
         {
-            using (var file = new StreamReader(FileUtil.F_WhiteList_Path, Encoding.Default))
+            string[] lines = File.ReadAllLines(FileUtil.F_WhiteList_Path);
+            foreach (string line in lines)
             {
-                string s = "";
-                while (s != null)
-                {
-                    s = file.ReadLine();
-                    if (!string.IsNullOrEmpty(s))
-                    {
-                        ListBox_Custom_WhiteList.Items.Add(s);
-                    }
-                }
+                ListBox_Custom_WhiteList.Items.Add(line);
             }
         }
 

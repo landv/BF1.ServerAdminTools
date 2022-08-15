@@ -62,4 +62,12 @@ public static class ProcessUtil
                 targetPro.Kill();
         }
     }
+
+    /// <summary>
+    /// 关闭全部第三方exe进程
+    /// </summary> 
+    public static void CloseThirdProcess()
+    {
+        CloseProcess("go-cqhttp");
+    }
 }

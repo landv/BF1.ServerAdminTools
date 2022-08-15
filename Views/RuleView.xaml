@@ -166,7 +166,7 @@
                         x:Name="ListBox_WeaponInfo"
                         Grid.Column="0"
                         Margin="5,5,0,5"
-                        Style="{StaticResource ListBoxStyle_WebList}">
+                        Style="{StaticResource ListBoxStyle_Weapon}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Height="40" LastChildFill="True">
@@ -227,7 +227,7 @@
                         x:Name="ListBox_BreakWeaponInfo"
                         Grid.Column="2"
                         Margin="0,5,5,5"
-                        Style="{StaticResource ListBoxStyle_WebList}">
+                        Style="{StaticResource ListBoxStyle_Weapon}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="40">

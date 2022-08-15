@@ -19,6 +19,8 @@ public class FileUtil
     public static string F_WeaponList_Path = D_Admin_Path + @"\WeaponList.txt";
     public static string F_WhiteList_Path = D_Admin_Path + @"\WhiteList.txt";
 
+    public static string F_QQGroup_Path = D_Config_Path + @"\QQGroup.txt";
+
     public const string Resource_Path = "BF1.ServerAdminTools.Features.Files.";
 
     /// <summary>

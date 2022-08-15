@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace BF1.ServerAdminTools.Models;
+namespace BF1.ServerAdminTools.Models.Score;
 
 public class PlayerOtherModel : ObservableObject
 {

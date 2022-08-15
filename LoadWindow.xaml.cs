@@ -41,6 +41,8 @@ public partial class LoadWindow : Window
                 LoggerHelper.Info($"当前程序版本号 {CoreUtil.ClientVersionInfo}");
                 LoggerHelper.Info($"当前程序最后编译时间 {CoreUtil.ClientBuildTime}");
 
+                ProcessUtil.CloseThirdProcess();
+
                 // 检测目标程序有没有启动
                 if (!ProcessUtil.IsBf1Run())
                 {
@@ -101,6 +103,9 @@ public partial class LoadWindow : Window
                     File.Create(FileUtil.F_BlackList_Path).Close();
                 if (!File.Exists(FileUtil.F_WhiteList_Path))
                     File.Create(FileUtil.F_WhiteList_Path).Close();
+
+                if (!File.Exists(FileUtil.F_QQGroup_Path))
+                    File.Create(FileUtil.F_QQGroup_Path).Close();
 
                 // 释放必要文件
                 FileUtil.ExtractResFile(FileUtil.Resource_Path + "config.yml", FileUtil.D_Robot_Path + "\\config.yml");

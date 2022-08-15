@@ -11,6 +11,11 @@ public static class ChatHelper
     /// </summary>
     public static int KeyPressDelay = 50;
 
+    /// <summary>
+    /// 按键模拟
+    /// </summary>
+    /// <param name="winVK"></param>
+    /// <param name="delay"></param>
     public static void KeyPress(WinVK winVK, int delay)
     {
         Thread.Sleep(delay);
@@ -20,33 +25,55 @@ public static class ChatHelper
         Thread.Sleep(delay);
     }
 
+    /// <summary>
+    /// 全角字符转半角字符
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     public static string ToDBC(string input)
     {
-        char[] c = input.ToCharArray();
+        char[] chars = input.ToCharArray();
 
-        for (int i = 0; i < c.Length; i++)
+        for (int i = 0; i < chars.Length; i++)
         {
-            if (c[i] == 12288)
+            if (chars[i] == 12288)
             {
-                c[i] = (char)32;
+                chars[i] = (char)32;
                 continue;
             }
 
-            if (c[i] > 65280 && c[i] < 65375)
+            if (chars[i] > 65280 && chars[i] < 65375)
             {
-                c[i] = (char)(c[i] - 65248);
+                chars[i] = (char)(chars[i] - 65248);
             }
         }
 
-        return new string(c);
+        return new string(chars);
     }
 
-    // 发送中文到战地1聊天框
-    public static void SendText2Bf1Game(string msg)
+    /// <summary>
+    /// 设置输入法为英文
+    /// </summary>
+    public static void SetIMEStateToEN()
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
+        });
+    }
+
+    /// <summary>
+    /// 发送中文到战地1聊天框
+    /// </summary>
+    /// <param name="msg"></param>
+    public static void SendTextToBf1Game(string msg)
     {
         // 如果内容为空，则跳过
         if (string.IsNullOrEmpty(msg))
             return;
+
+        // 切换输入法到英文状态
+        SetIMEStateToEN();
 
         // 将窗口置顶
         Memory.SetForegroundWindow();

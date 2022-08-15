@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace BF1.ServerAdminTools.Models;
+namespace BF1.ServerAdminTools.Models.Score;
 
 public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
 {
@@ -224,6 +224,6 @@ public class PlayerListModel : ObservableObject, IComparable<PlayerListModel>
 
     public int CompareTo(PlayerListModel other)
     {
-        return other.Score.CompareTo(this.Score);
+        return other.Score.CompareTo(Score);
     }
 }

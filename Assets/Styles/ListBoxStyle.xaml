@@ -359,6 +359,49 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxStyle_Weapon" TargetType="{x:Type ListBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Grid>
+                        <Border BorderBrush="#808080" BorderThickness="0.6" />
+                        <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
+                            <StackPanel IsItemsHost="true" />
+                        </ScrollViewer>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid Height="40" Background="Transparent">
+                                    <Border Name="border" />
+                                    <Border Padding="10,0,0,0">
+                                        <ContentPresenter VerticalAlignment="Center" />
+                                    </Border>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#CCCCCC" />
+                                        <Setter Property="TextElement.Foreground" Value="White" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="border" Property="Background" Value="#808080" />
+                                        <Setter Property="TextElement.Foreground" Value="White" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="ListBoxStyle_Normal" TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -403,11 +446,15 @@
     </Style>
 
     <Style x:Key="ListBoxStyle_WebList" TargetType="{x:Type ListBox}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Grid>
-                        <Border BorderBrush="#808080" BorderThickness="0.6" />
+                        <Border
+                            BorderBrush="#808080"
+                            BorderThickness="1"
+                            SnapsToDevicePixels="True" />
                         <ScrollViewer Style="{StaticResource ScrollViewerStyle_VAHD}">
                             <StackPanel IsItemsHost="true" />
                         </ScrollViewer>
@@ -421,7 +468,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Grid Height="40" Background="Transparent">
+                                <Grid Height="25" Background="Transparent">
                                     <Border Name="border" />
                                     <Border Padding="10,0,0,0">
                                         <ContentPresenter VerticalAlignment="Center" />

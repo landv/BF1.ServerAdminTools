@@ -2,6 +2,7 @@
     x:Class="BF1.ServerAdminTools.Views.RobotView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:BF1.ServerAdminTools.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -9,6 +10,29 @@
     d:DesignHeight="900"
     d:DesignWidth="1600"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="RichTextBoxStyle_Page" TargetType="{x:Type RichTextBox}">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="IsDocumentEnabled" Value="True" />
+            <Setter Property="Cursor" Value="Arrow" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        </Style>
+
+        <Style x:Key="ParagraphStyle_Title" TargetType="{x:Type Paragraph}">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="LineHeight" Value="10" />
+        </Style>
+
+        <Style x:Key="ParagraphStyle_Content" TargetType="{x:Type Paragraph}">
+            <Setter Property="LineHeight" Value="10" />
+        </Style>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -23,25 +47,73 @@
             IsReadOnly="True"
             TextWrapping="Wrap" />
         <!--  ################################  -->
-        <StackPanel Grid.Column="1">
-            <Button
-                x:Name="Button_RunGoCqHttpServer"
-                Click="Button_RunGoCqHttpServer_Click"
-                Content="启动QQ机器人服务"
-                Style="{StaticResource ButtonStyle_Web}" />
-            <UniformGrid Columns="2">
+        <DockPanel Grid.Column="1" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Bottom">
+                <Label
+                    attached:Icon.Value="☕"
+                    Content="设置"
+                    Style="{StaticResource LabelStyle_Title}" />
+                <TextBlock
+                    Margin="5"
+                    Text="授权的QQ群号及成员QQ号（第一行为QQ群号，后面一行一个QQ号）"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="TextBox_GroupQQID"
+                    Height="200"
+                    Margin="5"
+                    Padding="5"
+                    AcceptsReturn="True"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="提示：请先设置上面内容后在启动WebSocket服务" />
+                <Label
+                    attached:Icon.Value="☕"
+                    Content="功能"
+                    Style="{StaticResource LabelStyle_Title}" />
                 <Button
-                    x:Name="Button_RunWebsocketServer"
-                    Click="Button_RunWebsocketServer_Click"
-                    Content="启动Websocket服务"
+                    x:Name="Button_RunGoCqHttpServer"
+                    Click="Button_RunGoCqHttpServer_Click"
+                    Content="启动QQ机器人服务"
                     Style="{StaticResource ButtonStyle_Web}" />
-                <Button
-                    x:Name="Button_StopWebsocketServer"
-                    Click="Button_StopWebsocketServer_Click"
-                    Content="关闭Websocket服务"
-                    Style="{StaticResource ButtonStyle_Web}" />
-            </UniformGrid>
-        </StackPanel>
+                <UniformGrid Columns="2">
+                    <Button
+                        x:Name="Button_RunWebsocketServer"
+                        Click="Button_RunWebsocketServer_Click"
+                        Content="启动Websocket服务"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                    <Button
+                        x:Name="Button_StopWebsocketServer"
+                        Click="Button_StopWebsocketServer_Click"
+                        Content="关闭Websocket服务"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                </UniformGrid>
+            </StackPanel>
+            <RichTextBox
+                Margin="5"
+                DockPanel.Dock="Top"
+                Style="{StaticResource RichTextBoxStyle_Page}">
+                <FlowDocument>
+                    <Paragraph Style="{StaticResource ParagraphStyle_Title}">
+                        可用指令
+                    </Paragraph>
+                    <Paragraph Style="{StaticResource ParagraphStyle_Content}">
+                        #中文聊天 xxxx<LineBreak />
+                        #屏幕截图<LineBreak />
+                        #得分板截图</Paragraph>
+
+                    <Paragraph Style="{StaticResource ParagraphStyle_Title}">
+                        配置文件
+                    </Paragraph>
+                    <Paragraph>
+                        截图文件路径：C:\ProgramData\BF1 Server\Robot\data\images<LineBreak />
+                    </Paragraph>
+
+                </FlowDocument>
+            </RichTextBox>
+        </DockPanel>
 
     </Grid>
 

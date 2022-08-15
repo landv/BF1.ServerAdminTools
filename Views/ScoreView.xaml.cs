@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Models;
+using BF1.ServerAdminTools.Models.Score;
 using BF1.ServerAdminTools.Windows;
 using BF1.ServerAdminTools.Extension;
 using BF1.ServerAdminTools.Common.Data;

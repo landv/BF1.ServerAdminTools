@@ -16,7 +16,7 @@ public partial class ChatView : UserControl
     private string[] defaultMsg = new string[10];
 
     private Timer timerAutoSendMsg;
-    private List<string> queueMsg;
+    private List<string> queueMsg = new();
 
     private int queueMsgSleep = 1;
 
@@ -49,18 +49,20 @@ public partial class ChatView : UserControl
 
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-        timerAutoSendMsg = new Timer();
-        timerAutoSendMsg.AutoReset = true;
+        timerAutoSendMsg = new()
+        {
+            AutoReset = true
+        };
         timerAutoSendMsg.Elapsed += TimerAutoSendMsg_Elapsed;
 
-        queueMsg = new List<string>();
-
-        timerNoAFK = new Timer();
-        timerNoAFK.AutoReset = true;
-        timerNoAFK.Interval = 30000;
+        timerNoAFK = new()
+        {
+            AutoReset = true,
+            Interval = 30000
+        };
         timerNoAFK.Elapsed += TimerNoAFK_Elapsed;
 
-        SendChsMessageCommand = new RelayCommand(SendChsMessage);
+        SendChsMessageCommand = new(SendChsMessage);
     }
 
     private void MainWindow_ClosingDisposeEvent()
@@ -95,7 +97,7 @@ public partial class ChatView : UserControl
 
         for (int i = 0; i < queueMsg.Count; i++)
         {
-            ChatHelper.SendText2Bf1Game(queueMsg[i]);
+            ChatHelper.SendTextToBf1Game(queueMsg[i]);
             Thread.Sleep(queueMsgSleep * 1000);
         }
     }

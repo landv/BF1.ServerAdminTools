@@ -22,6 +22,8 @@ public partial class RobotView : UserControl
 
     private static RestClient client = null;
 
+    private List<long> GroupQQID = new();
+
     public RobotView()
     {
         InitializeComponent();
@@ -33,11 +35,29 @@ public partial class RobotView : UserControl
             MaxTimeout = 5000
         };
         client = new RestClient(options);
+
+        if (File.Exists(FileUtil.F_QQGroup_Path))
+        {
+            string[] lines = File.ReadAllLines(FileUtil.F_QQGroup_Path);
+            foreach (string line in lines)
+            {
+                if (!string.IsNullOrEmpty(line))
+                {
+                    TextBox_GroupQQID.AppendText(line + Environment.NewLine);
+                    GroupQQID.Add(long.Parse(line));
+                }
+            }
+        }
     }
 
     private void MainWindow_ClosingDisposeEvent()
     {
-        ProcessUtil.CloseProcess("go-cqhttp");
+        ProcessUtil.CloseThirdProcess();
+
+        if (File.Exists(FileUtil.F_QQGroup_Path))
+        {
+            File.WriteAllText(FileUtil.F_QQGroup_Path, TextBox_GroupQQID.Text);
+        }
     }
 
     private void AppendLog(string txt)
@@ -80,6 +100,11 @@ public partial class RobotView : UserControl
         }
         else
         {
+            for (int i = 0; i < TextBox_GroupQQID.LineCount; i++)
+            {
+                GroupQQID.Add(long.Parse(TextBox_GroupQQID.GetLineText(i).Trim()));
+            }
+
             websocketClient = new(url)
             {
                 ReconnectTimeout = TimeSpan.FromMinutes(5)
@@ -119,30 +144,66 @@ public partial class RobotView : UserControl
         {
             if (jNode["message_type"].GetValue<string>() == "group")
             {
-                var group_id = jNode["group_id"].GetValue<int>();
-                var raw_message = jNode["raw_message"].GetValue<string>();
+                var user_id = jNode["user_id"].GetValue<long>();
+                var group_id = jNode["group_id"].GetValue<long>();
 
-                if (raw_message.StartsWith("中文聊天#"))
+                if (group_id != GroupQQID[0])
+                    return;
+
+                if (!GroupQQID.Contains(user_id))
+                    return;
+
+                var raw_message = jNode["raw_message"].GetValue<string>().Trim();
+
+                if (raw_message.StartsWith("#中文聊天"))
                 {
-                    raw_message = raw_message.Replace("中文聊天#", "");
+                    AppendLog($"收到群信息: {msg}");
 
-                    SendChatChs(group_id, raw_message);
+                    raw_message = raw_message.Replace("#中文聊天", "").Trim();
+                    if (!string.IsNullOrEmpty(raw_message))
+                    {
+                        SendChatChsRetrunImg(group_id, raw_message);
+                    }
+                    else
+                    {
+                        SendGroupMsg(group_id, "错误：请发送正确的中文聊天内容！");
+                    }
+                }
+
+                if (raw_message.Equals("#屏幕截图"))
+                {
+                    AppendLog($"收到群信息: {msg}");
+
+                    GetPrintScreen(group_id);
+                }
+
+                if (raw_message.Equals("#得分板截图"))
+                {
+                    AppendLog($"收到群信息: {msg}");
+
+                    GetScorePrintScreen(group_id);
                 }
             }
         }
-
-        AppendLog($"收到信息: {msg}");
     }
 
-    private void SendChatChs(int group_id, string message)
+    ////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 发送战地1中文聊天并返回聊天截图
+    /// </summary>
+    /// <param name="group_id"></param>
+    /// <param name="message"></param>
+    private void SendChatChsRetrunImg(long group_id, string message)
     {
-        ChatHelper.SendText2Bf1Game(message);
+        ChatHelper.SendTextToBf1Game(message);
 
         var windowData = Memory.GetGameWindowData();
+        windowData.Width /= 4;
 
-        var bitmap = new Bitmap(windowData.Width / 4, windowData.Height);
+        var bitmap = new Bitmap(windowData.Width, windowData.Height);
         var graphics = Graphics.FromImage(bitmap);
-        graphics.CopyFromScreen(new Point(windowData.Left, windowData.Top), new Point(0, 0), new Size(windowData.Width / 4, windowData.Height));
+        graphics.CopyFromScreen(new Point(windowData.Left, windowData.Top), new Point(0, 0), new Size(windowData.Width, windowData.Height));
 
         var file = $"BF1#{DateTime.Now:yyyyMMdd_HH-mm-ss-ffff}.png";
         var path = $"{FileUtil.D_Robot_Path}\\data\\images\\{file}";
@@ -150,7 +211,55 @@ public partial class RobotView : UserControl
         graphics.Dispose();
 
         SendGroupMsg(group_id, $"[CQ:image,file={file}]");
+    }
 
+    /// <summary>
+    /// 获取战地1屏幕截图
+    /// </summary>
+    private void GetPrintScreen(long group_id)
+    {
+        var windowData = Memory.GetGameWindowData();
+
+        var bitmap = new Bitmap(windowData.Width, windowData.Height);
+        var graphics = Graphics.FromImage(bitmap);
+        graphics.CopyFromScreen(new Point(windowData.Left, windowData.Top), new Point(0, 0), new Size(windowData.Width, windowData.Height));
+
+        var file = $"BF1#{DateTime.Now:yyyyMMdd_HH-mm-ss-ffff}.png";
+        var path = $"{FileUtil.D_Robot_Path}\\data\\images\\{file}";
+        bitmap.Save(path, ImageFormat.Png);
+        graphics.Dispose();
+
+        SendGroupMsg(group_id, $"[CQ:image,file={file}]");
+    }
+
+    /// <summary>
+    /// 获取战地1得分板屏幕截图
+    /// </summary>
+    private void GetScorePrintScreen(long group_id)
+    {
+        Task.Run(() =>
+        {
+            Memory.SetForegroundWindow();
+            Task.Delay(50).Wait();
+
+            var windowData = Memory.GetGameWindowData();
+
+            var bitmap = new Bitmap(windowData.Width, windowData.Height);
+            var graphics = Graphics.FromImage(bitmap);
+
+            WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 0, 0);
+            Task.Delay(2000).Wait();
+            graphics.CopyFromScreen(new Point(windowData.Left, windowData.Top), new Point(0, 0), new Size(windowData.Width, windowData.Height));
+            Task.Delay(50).Wait();
+            WinAPI.Keybd_Event(WinVK.TAB, WinAPI.MapVirtualKey(WinVK.TAB, 0), 2, 0);
+
+            var file = $"BF1#{DateTime.Now:yyyyMMdd_HH-mm-ss-ffff}.png";
+            var path = $"{FileUtil.D_Robot_Path}\\data\\images\\{file}";
+            bitmap.Save(path, ImageFormat.Png);
+            graphics.Dispose();
+
+            SendGroupMsg(group_id, $"[CQ:image,file={file}]");
+        });
     }
 
     /// <summary>
@@ -158,7 +267,7 @@ public partial class RobotView : UserControl
     /// </summary>
     /// <param name="group_id"></param>
     /// <param name="message"></param>
-    private void SendGroupMsg(int group_id, string message)
+    private void SendGroupMsg(long group_id, string message)
     {
         var request = new RestRequest("/send_msg")
             .AddQueryParameter("group_id", group_id)
@@ -169,11 +278,11 @@ public partial class RobotView : UserControl
     }
 
     /// <summary>
-    /// 发送消息
+    /// 发送普通消息
     /// </summary>
     /// <param name="user_id"></param>
     /// <param name="message"></param>
-    private void SendMsg(int user_id, string message)
+    private void SendMsg(long user_id, string message)
     {
         var request = new RestRequest("/send_msg")
             .AddQueryParameter("user_id", user_id)
