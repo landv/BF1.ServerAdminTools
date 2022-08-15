@@ -100,9 +100,12 @@ public partial class RobotView : UserControl
         }
         else
         {
+            GroupQQID.Clear();
             for (int i = 0; i < TextBox_GroupQQID.LineCount; i++)
             {
-                GroupQQID.Add(long.Parse(TextBox_GroupQQID.GetLineText(i).Trim()));
+                var line = TextBox_GroupQQID.GetLineText(i).Trim();
+                if (!string.IsNullOrEmpty(line))
+                    GroupQQID.Add(long.Parse(line));
             }
 
             websocketClient = new(url)
