@@ -51,11 +51,21 @@
             <StackPanel DockPanel.Dock="Bottom">
                 <Label
                     attached:Icon.Value="☕"
-                    Content="设置"
+                    Content="权限"
                     Style="{StaticResource LabelStyle_Title}" />
+                <WrapPanel>
+                    <CheckBox
+                        x:Name="CheckBox_IgnoreQQGroupLimit"
+                        Margin="5"
+                        Content="忽略QQ群限制" />
+                    <CheckBox
+                        x:Name="CheckBox_IgnoreQQGroupMemberLimit"
+                        Margin="5"
+                        Content="忽略QQ群成员限制" />
+                </WrapPanel>
                 <TextBlock
                     Margin="5"
-                    Text="授权的QQ群号及成员QQ号（第一行为QQ群号，后面一行一个QQ号）"
+                    Text="授权的QQ群号及成员QQ号（第一行为QQ群号，后面一行一个群成员QQ号）"
                     TextWrapping="Wrap" />
                 <TextBox
                     x:Name="TextBox_GroupQQID"
@@ -69,6 +79,37 @@
                     Margin="5"
                     Foreground="Green"
                     Text="提示：请先设置上面内容后在启动WebSocket服务" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="提示：如果忽略QQ群限制，那么QQ群成员限制将失效" />
+                <TextBlock
+                    Margin="5"
+                    Foreground="Green"
+                    Text="提示：如果修改权限，需要重新启动Websocket服务" />
+
+                <Label
+                    attached:Icon.Value="☕"
+                    Content="设置"
+                    Style="{StaticResource LabelStyle_Title}" />
+                <WrapPanel>
+                    <Button
+                        x:Name="Button_ChangeGoCqHttpQQID"
+                        Click="Button_ChangeGoCqHttpQQID_Click"
+                        Content="更换QQ机器人账号"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                    <Button
+                        x:Name="Button_ClearImageCache"
+                        Click="Button_ClearImageCache_Click"
+                        Content="清理图片缓存"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                    <Button
+                        x:Name="Button_OpenGoCqHttpPath"
+                        Click="Button_OpenGoCqHttpPath_Click"
+                        Content="打开配置文件夹"
+                        Style="{StaticResource ButtonStyle_Web}" />
+                </WrapPanel>
+
                 <Label
                     attached:Icon.Value="☕"
                     Content="功能"

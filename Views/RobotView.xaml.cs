@@ -23,6 +23,8 @@ public partial class RobotView : UserControl
     private static RestClient client = null;
 
     private List<long> GroupQQID = new();
+    private bool isIngoreQQGroupLimit = false;
+    private bool isIngoreQQGroupMemberLimit = false;
 
     public RobotView()
     {
@@ -70,6 +72,8 @@ public partial class RobotView : UserControl
 
     private void Button_RunGoCqHttpServer_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         if (ProcessUtil.IsAppRun("go-cqhttp"))
         {
             AppendLog("请不要重复打开，go-cqhttp 程序已经在运行了");
@@ -87,6 +91,8 @@ public partial class RobotView : UserControl
 
     private void Button_RunWebsocketServer_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         if (!ProcessUtil.IsAppRun("go-cqhttp"))
         {
             AppendLog("请先启动 go-cqhttp 程序");
@@ -108,6 +114,9 @@ public partial class RobotView : UserControl
                     GroupQQID.Add(long.Parse(line));
             }
 
+            isIngoreQQGroupLimit = CheckBox_IgnoreQQGroupLimit.IsChecked == true ? true : false;
+            isIngoreQQGroupMemberLimit = CheckBox_IgnoreQQGroupMemberLimit.IsChecked == true ? true : false;
+
             websocketClient = new(url)
             {
                 ReconnectTimeout = TimeSpan.FromMinutes(5)
@@ -124,6 +133,8 @@ public partial class RobotView : UserControl
 
     private void Button_StopWebsocketServer_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         if (websocketClient != null)
         {
             websocketClient.Dispose();
@@ -150,11 +161,17 @@ public partial class RobotView : UserControl
                 var user_id = jNode["user_id"].GetValue<long>();
                 var group_id = jNode["group_id"].GetValue<long>();
 
-                if (group_id != GroupQQID[0])
-                    return;
+                if (!isIngoreQQGroupLimit)
+                {
+                    if (group_id != GroupQQID[0])
+                        return;
 
-                if (!GroupQQID.Contains(user_id))
-                    return;
+                    if (isIngoreQQGroupMemberLimit)
+                    {
+                        if (!GroupQQID.Contains(user_id))
+                            return;
+                    }
+                }
 
                 var raw_message = jNode["raw_message"].GetValue<string>().Trim();
 
@@ -293,5 +310,44 @@ public partial class RobotView : UserControl
             .AddQueryParameter("auto_escape", false);
 
         client.ExecuteGetAsync(request);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    private void Button_ChangeGoCqHttpQQID_Click(object sender, RoutedEventArgs e)
+    {
+        AudioUtil.ClickSound();
+
+        ProcessUtil.CloseProcess("go-cqhttp");
+
+        if (websocketClient != null)
+        {
+            websocketClient.Dispose();
+            websocketClient = null;
+            AppendLog("客户端WebsocketServer链接关闭");
+        }
+
+        FileUtil.DelectDir("C:\\ProgramData\\BF1 Server\\Robot");
+
+        FileUtil.ExtractResFile(FileUtil.Resource_Path + "config.yml", FileUtil.D_Robot_Path + "\\config.yml");
+        FileUtil.ExtractResFile(FileUtil.Resource_Path + "go-cqhttp.exe", FileUtil.D_Robot_Path + "\\go-cqhttp.exe");
+
+        MsgBoxUtil.Information("操作成功，请重新启动QQ机器人服务");
+    }
+
+    private void Button_ClearImageCache_Click(object sender, RoutedEventArgs e)
+    {
+        AudioUtil.ClickSound();
+
+        FileUtil.DelectDir("C:\\ProgramData\\BF1 Server\\Robot\\data\\images");
+
+        MsgBoxUtil.Information("清理图片缓存成功");
+    }
+
+    private void Button_OpenGoCqHttpPath_Click(object sender, RoutedEventArgs e)
+    {
+        AudioUtil.ClickSound();
+
+        ProcessUtil.OpenLink(FileUtil.D_Robot_Path);
     }
 }
