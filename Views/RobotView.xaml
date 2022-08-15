@@ -78,15 +78,11 @@
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
-                    Text="提示：请先设置上面内容后在启动WebSocket服务" />
-                <TextBlock
-                    Margin="5"
-                    Foreground="Green"
                     Text="提示：如果忽略QQ群限制，那么QQ群成员限制将失效" />
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
-                    Text="提示：如果修改权限，需要重新启动Websocket服务" />
+                    Text="提示：如果修改上述权限内容，需要重新启动Websocket服务" />
 
                 <Label
                     attached:Icon.Value="☕"
