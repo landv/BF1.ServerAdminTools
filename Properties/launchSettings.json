@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BF1.ServerAdminTools": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

@@ -12,9 +12,14 @@ public static class Globals
     ///////////////////////////////////////////////////////
 
     /// <summary>
-    /// 保存限制武器名称列表
+    /// 保存队伍1限制武器名称列表
     /// </summary>
-    public static List<string> Custom_WeaponList = new();
+    public static List<string> Custom_WeaponList_Team1 = new();
+    /// <summary>
+    /// 保存队伍2限制武器名称列表
+    /// </summary>
+    public static List<string> Custom_WeaponList_Team2 = new();
+
     /// <summary>
     /// 自定义黑名单玩家列表
     /// </summary>

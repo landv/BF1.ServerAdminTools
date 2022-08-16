@@ -157,4 +157,59 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ColumnHeaderStyle_Weapon" TargetType="{x:Type DataGridColumnHeader}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="ToolTip" Value="点击标题排序" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="DataGridTextColumnStyle_Weapon" TargetType="{x:Type TextBlock}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="10,0,20,0" />
+    </Style>
+
+    <Style x:Key="DataGridCheckBoxColumn_Weapon" TargetType="{x:Type CheckBox}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="DataGridStyle_Weapon" TargetType="{x:Type DataGrid}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="GridLinesVisibility" Value="Vertical" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="VerticalGridLinesBrush" Value="#FFACACAC" />
+        <Setter Property="BorderBrush" Value="#FFACACAC" />
+        <Setter Property="CanUserResizeRows" Value="False" />
+        <Setter Property="HeadersVisibility" Value="Column" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Style.Resources>
+            <Style TargetType="DataGridCell">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Background" Value="#0078D4" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="DataGridRow">
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Background" Value="White" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="LightGray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+    </Style>
+
 </ResourceDictionary>

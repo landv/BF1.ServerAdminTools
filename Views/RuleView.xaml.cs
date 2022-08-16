@@ -6,6 +6,8 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 using BF1.ServerAdminTools.Features.Client;
 using BF1.ServerAdminTools.Features.Data;
+using BF1.ServerAdminTools.Models.Score;
+using BF1.ServerAdminTools.Features.Config;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -14,15 +16,12 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class RuleView : UserControl
 {
-    private class WeaponInfo
-    {
-        public string English { get; set; }
-        public string Chinese { get; set; }
-        public string Mark { get; set; }
-    }
+    private List<RuleConfig> RuleConfigs { get; set; } = new();
 
     public RuleTeamModel RuleTeam1Model { get; set; } = new();
     public RuleTeamModel RuleTeam2Model { get; set; } = new();
+
+    public ObservableCollection<RuleWeaponModel> DataGrid_RuleWeaponModels { get; set; } = new();
 
     /// <summary>
     /// 是否已经执行
@@ -42,14 +41,15 @@ public partial class RuleView : UserControl
         // 添加武器信息列表
         foreach (var item in WeaponData.AllWeaponInfo)
         {
-            ListBox_WeaponInfo.Items.Add(new WeaponInfo()
+            DataGrid_RuleWeaponModels.Add(new RuleWeaponModel()
             {
+                Class = item.Class,
+                Name = item.Chinese,
                 English = item.English,
-                Chinese = item.Chinese,
-                Mark = ""
+                Team1 = false,
+                Team2 = false
             });
         }
-        ListBox_WeaponInfo.SelectedIndex = 0;
 
         var thread0 = new Thread(AutoKickLifeBreakPlayer);
         thread0.IsBackground = true;
@@ -132,24 +132,6 @@ public partial class RuleView : UserControl
             RuleTeam2Model.LifeMaxVehicleStar = int.Parse(temp);
         #endregion
 
-        if (File.Exists(FileUtil.F_WeaponList_Path))
-        {
-            string[] lines = File.ReadAllLines(FileUtil.F_WeaponList_Path);
-            foreach (string line in lines)
-            {
-                ListBox_BreakWeaponInfo.Items.Add(new WeaponInfo()
-                {
-                    English = line,
-                    Chinese = PlayerUtil.GetWeaponChsName(line)
-                });
-            }
-        }
-
-        if (ListBox_BreakWeaponInfo.Items.Count != 0)
-        {
-            ListBox_BreakWeaponInfo.SelectedIndex = 0;
-        }
-
         if (File.Exists(FileUtil.F_BlackList_Path))
         {
             string[] lines = File.ReadAllLines(FileUtil.F_BlackList_Path);
@@ -165,24 +147,6 @@ public partial class RuleView : UserControl
             foreach (string line in lines)
             {
                 ListBox_Custom_WhiteList.Items.Add(line);
-            }
-        }
-
-        for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
-        {
-            var bwi = ListBox_BreakWeaponInfo.Items[i] as WeaponInfo;
-            for (int j = 0; j < ListBox_WeaponInfo.Items.Count; j++)
-            {
-                var wi = ListBox_WeaponInfo.Items[j] as WeaponInfo;
-                if (bwi.English == wi.English)
-                {
-                    ListBox_WeaponInfo.Items[j] = new WeaponInfo()
-                    {
-                        English = wi.English,
-                        Chinese = wi.Chinese,
-                        Mark = "✔"
-                    };
-                }
             }
         }
     }
@@ -216,17 +180,6 @@ public partial class RuleView : UserControl
         IniHelper.WriteString("Rules", "Team2LifeMaxWeaponStar", RuleTeam2Model.LifeMaxWeaponStar.ToString("0"), FileUtil.F_Settings_Path);
         IniHelper.WriteString("Rules", "Team2LifeMaxVehicleStar", RuleTeam2Model.LifeMaxVehicleStar.ToString("0"), FileUtil.F_Settings_Path);
         #endregion
-
-        if (File.Exists(FileUtil.F_WeaponList_Path))
-        {
-            using (var file = new StreamWriter(FileUtil.F_WeaponList_Path, false))
-            {
-                foreach (WeaponInfo item in ListBox_BreakWeaponInfo.Items)
-                {
-                    file.WriteLine(item.English);
-                }
-            }
-        }
 
         if (File.Exists(FileUtil.F_BlackList_Path))
         {
@@ -417,139 +370,6 @@ public partial class RuleView : UserControl
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    private void Button_BreakWeaponInfo_Add_Click(object sender, RoutedEventArgs e)
-    {
-        AudioUtil.ClickSound();
-
-        bool isContains = false;
-
-        int index = ListBox_WeaponInfo.SelectedIndex;
-        if (index != -1)
-        {
-            var wi = ListBox_WeaponInfo.SelectedItem as WeaponInfo;
-            if (string.IsNullOrEmpty(wi.Chinese))
-            {
-                MainWindow._SetOperatingState(2, "请不要把分类项添加到限制武器列表");
-                return;
-            }
-
-            for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
-            {
-                var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfo;
-                if (wi.English == bwi.English)
-                {
-                    isContains = true;
-                    break;
-                }
-            }
-
-            foreach (var item in ListBox_BreakWeaponInfo.Items)
-            {
-                if (ListBox_WeaponInfo.SelectedItem == item)
-                {
-                    isContains = true;
-                    break;
-                }
-            }
-
-            if (!isContains)
-            {
-                ListBox_BreakWeaponInfo.Items.Add(ListBox_WeaponInfo.SelectedItem);
-                ListBox_WeaponInfo.Items[ListBox_WeaponInfo.SelectedIndex] = new WeaponInfo()
-                {
-                    English = wi.English,
-                    Chinese = wi.Chinese,
-                    Mark = "✔"
-                };
-
-                ListBox_WeaponInfo.SelectedIndex = index;
-
-                int count = ListBox_BreakWeaponInfo.Items.Count;
-                if (count != 0)
-                {
-                    ListBox_BreakWeaponInfo.SelectedIndex = count - 1;
-                }
-
-                MainWindow._SetOperatingState(1, "添加限制武器成功");
-            }
-            else
-            {
-                MainWindow._SetOperatingState(2, "当前限制武器已存在，请不要重复添加");
-            }
-        }
-        else
-        {
-            MainWindow._SetOperatingState(2, "请选择正确的内容");
-        }
-    }
-
-    private void Button_BreakWeaponInfo_Remove_Click(object sender, RoutedEventArgs e)
-    {
-        AudioUtil.ClickSound();
-
-        int index1 = ListBox_WeaponInfo.SelectedIndex;
-        int index2 = ListBox_BreakWeaponInfo.SelectedIndex;
-        if (index2 != -1)
-        {
-            var bwi = ListBox_BreakWeaponInfo.SelectedItem as WeaponInfo;
-            for (int i = 0; i < ListBox_WeaponInfo.Items.Count; i++)
-            {
-                var wi = ListBox_WeaponInfo.Items[i] as WeaponInfo;
-                if (bwi.English == wi.English)
-                {
-                    ListBox_WeaponInfo.Items[i] = new WeaponInfo()
-                    {
-                        English = bwi.English,
-                        Chinese = bwi.Chinese,
-                        Mark = ""
-                    };
-                }
-            }
-
-            ListBox_BreakWeaponInfo.Items.RemoveAt(ListBox_BreakWeaponInfo.SelectedIndex);
-
-            int count = ListBox_BreakWeaponInfo.Items.Count;
-            if (count != 0)
-            {
-                ListBox_BreakWeaponInfo.SelectedIndex = count - 1;
-            }
-
-            ListBox_WeaponInfo.SelectedIndex = index1;
-
-            MainWindow._SetOperatingState(1, "移除限制武器成功");
-        }
-        else
-        {
-            MainWindow._SetOperatingState(2, "请选择正确的内容");
-        }
-    }
-
-    private void Button_BreakWeaponInfo_Clear_Click(object sender, RoutedEventArgs e)
-    {
-        AudioUtil.ClickSound();
-
-        int index = ListBox_WeaponInfo.SelectedIndex;
-
-        // 清空限制武器列表
-        Globals.Custom_WeaponList.Clear();
-        ListBox_BreakWeaponInfo.Items.Clear();
-
-        for (int i = 0; i < ListBox_WeaponInfo.Items.Count; i++)
-        {
-            var wi = ListBox_WeaponInfo.Items[i] as WeaponInfo;
-            ListBox_WeaponInfo.Items[i] = new WeaponInfo()
-            {
-                English = wi.English,
-                Chinese = wi.Chinese,
-                Mark = ""
-            };
-        }
-
-        ListBox_WeaponInfo.SelectedIndex = index;
-
-        MainWindow._SetOperatingState(1, "清空限制武器列表成功");
-    }
-
     private void AppendLog(string msg)
     {
         TextBox_RuleLog.AppendText(msg + "\n");
@@ -623,11 +443,20 @@ public partial class RuleView : UserControl
         /////////////////////////////////////////////////////////////////////////////
 
         // 清空限制武器列表
-        Globals.Custom_WeaponList.Clear();
+        Globals.Custom_WeaponList_Team1.Clear();
+        Globals.Custom_WeaponList_Team2.Clear();
         // 添加自定义限制武器
-        foreach (var item in ListBox_BreakWeaponInfo.Items)
+        foreach (var item in DataGrid_RuleWeaponModels)
         {
-            Globals.Custom_WeaponList.Add((item as WeaponInfo).English);
+            if (item.Team1)
+            {
+                Globals.Custom_WeaponList_Team1.Add(item.English);
+            }
+
+            if (item.Team2)
+            {
+                Globals.Custom_WeaponList_Team2.Add(item.English);
+            }
         }
 
         // 清空黑名单列表
@@ -720,11 +549,19 @@ public partial class RuleView : UserControl
 
         AppendLog("\n");
 
-        AppendLog($"========== 禁武器列表 ==========");
+        AppendLog($"========== 队伍1 禁武器列表 ==========");
         AppendLog("");
-        foreach (var item in Globals.Custom_WeaponList)
+        foreach (var item in Globals.Custom_WeaponList_Team1)
         {
-            AppendLog($"武器名称 {Globals.Custom_WeaponList.IndexOf(item) + 1} : {item}");
+            AppendLog($"武器名称 {Globals.Custom_WeaponList_Team1.IndexOf(item) + 1} : {item}");
+        }
+        AppendLog("\n");
+
+        AppendLog($"========== 队伍2 禁武器列表 ==========");
+        AppendLog("");
+        foreach (var item in Globals.Custom_WeaponList_Team2)
+        {
+            AppendLog($"武器名称 {Globals.Custom_WeaponList_Team2.IndexOf(item) + 1} : {item}");
         }
         AppendLog("\n");
 
