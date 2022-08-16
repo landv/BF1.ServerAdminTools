@@ -6,25 +6,25 @@ public class RuleConfig
     public RuleInfo RuleInfos;
     public class RuleInfo
     {
-        public List<Normal> Team1Normal;
-        public List<Normal> Team2Normal;
+        public Normal Team1Normal;
+        public Normal Team2Normal;
         public List<Weapon> Team1Weapon;
         public List<Weapon> Team2Weapon;
         public List<string> BlackList;
         public List<string> WhiteList;
         public class Normal
         {
-            public string MaxKill;
-            public string KDFlag;
+            public int MaxKill;
+            public int KDFlag;
             public float MaxKD;
-            public string KPMFlag;
+            public int KPMFlag;
             public float MaxKPM;
-            public string MinRank;
-            public string MaxRank;
+            public int MinRank;
+            public int MaxRank;
             public float LifeMaxKD;
             public float LifeMaxKPM;
-            public string LifeMaxWeaponStar;
-            public string LifeMaxVehicleStar;
+            public int LifeMaxWeaponStar;
+            public int LifeMaxVehicleStar;
         }
         public class Weapon
         {

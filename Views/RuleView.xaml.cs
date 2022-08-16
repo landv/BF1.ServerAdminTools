@@ -51,157 +51,116 @@ public partial class RuleView : UserControl
             });
         }
 
-        var thread0 = new Thread(AutoKickLifeBreakPlayer);
-        thread0.IsBackground = true;
+        var thread0 = new Thread(AutoKickLifeBreakPlayer)
+        {
+            IsBackground = true
+        };
         thread0.Start();
 
-        var therad1 = new Thread(CheckState);
-        therad1.IsBackground = true;
+        var therad1 = new Thread(CheckState)
+        {
+            IsBackground = true
+        };
         therad1.Start();
 
-        #region 读取配置文件
-        string temp = string.Empty;
-        temp = IniHelper.ReadString("Rules", "Team1MaxKill", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.MaxKill = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1KDFlag", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.KDFlag = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1MaxKD", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.MaxKD = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1KPMFlag", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.KPMFlag = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1MaxKPM", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.MaxKPM = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1MinRank", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.MinRank = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1MaxRank", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.MaxRank = int.Parse(temp);
-
-        temp = IniHelper.ReadString("Rules", "Team2MaxKill", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.MaxKill = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2KDFlag", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.KDFlag = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2MaxKD", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.MaxKD = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2KPMFlag", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.KPMFlag = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2MaxKPM", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.MaxKPM = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2MinRank", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.MinRank = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2MaxRank", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.MaxRank = int.Parse(temp);
-
-        temp = IniHelper.ReadString("Rules", "Team1LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.LifeMaxKD = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.LifeMaxKPM = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.LifeMaxWeaponStar = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team1LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam1Model.LifeMaxVehicleStar = int.Parse(temp);
-
-        temp = IniHelper.ReadString("Rules", "Team2LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.LifeMaxKD = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.LifeMaxKPM = float.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.LifeMaxWeaponStar = int.Parse(temp);
-        temp = IniHelper.ReadString("Rules", "Team2LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            RuleTeam2Model.LifeMaxVehicleStar = int.Parse(temp);
-        #endregion
-
-        if (File.Exists(FileUtil.F_BlackList_Path))
+        if (File.Exists(FileUtil.F_Rule_Path))
         {
-            string[] lines = File.ReadAllLines(FileUtil.F_BlackList_Path);
-            foreach (string line in lines)
+            using (var streamReader = new StreamReader(FileUtil.F_Rule_Path))
             {
-                ListBox_Custom_BlackList.Items.Add(line);
+                RuleConfigs = JsonUtil.JsonDese<List<RuleConfig>>(streamReader.ReadToEnd());
+
+                foreach (var item in RuleConfigs)
+                {
+                    ComboBox_CustomConfigName.Items.Add(item.RuleName);
+                }
+
+                var r0 = RuleConfigs[0].RuleInfos;
+
+                RuleTeam1Model.MaxKill = r0.Team1Normal.MaxKill;
+                RuleTeam1Model.KDFlag = r0.Team1Normal.KDFlag;
+                RuleTeam1Model.MaxKD = r0.Team1Normal.MaxKD;
+                RuleTeam1Model.KPMFlag = r0.Team1Normal.KPMFlag;
+                RuleTeam1Model.MaxKPM = r0.Team1Normal.MaxKPM;
+                RuleTeam1Model.MinRank = r0.Team1Normal.MinRank;
+                RuleTeam1Model.MaxRank = r0.Team1Normal.MaxRank;
+                RuleTeam1Model.LifeMaxKD = r0.Team1Normal.LifeMaxKD;
+                RuleTeam1Model.LifeMaxKPM = r0.Team1Normal.LifeMaxKPM;
+                RuleTeam1Model.LifeMaxWeaponStar = r0.Team1Normal.LifeMaxWeaponStar;
+                RuleTeam1Model.LifeMaxVehicleStar = r0.Team1Normal.LifeMaxVehicleStar;
+
+                RuleTeam2Model.MaxKill = r0.Team2Normal.MaxKill;
+                RuleTeam2Model.KDFlag = r0.Team2Normal.KDFlag;
+                RuleTeam2Model.MaxKD = r0.Team2Normal.MaxKD;
+                RuleTeam2Model.KPMFlag = r0.Team2Normal.KPMFlag;
+                RuleTeam2Model.MaxKPM = r0.Team2Normal.MaxKPM;
+                RuleTeam2Model.MinRank = r0.Team2Normal.MinRank;
+                RuleTeam2Model.MaxRank = r0.Team2Normal.MaxRank;
+                RuleTeam2Model.LifeMaxKD = r0.Team2Normal.LifeMaxKD;
+                RuleTeam2Model.LifeMaxKPM = r0.Team2Normal.LifeMaxKPM;
+                RuleTeam2Model.LifeMaxWeaponStar = r0.Team2Normal.LifeMaxWeaponStar;
+                RuleTeam2Model.LifeMaxVehicleStar = r0.Team2Normal.LifeMaxVehicleStar;
+
+                foreach (var item in r0.BlackList)
+                {
+                    ListBox_Custom_BlackList.Items.Add(item);
+                }
+
+                foreach (var item in r0.WhiteList)
+                {
+                    ListBox_Custom_WhiteList.Items.Add(item);
+                }
             }
         }
-
-        if (File.Exists(FileUtil.F_WhiteList_Path))
+        else
         {
-            string[] lines = File.ReadAllLines(FileUtil.F_WhiteList_Path);
-            foreach (string line in lines)
+            for (int i = 0; i < 10; i++)
             {
-                ListBox_Custom_WhiteList.Items.Add(line);
+                RuleConfigs.Add(new RuleConfig()
+                {
+                    RuleName = $"自定义规则 {i}",
+                    RuleInfos = new RuleConfig.RuleInfo()
+                    {
+                        Team1Normal = new RuleConfig.RuleInfo.Normal()
+                        {
+                            MaxKill = 0,
+                            KDFlag = 0,
+                            MaxKD = 0.00f,
+                            KPMFlag = 0,
+                            MaxKPM = 0.00f,
+                            MinRank = 0,
+                            MaxRank = 0,
+                            LifeMaxKD = 0.00f,
+                            LifeMaxKPM = 0.00f,
+                            LifeMaxWeaponStar = 0,
+                            LifeMaxVehicleStar = 0
+                        },
+                        Team2Normal = new RuleConfig.RuleInfo.Normal()
+                        {
+                            MaxKill = 0,
+                            KDFlag = 0,
+                            MaxKD = 0.00f,
+                            KPMFlag = 0,
+                            MaxKPM = 0.00f,
+                            MinRank = 0,
+                            MaxRank = 0,
+                            LifeMaxKD = 0.00f,
+                            LifeMaxKPM = 0.00f,
+                            LifeMaxWeaponStar = 0,
+                            LifeMaxVehicleStar = 0
+                        },
+                        Team1Weapon = new List<RuleConfig.RuleInfo.Weapon>() { },
+                        Team2Weapon = new List<RuleConfig.RuleInfo.Weapon>() { },
+                        BlackList = new List<string>() { },
+                        WhiteList = new List<string>() { }
+                    }
+                });
             }
         }
     }
 
     private void MainWindow_ClosingDisposeEvent()
     {
-        #region 保存配置文件
-        IniHelper.WriteString("Rules", "Team1MaxKill", RuleTeam1Model.MaxKill.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1KDFlag", RuleTeam1Model.KDFlag.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1MaxKD", RuleTeam1Model.MaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1KPMFlag", RuleTeam1Model.KPMFlag.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1MaxKPM", RuleTeam1Model.MaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1MinRank", RuleTeam1Model.MinRank.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1MaxRank", RuleTeam1Model.MaxRank.ToString("0"), FileUtil.F_Settings_Path);
-
-        IniHelper.WriteString("Rules", "Team2MaxKill", RuleTeam2Model.MaxKill.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2KDFlag", RuleTeam2Model.KDFlag.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2MaxKD", RuleTeam2Model.MaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2KPMFlag", RuleTeam2Model.KPMFlag.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2MaxKPM", RuleTeam2Model.MaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2MinRank", RuleTeam2Model.MinRank.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2MaxRank", RuleTeam2Model.MaxRank.ToString("0"), FileUtil.F_Settings_Path);
-
-        IniHelper.WriteString("Rules", "Team1LifeMaxKD", RuleTeam1Model.LifeMaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1LifeMaxKPM", RuleTeam1Model.LifeMaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1LifeMaxWeaponStar", RuleTeam1Model.LifeMaxWeaponStar.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team1LifeMaxVehicleStar", RuleTeam1Model.LifeMaxVehicleStar.ToString("0"), FileUtil.F_Settings_Path);
-
-        IniHelper.WriteString("Rules", "Team2LifeMaxKD", RuleTeam2Model.LifeMaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2LifeMaxKPM", RuleTeam2Model.LifeMaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2LifeMaxWeaponStar", RuleTeam2Model.LifeMaxWeaponStar.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "Team2LifeMaxVehicleStar", RuleTeam2Model.LifeMaxVehicleStar.ToString("0"), FileUtil.F_Settings_Path);
-        #endregion
-
-        if (File.Exists(FileUtil.F_BlackList_Path))
-        {
-            using (var file = new StreamWriter(FileUtil.F_BlackList_Path, false))
-            {
-                foreach (var item in ListBox_Custom_BlackList.Items)
-                {
-                    file.WriteLine(item);
-                }
-            }
-        }
-
-        if (File.Exists(FileUtil.F_WhiteList_Path))
-        {
-            using (var file = new StreamWriter(FileUtil.F_WhiteList_Path, false))
-            {
-                foreach (var item in ListBox_Custom_WhiteList.Items)
-                {
-                    file.WriteLine(item);
-                }
-            }
-        }
+        File.WriteAllText(FileUtil.F_Rule_Path, JsonUtil.JsonSeri(RuleConfigs));
     }
 
     ////////////////////////////////////////////////////////////////////////////////

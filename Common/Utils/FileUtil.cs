@@ -6,18 +6,14 @@ public class FileUtil
 {
     public static string Default_Path = @"C:\ProgramData\BF1 Server";
 
-    public static string D_Admin_Path = Default_Path + @"\Admin";
     public static string D_Config_Path = Default_Path + @"\Config";
-    public static string D_Cache_Path = Default_Path + @"\Cache";
     public static string D_Data_Path = Default_Path + @"\Data";
     public static string D_Log_Path = Default_Path + @"\Log";
     public static string D_Robot_Path = Default_Path + @"\Robot";
 
     public static string F_Settings_Path = D_Config_Path + @"\Settings.ini";
 
-    public static string F_BlackList_Path = D_Admin_Path + @"\BlackList.txt";
-    public static string F_WeaponList_Path = D_Admin_Path + @"\WeaponList.txt";
-    public static string F_WhiteList_Path = D_Admin_Path + @"\WhiteList.txt";
+    public static string F_Rule_Path = D_Config_Path + @"\RuleConfig.json";
 
     public static string F_QQGroup_Path = D_Config_Path + @"\QQGroup.txt";
 

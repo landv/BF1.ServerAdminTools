@@ -440,20 +440,22 @@
                     attached:Icon.Value="☕"
                     Content="配置文件"
                     Style="{StaticResource LabelStyle_Title}" />
-                <ListView Height="100" Margin="5">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="规则名称" />
-                            <GridViewColumn Header="操作">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="删除" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DockPanel LastChildFill="True">
+                    <Button
+                        Margin="5"
+                        Content="重命名"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource ButtonStyle_Normal}" />
+                    <TextBox
+                        Margin="5"
+                        Padding="5"
+                        DockPanel.Dock="Left" />
+                </DockPanel>
+                <ComboBox
+                    x:Name="ComboBox_CustomConfigName"
+                    Margin="5"
+                    Padding="5"
+                    VerticalContentAlignment="Center" />
                 <!--  ################  -->
                 <Label
                     attached:Icon.Value="☕"

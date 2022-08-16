@@ -85,8 +85,6 @@ public partial class LoadWindow : Window
                 LoggerHelper.Info("简繁翻译库初始化成功");
 
                 // 创建文件夹
-                Directory.CreateDirectory(FileUtil.D_Admin_Path);
-                Directory.CreateDirectory(FileUtil.D_Cache_Path);
                 Directory.CreateDirectory(FileUtil.D_Config_Path);
                 Directory.CreateDirectory(FileUtil.D_Data_Path);
                 Directory.CreateDirectory(FileUtil.D_Log_Path);
@@ -95,14 +93,6 @@ public partial class LoadWindow : Window
                 // 创建ini文件
                 if (!File.Exists(FileUtil.F_Settings_Path))
                     File.Create(FileUtil.F_Settings_Path).Close();
-
-                // 创建txt文件
-                if (!File.Exists(FileUtil.F_WeaponList_Path))
-                    File.Create(FileUtil.F_WeaponList_Path).Close();
-                if (!File.Exists(FileUtil.F_BlackList_Path))
-                    File.Create(FileUtil.F_BlackList_Path).Close();
-                if (!File.Exists(FileUtil.F_WhiteList_Path))
-                    File.Create(FileUtil.F_WhiteList_Path).Close();
 
                 if (!File.Exists(FileUtil.F_QQGroup_Path))
                     File.Create(FileUtil.F_QQGroup_Path).Close();

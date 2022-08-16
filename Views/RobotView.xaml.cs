@@ -219,7 +219,7 @@ public partial class RobotView : UserControl
         ChatHelper.SendTextToBf1Game(message);
 
         var windowData = Memory.GetGameWindowData();
-        windowData.Width /= 4;
+        windowData.Width /= 3;
 
         var bitmap = new Bitmap(windowData.Width, windowData.Height);
         var graphics = Graphics.FromImage(bitmap);
