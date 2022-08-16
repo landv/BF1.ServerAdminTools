@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Features.Data;
+﻿namespace BF1.ServerAdminTools.Features.Client;
 
 public static class WeaponData
 {
@@ -12,7 +12,7 @@ public static class WeaponData
     /// <summary>
     /// 全部武器信息，ShortTxt不超过16个字符
     /// </summary>
-    public readonly static List<WeaponName> AllWeaponInfo = new List<WeaponName>()
+    public readonly static List<WeaponName> AllWeaponInfo = new()
     {
         // 配枪
         new WeaponName(){ English="======== 公用配枪 ========", Chinese="", ShortTxt="" },

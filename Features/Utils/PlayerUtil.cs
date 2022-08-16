@@ -1,4 +1,4 @@
-﻿using BF1.ServerAdminTools.Features.Data;
+﻿using BF1.ServerAdminTools.Features.Client;
 using static BF1.ServerAdminTools.Features.API.RespJson.FullServerDetails.Result;
 
 namespace BF1.ServerAdminTools.Features.Utils;
@@ -35,8 +35,7 @@ public static class PlayerUtil
     {
         if (second >= 0 && second <= 36000)
         {
-            int minute = (int)(second / 60);
-            return minute;
+            return (int)(second / 60);
         }
         else
         {
@@ -175,6 +174,9 @@ public static class PlayerUtil
     /// <summary>
     /// 获取玩家ID或队标
     /// </summary>
+    /// <param name="originalName"></param>
+    /// <param name="isClan"></param>
+    /// <returns></returns>
     public static string GetPlayerTargetName(string originalName, bool isClan)
     {
         if (string.IsNullOrEmpty(originalName))
@@ -390,12 +392,12 @@ public static class PlayerUtil
         int index = MapData.AllMapInfo.FindIndex(var => var.English.Equals(mapName));
         if (index != -1 && mapName != "ID_M_LEVEL_MENU")
         {
-            team1Path = $"\\Assets\\Images\\Game\\Teams\\{MapData.AllMapInfo[index].Team1}.png";
-            team2Path = $"\\Assets\\Images\\Game\\Teams\\{MapData.AllMapInfo[index].Team2}.png";
+            team1Path = $"\\Assets\\Images\\Client\\Teams\\{MapData.AllMapInfo[index].Team1}.png";
+            team2Path = $"\\Assets\\Images\\Client\\Teams\\{MapData.AllMapInfo[index].Team2}.png";
         }
         else
         {
-            team1Path = team2Path = "\\Assets\\Images\\Game\\Teams\\_DEF.png";
+            team1Path = team2Path = "\\Assets\\Images\\Client\\Teams\\_DEF.png";
         }
     }
 

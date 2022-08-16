@@ -1,10 +1,11 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Models.Rule;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
+using BF1.ServerAdminTools.Features.Client;
+using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -20,6 +21,9 @@ public partial class RuleView : UserControl
         public string Mark { get; set; }
     }
 
+    public RuleTeamModel RuleTeam1Model { get; set; } = new();
+    public RuleTeamModel RuleTeam2Model { get; set; } = new();
+
     /// <summary>
     /// 是否已经执行
     /// </summary>
@@ -32,6 +36,8 @@ public partial class RuleView : UserControl
     public RuleView()
     {
         InitializeComponent();
+        this.DataContext = this;
+        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
         // 添加武器信息列表
         foreach (var item in WeaponData.AllWeaponInfo)
@@ -53,41 +59,78 @@ public partial class RuleView : UserControl
         therad1.IsBackground = true;
         therad1.Start();
 
+        #region 读取配置文件
         string temp = string.Empty;
-        temp = IniHelper.ReadString("Rules", "MaxKill", "0", FileUtil.F_Settings_Path);
+        temp = IniHelper.ReadString("Rules", "Team1MaxKill", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_MaxKill.Value = Convert.ToInt32(temp);
-        temp = IniHelper.ReadString("Rules", "KDFlag", "0", FileUtil.F_Settings_Path);
+            RuleTeam1Model.MaxKill = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1KDFlag", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_KDFlag.Value = Convert.ToInt32(temp);
-        temp = IniHelper.ReadString("Rules", "MaxKD", "0.00", FileUtil.F_Settings_Path);
+            RuleTeam1Model.KDFlag = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1MaxKD", "0.00", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_MaxKD.Value = Convert.ToDouble(temp);
-        temp = IniHelper.ReadString("Rules", "KPMFlag", "0", FileUtil.F_Settings_Path);
+            RuleTeam1Model.MaxKD = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1KPMFlag", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_KPMFlag.Value = Convert.ToInt32(temp);
-        temp = IniHelper.ReadString("Rules", "MaxKPM", "0.00", FileUtil.F_Settings_Path);
+            RuleTeam1Model.KPMFlag = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1MaxKPM", "0.00", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_MaxKPM.Value = Convert.ToDouble(temp);
-        temp = IniHelper.ReadString("Rules", "MinRank", "0", FileUtil.F_Settings_Path);
+            RuleTeam1Model.MaxKPM = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1MinRank", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_MinRank.Value = Convert.ToInt32(temp);
-        temp = IniHelper.ReadString("Rules", "MaxRank", "0", FileUtil.F_Settings_Path);
+            RuleTeam1Model.MinRank = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1MaxRank", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_MaxRank.Value = Convert.ToInt32(temp);
+            RuleTeam1Model.MaxRank = int.Parse(temp);
 
-        temp = IniHelper.ReadString("Rules", "LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
+        temp = IniHelper.ReadString("Rules", "Team2MaxKill", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_LifeMaxKD.Value = Convert.ToDouble(temp);
-        temp = IniHelper.ReadString("Rules", "LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
+            RuleTeam2Model.MaxKill = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2KDFlag", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_LifeMaxKPM.Value = Convert.ToDouble(temp);
-        temp = IniHelper.ReadString("Rules", "LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
+            RuleTeam2Model.KDFlag = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2MaxKD", "0.00", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_LifeMaxWeaponStar.Value = Convert.ToInt32(temp);
-        temp = IniHelper.ReadString("Rules", "LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
+            RuleTeam2Model.MaxKD = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2KPMFlag", "0", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
-            Slider_LifeMaxVehicleStar.Value = Convert.ToInt32(temp);
+            RuleTeam2Model.KPMFlag = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2MaxKPM", "0.00", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.MaxKPM = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2MinRank", "0", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.MinRank = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2MaxRank", "0", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.MaxRank = int.Parse(temp);
+
+        temp = IniHelper.ReadString("Rules", "Team1LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam1Model.LifeMaxKD = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam1Model.LifeMaxKPM = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam1Model.LifeMaxWeaponStar = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team1LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam1Model.LifeMaxVehicleStar = int.Parse(temp);
+
+        temp = IniHelper.ReadString("Rules", "Team2LifeMaxKD", "0.00", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.LifeMaxKD = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2LifeMaxKPM", "0.00", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.LifeMaxKPM = float.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2LifeMaxWeaponStar", "0", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.LifeMaxWeaponStar = int.Parse(temp);
+        temp = IniHelper.ReadString("Rules", "Team2LifeMaxVehicleStar", "0", FileUtil.F_Settings_Path);
+        if (!string.IsNullOrEmpty(temp))
+            RuleTeam2Model.LifeMaxVehicleStar = int.Parse(temp);
+        #endregion
 
         if (File.Exists(FileUtil.F_WeaponList_Path))
         {
@@ -125,8 +168,6 @@ public partial class RuleView : UserControl
             }
         }
 
-        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
-
         for (int i = 0; i < ListBox_BreakWeaponInfo.Items.Count; i++)
         {
             var bwi = ListBox_BreakWeaponInfo.Items[i] as WeaponInfo;
@@ -148,22 +189,37 @@ public partial class RuleView : UserControl
 
     private void MainWindow_ClosingDisposeEvent()
     {
-        IniHelper.WriteString("Rules", "MaxKill", Slider_MaxKill.Value.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "KDFlag", Slider_KDFlag.Value.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "MaxKD", Slider_MaxKD.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "KPMFlag", Slider_KPMFlag.Value.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "MaxKPM", Slider_MaxKPM.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "MinRank", Slider_MinRank.Value.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "MaxRank", Slider_MaxRank.Value.ToString("0"), FileUtil.F_Settings_Path);
+        #region 保存配置文件
+        IniHelper.WriteString("Rules", "Team1MaxKill", RuleTeam1Model.MaxKill.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1KDFlag", RuleTeam1Model.KDFlag.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1MaxKD", RuleTeam1Model.MaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1KPMFlag", RuleTeam1Model.KPMFlag.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1MaxKPM", RuleTeam1Model.MaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1MinRank", RuleTeam1Model.MinRank.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1MaxRank", RuleTeam1Model.MaxRank.ToString("0"), FileUtil.F_Settings_Path);
 
-        IniHelper.WriteString("Rules", "LifeMaxKD", Slider_LifeMaxKD.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "LifeMaxKPM", Slider_LifeMaxKPM.Value.ToString("0.00"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "LifeMaxWeaponStar", Slider_LifeMaxWeaponStar.Value.ToString("0"), FileUtil.F_Settings_Path);
-        IniHelper.WriteString("Rules", "LifeMaxVehicleStar", Slider_LifeMaxVehicleStar.Value.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2MaxKill", RuleTeam2Model.MaxKill.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2KDFlag", RuleTeam2Model.KDFlag.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2MaxKD", RuleTeam2Model.MaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2KPMFlag", RuleTeam2Model.KPMFlag.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2MaxKPM", RuleTeam2Model.MaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2MinRank", RuleTeam2Model.MinRank.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2MaxRank", RuleTeam2Model.MaxRank.ToString("0"), FileUtil.F_Settings_Path);
+
+        IniHelper.WriteString("Rules", "Team1LifeMaxKD", RuleTeam1Model.LifeMaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1LifeMaxKPM", RuleTeam1Model.LifeMaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1LifeMaxWeaponStar", RuleTeam1Model.LifeMaxWeaponStar.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team1LifeMaxVehicleStar", RuleTeam1Model.LifeMaxVehicleStar.ToString("0"), FileUtil.F_Settings_Path);
+
+        IniHelper.WriteString("Rules", "Team2LifeMaxKD", RuleTeam2Model.LifeMaxKD.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2LifeMaxKPM", RuleTeam2Model.LifeMaxKPM.ToString("0.00"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2LifeMaxWeaponStar", RuleTeam2Model.LifeMaxWeaponStar.ToString("0"), FileUtil.F_Settings_Path);
+        IniHelper.WriteString("Rules", "Team2LifeMaxVehicleStar", RuleTeam2Model.LifeMaxVehicleStar.ToString("0"), FileUtil.F_Settings_Path);
+        #endregion
 
         if (File.Exists(FileUtil.F_WeaponList_Path))
         {
-            using (StreamWriter file = new StreamWriter(FileUtil.F_WeaponList_Path, false))
+            using (var file = new StreamWriter(FileUtil.F_WeaponList_Path, false))
             {
                 foreach (WeaponInfo item in ListBox_BreakWeaponInfo.Items)
                 {
@@ -174,7 +230,7 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_BlackList_Path))
         {
-            using (StreamWriter file = new StreamWriter(FileUtil.F_BlackList_Path, false))
+            using (var file = new StreamWriter(FileUtil.F_BlackList_Path, false))
             {
                 foreach (var item in ListBox_Custom_BlackList.Items)
                 {
@@ -185,7 +241,7 @@ public partial class RuleView : UserControl
 
         if (File.Exists(FileUtil.F_WhiteList_Path))
         {
-            using (StreamWriter file = new StreamWriter(FileUtil.F_WhiteList_Path, false))
+            using (var file = new StreamWriter(FileUtil.F_WhiteList_Path, false))
             {
                 foreach (var item in ListBox_Custom_WhiteList.Items)
                 {
@@ -205,7 +261,7 @@ public partial class RuleView : UserControl
             {
                 if (!isHasBeenExec)
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    this.Dispatcher.BeginInvoke(() =>
                     {
                         if (CheckBox_RunAutoKick.IsChecked == true)
                         {
@@ -224,6 +280,9 @@ public partial class RuleView : UserControl
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// 自动踢出生涯违规玩家
+    /// </summary>
     private void AutoKickLifeBreakPlayer()
     {
         while (true)
@@ -249,10 +308,14 @@ public partial class RuleView : UserControl
         }
     }
 
+    /// <summary>
+    /// 检查生涯违规玩家
+    /// </summary>
+    /// <param name="data"></param>
     private async void CheckBreakLifePlayer(PlayerData data)
     {
         // 跳过管理员
-        if (Globals.Server_AdminList.Contains(data.PersonaId.ToString()))
+        if (Globals.Server_AdminList_PID.Contains(data.PersonaId.ToString()))
             return;
 
         // 跳过白名单玩家
@@ -260,7 +323,6 @@ public partial class RuleView : UserControl
             return;
 
         var resultTemp = await BF1API.DetailedStatsByPersonaId(data.PersonaId.ToString());
-
         if (resultTemp.IsSuccess)
         {
             var detailedStats = JsonUtil.JsonDese<DetailedStats>(resultTemp.Message);
@@ -279,26 +341,26 @@ public partial class RuleView : UserControl
             //vehicleStar = vehicleStar / 100;
 
             // 限制玩家生涯KD
-            if (ServerRule.LifeMaxKD != 0 && kd > ServerRule.LifeMaxKD)
+            if (ServerRule.Team1.LifeMaxKD != 0 && kd > ServerRule.Team1.LifeMaxKD)
             {
                 AutoKickPlayer(new BreakRuleInfo
                 {
                     Name = data.Name,
                     PersonaId = data.PersonaId,
-                    Reason = $"Life KD Limit {ServerRule.LifeMaxKD:0.00}"
+                    Reason = $"Life KD Limit {ServerRule.Team1.LifeMaxKD:0.00}"
                 });
 
                 return;
             }
 
             // 限制玩家生涯KPM
-            if (ServerRule.LifeMaxKPM != 0 && kpm > ServerRule.LifeMaxKPM)
+            if (ServerRule.Team1.LifeMaxKPM != 0 && kpm > ServerRule.Team1.LifeMaxKPM)
             {
                 AutoKickPlayer(new BreakRuleInfo
                 {
                     Name = data.Name,
                     PersonaId = data.PersonaId,
-                    Reason = $"Life KPM Limit {ServerRule.LifeMaxKPM:0.00}"
+                    Reason = $"Life KPM Limit {ServerRule.Team1.LifeMaxKPM:0.00}"
                 });
 
                 return;
@@ -332,11 +394,13 @@ public partial class RuleView : UserControl
         }
     }
 
-    // 自动踢出违规玩家
+    /// <summary>
+    /// 自动踢出普通违规玩家
+    /// </summary>
+    /// <param name="info"></param>
     private async void AutoKickPlayer(BreakRuleInfo info)
     {
         var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
-
         if (result.IsSuccess)
         {
             info.Status = "踢出成功";
@@ -502,32 +566,56 @@ public partial class RuleView : UserControl
         AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
         AppendLog("");
 
-        ServerRule.MaxKill = Convert.ToInt32(Slider_MaxKill.Value);
+        ServerRule.Team1.MaxKill = RuleTeam1Model.MaxKill;
+        ServerRule.Team1.KDFlag = RuleTeam1Model.KDFlag;
+        ServerRule.Team1.MaxKD = RuleTeam1Model.MaxKD;
+        ServerRule.Team1.KPMFlag = RuleTeam1Model.KPMFlag;
+        ServerRule.Team1.MaxKPM = RuleTeam1Model.MaxKPM;
+        ServerRule.Team1.MinRank = RuleTeam1Model.MinRank;
+        ServerRule.Team1.MaxRank = RuleTeam1Model.MaxRank;
 
-        ServerRule.KDFlag = Convert.ToInt32(Slider_KDFlag.Value);
-        ServerRule.MaxKD = Convert.ToSingle(Slider_MaxKD.Value);
+        ServerRule.Team2.MaxKill = RuleTeam2Model.MaxKill;
+        ServerRule.Team2.KDFlag = RuleTeam2Model.KDFlag;
+        ServerRule.Team2.MaxKD = RuleTeam2Model.MaxKD;
+        ServerRule.Team2.KPMFlag = RuleTeam2Model.KPMFlag;
+        ServerRule.Team2.MaxKPM = RuleTeam2Model.MaxKPM;
+        ServerRule.Team2.MinRank = RuleTeam2Model.MinRank;
+        ServerRule.Team2.MaxRank = RuleTeam2Model.MaxRank;
 
-        ServerRule.KPMFlag = Convert.ToInt32(Slider_KPMFlag.Value);
-        ServerRule.MaxKPM = Convert.ToSingle(Slider_MaxKPM.Value);
+        ServerRule.Team1.LifeMaxKD = RuleTeam1Model.LifeMaxKD;
+        ServerRule.Team1.LifeMaxKPM = RuleTeam1Model.LifeMaxKPM;
+        ServerRule.Team1.LifeMaxWeaponStar = RuleTeam1Model.LifeMaxWeaponStar;
+        ServerRule.Team1.LifeMaxVehicleStar = RuleTeam1Model.LifeMaxVehicleStar;
 
-        ServerRule.MinRank = Convert.ToInt32(Slider_MinRank.Value);
-        ServerRule.MaxRank = Convert.ToInt32(Slider_MaxRank.Value);
+        ServerRule.Team2.LifeMaxKD = RuleTeam2Model.LifeMaxKD;
+        ServerRule.Team2.LifeMaxKPM = RuleTeam2Model.LifeMaxKPM;
+        ServerRule.Team2.LifeMaxWeaponStar = RuleTeam2Model.LifeMaxWeaponStar;
+        ServerRule.Team2.LifeMaxVehicleStar = RuleTeam2Model.LifeMaxVehicleStar;
 
-        ServerRule.LifeMaxKD = Convert.ToSingle(Slider_LifeMaxKD.Value);
-        ServerRule.LifeMaxKPM = Convert.ToSingle(Slider_LifeMaxKPM.Value);
+        /////////////////////////////////////////////////////////////////////////////
 
-        ServerRule.LifeMaxWeaponStar = Convert.ToInt32(Slider_LifeMaxWeaponStar.Value);
-        ServerRule.LifeMaxVehicleStar = Convert.ToInt32(Slider_LifeMaxVehicleStar.Value);
-
-        if (ServerRule.MinRank >= ServerRule.MaxRank && ServerRule.MinRank != 0 && ServerRule.MaxRank != 0)
+        if (ServerRule.Team1.MinRank >= ServerRule.Team1.MaxRank && ServerRule.Team1.MinRank != 0 && ServerRule.Team1.MaxRank != 0)
         {
             Globals.IsRuleSetRight = false;
             isApplyRule = false;
 
-            AppendLog($"限制等级规则设置不正确");
+            AppendLog($"队伍1 限制等级规则设置不正确");
             AppendLog("");
 
-            MainWindow._SetOperatingState(3, $"限制等级规则设置不正确");
+            MainWindow._SetOperatingState(3, $"队伍1 限制等级规则设置不正确");
+
+            return;
+        }
+
+        if (ServerRule.Team2.MinRank >= ServerRule.Team2.MaxRank && ServerRule.Team2.MinRank != 0 && ServerRule.Team2.MaxRank != 0)
+        {
+            Globals.IsRuleSetRight = false;
+            isApplyRule = false;
+
+            AppendLog($"队伍2 限制等级规则设置不正确");
+            AppendLog("");
+
+            MainWindow._SetOperatingState(3, $"队伍2 限制等级规则设置不正确");
 
             return;
         }
@@ -591,27 +679,45 @@ public partial class RuleView : UserControl
         AppendLog($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}");
         AppendLog("");
 
-        AppendLog($"玩家最高击杀限制 : {ServerRule.MaxKill}");
+        AppendLog("==== 队伍1 ====");
+        AppendLog("");
+        AppendLog($"玩家最高击杀限制 : {ServerRule.Team1.MaxKill}");
+
+        AppendLog($"计算玩家KD的最低击杀数 : {ServerRule.Team1.KDFlag}");
+        AppendLog($"玩家最高KD限制 : {ServerRule.Team1.MaxKD}");
+
+        AppendLog($"计算玩家KPM的最低击杀数 : {ServerRule.Team1.KPMFlag}");
+        AppendLog($"玩家最高KPM限制 : {ServerRule.Team1.MaxKPM}");
+
+        AppendLog($"玩家最低等级限制 : {ServerRule.Team1.MinRank}");
+        AppendLog($"玩家最高等级限制 : {ServerRule.Team1.MaxRank}");
+
+        AppendLog($"玩家最高生涯KD限制 : {ServerRule.Team1.LifeMaxKD}");
+        AppendLog($"玩家最高生涯KPM限制 : {ServerRule.Team1.LifeMaxKPM}");
+
+        AppendLog($"玩家最高生涯武器星数限制 : {ServerRule.Team1.LifeMaxWeaponStar}");
+        AppendLog($"玩家最高生涯载具星数限制 : {ServerRule.Team1.LifeMaxVehicleStar}");
         AppendLog("");
 
-        AppendLog($"计算玩家KD的最低击杀数 : {ServerRule.KDFlag}");
-        AppendLog($"玩家最高KD限制 : {ServerRule.MaxKD}");
+        AppendLog("==== 队伍2 ====");
         AppendLog("");
+        AppendLog($"玩家最高击杀限制 : {ServerRule.Team2.MaxKill}");
 
-        AppendLog($"计算玩家KPM的最低击杀数 : {ServerRule.KPMFlag}");
-        AppendLog($"玩家最高KPM限制 : {ServerRule.MaxKPM}");
-        AppendLog("");
+        AppendLog($"计算玩家KD的最低击杀数 : {ServerRule.Team2.KDFlag}");
+        AppendLog($"玩家最高KD限制 : {ServerRule.Team2.MaxKD}");
 
-        AppendLog($"玩家最低等级限制 : {ServerRule.MinRank}");
-        AppendLog($"玩家最高等级限制 : {ServerRule.MaxRank}");
-        AppendLog("");
+        AppendLog($"计算玩家KPM的最低击杀数 : {ServerRule.Team2.KPMFlag}");
+        AppendLog($"玩家最高KPM限制 : {ServerRule.Team2.MaxKPM}");
 
-        AppendLog($"玩家最高生涯KD限制 : {ServerRule.LifeMaxKD}");
-        AppendLog($"玩家最高生涯KPM限制 : {ServerRule.LifeMaxKPM}");
-        AppendLog("");
+        AppendLog($"玩家最低等级限制 : {ServerRule.Team2.MinRank}");
+        AppendLog($"玩家最高等级限制 : {ServerRule.Team2.MaxRank}");
 
-        AppendLog($"玩家最高生涯武器星数限制 : {ServerRule.LifeMaxWeaponStar}");
-        AppendLog($"玩家最高生涯载具星数限制 : {ServerRule.LifeMaxVehicleStar}");
+        AppendLog($"玩家最高生涯KD限制 : {ServerRule.Team2.LifeMaxKD}");
+        AppendLog($"玩家最高生涯KPM限制 : {ServerRule.Team2.LifeMaxKPM}");
+
+        AppendLog($"玩家最高生涯武器星数限制 : {ServerRule.Team2.LifeMaxWeaponStar}");
+        AppendLog($"玩家最高生涯载具星数限制 : {ServerRule.Team2.LifeMaxVehicleStar}");
+
         AppendLog("\n");
 
         AppendLog($"========== 禁武器列表 ==========");
@@ -907,7 +1013,7 @@ public partial class RuleView : UserControl
 
         AppendLog("");
         AppendLog("正在检查 服务器管理员列表 是否正确...");
-        if (Globals.Server_AdminList.Count == 0)
+        if (Globals.Server_AdminList_PID.Count == 0)
         {
             AppendLog("❌ 服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
             MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
@@ -923,7 +1029,7 @@ public partial class RuleView : UserControl
         var welcomeMsg = JsonUtil.JsonDese<WelcomeMsg>(result.Message);
         var firstMessage = welcomeMsg.result.firstMessage;
         string playerName = firstMessage.Substring(0, firstMessage.IndexOf("，"));
-        if (!Globals.Server_Admin2List.Contains(playerName))
+        if (!Globals.Server_AdminList_Name.Contains(playerName))
         {
             AppendLog("❌ 玩家不是当前服务器管理，请确认服务器是否选择正确，操作取消");
             MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
@@ -982,7 +1088,7 @@ public partial class RuleView : UserControl
     private async void ManualKickPlayer(BreakRuleInfo info)
     {
         // 跳过管理员
-        if (!Globals.Server_AdminList.Contains(info.Name))
+        if (!Globals.Server_AdminList_PID.Contains(info.Name))
         {
             // 白名单玩家不踢出
             if (!Globals.Custom_WhiteList.Contains(info.Name))

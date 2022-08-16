@@ -166,7 +166,7 @@ public partial class RobotView : UserControl
                     if (group_id != GroupQQID[0])
                         return;
 
-                    if (isIngoreQQGroupMemberLimit)
+                    if (!isIngoreQQGroupMemberLimit)
                     {
                         if (!GroupQQID.Contains(user_id))
                             return;
@@ -238,6 +238,9 @@ public partial class RobotView : UserControl
     /// </summary>
     private void GetPrintScreen(long group_id)
     {
+        Memory.SetForegroundWindow();
+        Thread.Sleep(50);
+
         var windowData = Memory.GetGameWindowData();
 
         var bitmap = new Bitmap(windowData.Width, windowData.Height);

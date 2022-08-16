@@ -1,12 +1,12 @@
 ﻿using BF1.ServerAdminTools.Models;
 using BF1.ServerAdminTools.Windows;
-using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
 using CommunityToolkit.Mvvm.Messaging;
+using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -81,8 +81,8 @@ public partial class DetailView : UserControl
                 ListBox_VIP.Items.Clear();
                 ListBox_BAN.Items.Clear();
 
-                Globals.Server_AdminList.Clear();
-                Globals.Server_Admin2List.Clear();
+                Globals.Server_AdminList_PID.Clear();
+                Globals.Server_AdminList_Name.Clear();
                 Globals.Server_VIPList.Clear();
 
                 /////////////////////////////////////////////////////////////////////////////////
@@ -130,8 +130,8 @@ public partial class DetailView : UserControl
                         displayName = fullServerDetails.result.rspInfo.owner.displayName,
                         personaId = fullServerDetails.result.rspInfo.owner.personaId
                     });
-                    Globals.Server_AdminList.Add(fullServerDetails.result.rspInfo.owner.personaId);
-                    Globals.Server_Admin2List.Add(fullServerDetails.result.rspInfo.owner.displayName);
+                    Globals.Server_AdminList_PID.Add(fullServerDetails.result.rspInfo.owner.personaId);
+                    Globals.Server_AdminList_Name.Add(fullServerDetails.result.rspInfo.owner.displayName);
                     // 管理员列表
                     foreach (var item in fullServerDetails.result.rspInfo.adminList)
                     {
@@ -143,8 +143,8 @@ public partial class DetailView : UserControl
                             personaId = item.personaId
                         });
 
-                        Globals.Server_AdminList.Add(item.personaId);
-                        Globals.Server_Admin2List.Add(item.displayName);
+                        Globals.Server_AdminList_PID.Add(item.personaId);
+                        Globals.Server_AdminList_Name.Add(item.displayName);
                     }
 
                     // VIP列表

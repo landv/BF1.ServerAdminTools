@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Common.Data;
+﻿namespace BF1.ServerAdminTools.Features.Data;
 
 public static class Globals
 {
@@ -14,38 +14,38 @@ public static class Globals
     /// <summary>
     /// 保存限制武器名称列表
     /// </summary>
-    public static List<string> Custom_WeaponList = new List<string>();
+    public static List<string> Custom_WeaponList = new();
     /// <summary>
     /// 自定义黑名单玩家列表
     /// </summary>
-    public static List<string> Custom_BlackList = new List<string>();
+    public static List<string> Custom_BlackList = new();
     /// <summary>
     /// 自定义白名单玩家列表
     /// </summary>
-    public static List<string> Custom_WhiteList = new List<string>();
+    public static List<string> Custom_WhiteList = new();
 
     /// <summary>
-    /// 服务器管理员
+    /// 服务器管理员，PID
     /// </summary>
-    public static List<string> Server_AdminList = new List<string>();
+    public static List<string> Server_AdminList_PID = new();
     /// <summary>
-    /// 服务器管理员
+    /// 服务器管理员，名称
     /// </summary>
-    public static List<string> Server_Admin2List = new List<string>();
+    public static List<string> Server_AdminList_Name = new();
     /// <summary>
     /// 服务器VIP
     /// </summary>
-    public static List<string> Server_VIPList = new List<string>();
+    public static List<string> Server_VIPList = new();
 
     /// <summary>
     /// 保存违规玩家列表信息
     /// </summary>
-    public static List<BreakRuleInfo> BreakRuleInfo_PlayerList = new List<BreakRuleInfo>();
+    public static List<BreakRuleInfo> BreakRuleInfo_PlayerList = new();
 
     /// <summary>
     /// 观战玩家列表
     /// </summary>
-    public static List<SpectatorInfo> Server_SpectatorList = new List<SpectatorInfo>();
+    public static List<SpectatorInfo> Server_SpectatorList = new();
 
     ///////////////////////////////////////////////////////
 

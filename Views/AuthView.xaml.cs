@@ -1,11 +1,11 @@
-﻿using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
 using CommunityToolkit.Mvvm.Messaging;
+using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -22,7 +22,7 @@ public partial class AuthView : UserControl
         var timerAutoRefresh = new Timer
         {
             AutoReset = true,
-            Interval = TimeSpan.FromMinutes(5).TotalMilliseconds
+            Interval = TimeSpan.FromMinutes(10).TotalMilliseconds
         };
         timerAutoRefresh.Elapsed += TimerAutoRefresh_Elapsed;
         timerAutoRefresh.Start();

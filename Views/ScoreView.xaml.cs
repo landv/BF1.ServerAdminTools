@@ -2,7 +2,6 @@
 using BF1.ServerAdminTools.Models.Score;
 using BF1.ServerAdminTools.Windows;
 using BF1.ServerAdminTools.Extension;
-using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.Core;
@@ -30,9 +29,18 @@ public partial class ScoreView : UserControl
     public ServerInfoModel ServerInfoModel { get; set; } = new();
     public PlayerOtherModel PlayerOtherModel { get; set; } = new();
 
+    /// <summary>
+    /// 绑定UI队伍1动态数据集合，用于更新DataGrid
+    /// </summary>
     public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; } = new();
+    /// <summary>
+    /// 绑定UI队伍2动态数据集合，用于更新DataGrid
+    /// </summary>
     public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; } = new();
 
+    /// <summary>
+    /// 最大玩家数量
+    /// </summary>
     private const int MaxPlayer = 74;
 
     private struct StatisticData
@@ -120,24 +128,6 @@ public partial class ScoreView : UserControl
             _serverInfo.MapName = Memory.ReadString(Offsets.OFFSET_CLIENTGAMECONTEXT, Offsets.ServerMapName, 64);
             _serverInfo.MapName = string.IsNullOrEmpty(_serverInfo.MapName) ? "未知" : _serverInfo.MapName;
 
-            // 如果玩家没有进入服务器，要进行一些数据清理
-            if (PlayerList_Team1.Count == 0 && PlayerList_Team2.Count == 0 && _serverInfo.Name == "未知")
-            {
-                // 清理服务器ID（GameID）
-                _serverInfo.GameID = 0;
-                Globals.GameId = string.Empty;
-
-                Globals.Server_AdminList.Clear();
-                Globals.Server_Admin2List.Clear();
-                Globals.Server_VIPList.Clear();
-            }
-            else
-            {
-                // 服务器数字ID
-                _serverInfo.GameID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerGameID);
-                Globals.GameId = _serverInfo.GameID.ToString();
-            }
-
             // 服务器时间
             _serverInfo.Time = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
             // 服务器游戏模式
@@ -204,6 +194,26 @@ public partial class ScoreView : UserControl
 
             ////////////////////////////////////////////////////////////////////////////////
 
+            // 如果玩家没有进入服务器，要进行一些数据清理
+            if (_serverInfo.MapName == "大厅菜单")
+            {
+                // 清理服务器ID（GameID）
+                _serverInfo.GameID = 0;
+                Globals.GameId = string.Empty;
+
+                Globals.Server_AdminList_PID.Clear();
+                Globals.Server_AdminList_Name.Clear();
+                Globals.Server_VIPList.Clear();
+            }
+            else
+            {
+                // 服务器数字ID
+                _serverInfo.GameID = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerGameID);
+                Globals.GameId = _serverInfo.GameID.ToString();
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////
+
             Thread.Sleep(1000);
         }
     }
@@ -247,17 +257,8 @@ public partial class ScoreView : UserControl
             var _myTeamId = Memory.Read<int>(_myBaseAddress + 0x1C34);
             PlayerOtherModel.MySelfTeamID = $"队伍ID : {_myTeamId}";
 
-            var _mySpectator = Memory.Read<byte>(_myBaseAddress + 0x1C31);
-            var _myPersonaId = Memory.Read<long>(_myBaseAddress + 0x38);
             var _myPlayerName = Memory.ReadString(_myBaseAddress + 0x2156, 64);
-            if (!string.IsNullOrEmpty(_myPlayerName))
-            {
-                PlayerOtherModel.MySelfName = $"玩家ID : {_myPlayerName}";
-            }
-            else
-            {
-                PlayerOtherModel.MySelfName = "玩家ID : 未知";
-            }
+            PlayerOtherModel.MySelfName = string.IsNullOrEmpty(_myPlayerName) ? "玩家ID : 未知" : $"玩家ID : {_myPlayerName}";
 
             //////////////////////////////// 玩家数据 ////////////////////////////////
 
@@ -280,7 +281,7 @@ public partial class ScoreView : UserControl
                 if (Memory.IsValid(_pClientVehicleEntity))
                 {
                     var _pVehicleEntityData = Memory.Read<long>(_pClientVehicleEntity + 0x30);
-                    _weaponSlot[0] = Memory.ReadString(Memory.Read<long>(_pVehicleEntityData + 0x2F8), 64);
+                    _weaponSlot[0] = Memory.ReadString(_pVehicleEntityData + 0x2F8, new int[] { 0x00 }, 64);
 
                     for (int j = 1; j < 8; j++)
                     {
@@ -375,20 +376,20 @@ public partial class ScoreView : UserControl
 
             foreach (var item in PlayerList_All)
             {
-                item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_AdminList);
+                item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_AdminList_PID);
                 item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_VIPList);
 
-                if (item.TeamId == 0)
+                switch (item.TeamId)
                 {
-                    PlayerList_Team0.Add(item);
-                }
-                if (item.TeamId == 1)
-                {
-                    PlayerList_Team1.Add(item);
-                }
-                else if (item.TeamId == 2)
-                {
-                    PlayerList_Team2.Add(item);
+                    case 0:
+                        PlayerList_Team0.Add(item);
+                        break;
+                    case 1:
+                        PlayerList_Team1.Add(item);
+                        break;
+                    case 2:
+                        PlayerList_Team2.Add(item);
+                        break;
                 }
 
                 // 检查违规玩家
@@ -418,7 +419,14 @@ public partial class ScoreView : UserControl
                 }
 
                 // 统计当前服务器存活玩家数量
-                if (item.WeaponS0 != "")
+                if (item.WeaponS0 != "" ||
+                    item.WeaponS1 != "" ||
+                    item.WeaponS2 != "" ||
+                    item.WeaponS3 != "" ||
+                    item.WeaponS4 != "" ||
+                    item.WeaponS5 != "" ||
+                    item.WeaponS6 != "" ||
+                    item.WeaponS7 != "")
                 {
                     _statisticData_Team1.PlayerCount++;
                 }
@@ -429,8 +437,9 @@ public partial class ScoreView : UserControl
                     _statisticData_Team1.Rank150PlayerCount++;
                 }
 
-                // 总击杀总死亡数统计
+                // 总击杀数统计
                 _statisticData_Team1.AllKillCount += item.Kill;
+                // 总死亡数统计
                 _statisticData_Team1.AllDeadCount += item.Dead;
             }
 
@@ -462,7 +471,9 @@ public partial class ScoreView : UserControl
                     _statisticData_Team2.Rank150PlayerCount++;
                 }
 
+                // 总击杀数统计
                 _statisticData_Team2.AllKillCount += item.Kill;
+                // 总死亡数统计
                 _statisticData_Team2.AllDeadCount += item.Dead;
             }
 
@@ -528,7 +539,9 @@ public partial class ScoreView : UserControl
         }
     }
 
-    // 更新 DataGrid 队伍1
+    /// <summary>
+    /// 动态更新 DataGrid 队伍1
+    /// </summary>
     private void UpdateDataGridTeam1()
     {
         if (PlayerList_Team1.Count == 0 && DataGrid_PlayerList_Team1.Count != 0)
@@ -610,7 +623,9 @@ public partial class ScoreView : UserControl
         }
     }
 
-    // 更新 DataGrid 队伍2
+    /// <summary>
+    /// 动态更新 DataGrid 队伍2
+    /// </summary>
     private void UpdateDataGridTeam2()
     {
         if (PlayerList_Team2.Count == 0 && DataGrid_PlayerList_Team2.Count != 0)
@@ -698,29 +713,29 @@ public partial class ScoreView : UserControl
         if (index == -1)
         {
             // 限制玩家击杀
-            if (playerData.Kill > ServerRule.MaxKill && ServerRule.MaxKill != 0)
+            if (playerData.Kill > ServerRule.Team1.MaxKill && ServerRule.Team1.MaxKill != 0)
             {
                 Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                 {
                     Name = playerData.Name,
                     PersonaId = playerData.PersonaId,
-                    Reason = $"Kill Limit {ServerRule.MaxKill:0}"
+                    Reason = $"Kill Limit {ServerRule.Team1.MaxKill:0}"
                 });
 
                 return;
             }
 
             // 计算玩家KD最低击杀数
-            if (playerData.Kill > ServerRule.KDFlag && ServerRule.KDFlag != 0)
+            if (playerData.Kill > ServerRule.Team1.KDFlag && ServerRule.Team1.KDFlag != 0)
             {
                 // 限制玩家KD
-                if (playerData.KD > ServerRule.MaxKD && ServerRule.MaxKD != 0.00f)
+                if (playerData.KD > ServerRule.Team1.MaxKD && ServerRule.Team1.MaxKD != 0.00f)
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"KD Limit {ServerRule.MaxKD:0.00}"
+                        Reason = $"KD Limit {ServerRule.Team1.MaxKD:0.00}"
                     });
                 }
 
@@ -728,16 +743,16 @@ public partial class ScoreView : UserControl
             }
 
             // 计算玩家KPM比条件
-            if (playerData.Kill > ServerRule.KPMFlag && ServerRule.KPMFlag != 0)
+            if (playerData.Kill > ServerRule.Team1.KPMFlag && ServerRule.Team1.KPMFlag != 0)
             {
                 // 限制玩家KPM
-                if (playerData.KPM > ServerRule.MaxKPM && ServerRule.MaxKPM != 0.00f)
+                if (playerData.KPM > ServerRule.Team1.MaxKPM && ServerRule.Team1.MaxKPM != 0.00f)
                 {
                     Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                     {
                         Name = playerData.Name,
                         PersonaId = playerData.PersonaId,
-                        Reason = $"KPM Limit {ServerRule.MaxKPM:0.00}"
+                        Reason = $"KPM Limit {ServerRule.Team1.MaxKPM:0.00}"
                     });
                 }
 
@@ -745,26 +760,26 @@ public partial class ScoreView : UserControl
             }
 
             // 限制玩家最低等级
-            if (playerData.Rank < ServerRule.MinRank && ServerRule.MinRank != 0 && playerData.Rank != 0)
+            if (playerData.Rank < ServerRule.Team1.MinRank && ServerRule.Team1.MinRank != 0 && playerData.Rank != 0)
             {
                 Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                 {
                     Name = playerData.Name,
                     PersonaId = playerData.PersonaId,
-                    Reason = $"Min Rank Limit {ServerRule.MinRank:0}"
+                    Reason = $"Min Rank Limit {ServerRule.Team1.MinRank:0}"
                 });
 
                 return;
             }
 
             // 限制玩家最高等级
-            if (playerData.Rank > ServerRule.MaxRank && ServerRule.MaxRank != 0 && playerData.Rank != 0)
+            if (playerData.Rank > ServerRule.Team1.MaxRank && ServerRule.Team1.MaxRank != 0 && playerData.Rank != 0)
             {
                 Globals.BreakRuleInfo_PlayerList.Add(new BreakRuleInfo
                 {
                     Name = playerData.Name,
                     PersonaId = playerData.PersonaId,
-                    Reason = $"Max Rank Limit {ServerRule.MaxRank:0}"
+                    Reason = $"Max Rank Limit {ServerRule.Team1.MaxRank:0}"
                 });
 
                 return;
@@ -919,7 +934,7 @@ public partial class ScoreView : UserControl
                 item.Flag = -1;
 
                 // 跳过管理员
-                if (!Globals.Server_AdminList.Contains(item.PersonaId.ToString()))
+                if (!Globals.Server_AdminList_PID.Contains(item.PersonaId.ToString()))
                 {
                     // 跳过白名单玩家
                     if (!Globals.Custom_WhiteList.Contains(item.Name))
@@ -1008,7 +1023,10 @@ public partial class ScoreView : UserControl
     }
     #endregion
 
-    // 手动踢出玩家
+    /// <summary>
+    /// 手动踢出玩家
+    /// </summary>
+    /// <param name="reason"></param>
     private async void KickPlayer(string reason)
     {
         if (!string.IsNullOrEmpty(Globals.SessionId))
@@ -1039,7 +1057,9 @@ public partial class ScoreView : UserControl
         }
     }
 
-    // 检测换边玩家
+    /// <summary>
+    /// 检测换边玩家
+    /// </summary>
     private void CheckPlayerChangeTeam()
     {
         // 如果玩家没有进入服务器，不检测跳变情况
@@ -1101,16 +1121,22 @@ public partial class ScoreView : UserControl
         PlayerDatas_Team2 = CopyList(PlayerList_Team2);
     }
 
-    // 深复制
+    /// <summary>
+    /// List深复制
+    /// </summary>
+    /// <param name="originalList"></param>
+    /// <returns></returns>
     private List<PlayerData> CopyList(List<PlayerData> originalList)
     {
-        List<PlayerData> list = new List<PlayerData>();
+        List<PlayerData> list = new();
         foreach (var item in originalList)
         {
-            PlayerData data = new PlayerData();
-            data.Rank = item.Rank;
-            data.Name = item.Name;
-            data.PersonaId = item.PersonaId;
+            PlayerData data = new()
+            {
+                Rank = item.Rank,
+                Name = item.Name,
+                PersonaId = item.PersonaId
+            };
             list.Add(data);
         }
         return list;
@@ -1124,8 +1150,10 @@ public partial class ScoreView : UserControl
         {
             if (_dataGridSelcContent.IsOK)
             {
-                var customKickWindow = new CustomKickWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId.ToString());
-                customKickWindow.Owner = MainWindow.ThisMainWindow;
+                var customKickWindow = new CustomKickWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId.ToString())
+                {
+                    Owner = MainWindow.ThisMainWindow
+                };
                 customKickWindow.ShowDialog();
             }
             else

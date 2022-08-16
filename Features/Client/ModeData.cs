@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Features.Data;
+﻿namespace BF1.ServerAdminTools.Features.Client;
 
 public static class ModeData
 {

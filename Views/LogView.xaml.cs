@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Data;
-using BF1.ServerAdminTools.Common.Helper;
+﻿using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -16,13 +16,13 @@ public partial class LogView : UserControl
     public LogView()
     {
         InitializeComponent();
+        this.DataContext = this;
+        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
         _dAddKickOKLog = AddKickOKLog;
         _dAddKickNOLog = AddKickNOLog;
 
         _dAddChangeTeamInfo = AddChangeTeamLog;
-
-        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
     }
 
     private void MainWindow_ClosingDisposeEvent()
@@ -49,14 +49,16 @@ public partial class LogView : UserControl
 
     /////////////////////////////////////////////////////
 
+    /// <summary>
+    /// 追加踢人成功日志
+    /// </summary>
+    /// <param name="info"></param>
     private void AddKickOKLog(BreakRuleInfo info)
     {
         this.Dispatcher.Invoke(() =>
         {
             if (TextBox_KickOKLog.LineCount >= 1000)
-            {
                 TextBox_KickOKLog.Clear();
-            }
 
             AppendKickOKLog("操作时间: " + DateTime.Now.ToString());
             AppendKickOKLog("玩家ID: " + info.Name);
@@ -68,14 +70,17 @@ public partial class LogView : UserControl
         });
     }
 
+
+    /// <summary>
+    /// 追加踢人失败日志
+    /// </summary>
+    /// <param name="info"></param>
     private void AddKickNOLog(BreakRuleInfo info)
     {
         this.Dispatcher.Invoke(() =>
         {
             if (TextBox_KickNOLog.LineCount >= 1000)
-            {
                 TextBox_KickNOLog.Clear();
-            }
 
             AppendKickNOLog("操作时间: " + DateTime.Now.ToString());
             AppendKickNOLog("玩家ID: " + info.Name);
@@ -87,14 +92,16 @@ public partial class LogView : UserControl
         });
     }
 
+    /// <summary>
+    /// 追加更换队伍日志
+    /// </summary>
+    /// <param name="info"></param>
     private void AddChangeTeamLog(ChangeTeamInfo info)
     {
         this.Dispatcher.Invoke(() =>
         {
             if (TextBox_ChangeTeamLog.LineCount >= 1000)
-            {
                 TextBox_ChangeTeamLog.Clear();
-            }
 
             AppendChangeTeamLog("操作时间: " + DateTime.Now.ToString());
             AppendChangeTeamLog("玩家等级: " + info.Rank);

@@ -1,4 +1,4 @@
-﻿namespace BF1.ServerAdminTools.Common.Data;
+﻿namespace BF1.ServerAdminTools.Features.Data;
 
 public class ChangeTeamInfo
 {
