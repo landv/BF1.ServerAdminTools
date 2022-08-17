@@ -6,4 +6,5 @@ public class RobotConfig
     public bool IsIgnoreQQGroupMemberLimit;
     public long QQGroupID;
     public List<long> QQGroupMemberID;
+    public bool IsSendChangeTeam;
 }

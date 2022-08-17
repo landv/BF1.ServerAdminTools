@@ -1315,7 +1315,9 @@ public partial class ScoreView : UserControl
                     Rank = item.Rank,
                     Name = item.Name,
                     PersonaId = item.PersonaId,
-                    Status = "从 队伍1 更换到 队伍2",
+                    Team1Score = _serverInfo.Team1Score,
+                    Team2Score = _serverInfo.Team2Score,
+                    Status = "队伍1 => 队伍2",
                     Time = DateTime.Now
                 });
                 break;
@@ -1334,7 +1336,9 @@ public partial class ScoreView : UserControl
                     Rank = item.Rank,
                     Name = item.Name,
                     PersonaId = item.PersonaId,
-                    Status = "从 队伍2 更换到 队伍1",
+                    Team1Score = _serverInfo.Team1Score,
+                    Team2Score = _serverInfo.Team2Score,
+                    Status = "队伍1 <= 队伍2",
                     Time = DateTime.Now
                 });
                 break;

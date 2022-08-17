@@ -15,6 +15,14 @@ public class ChangeTeamInfo
     /// </summary>
     public long PersonaId;
     /// <summary>
+    /// 队伍1比分
+    /// </summary>
+    public int Team1Score;
+    /// <summary>
+    /// 队伍2比分
+    /// </summary>
+    public int Team2Score;
+    /// <summary>
     /// 更换队伍的状态
     /// </summary>
     public string Status;

@@ -60,11 +60,11 @@ public partial class LogView : UserControl
             if (TextBox_KickOKLog.LineCount >= 1000)
                 TextBox_KickOKLog.Clear();
 
-            AppendKickOKLog("操作时间: " + DateTime.Now.ToString());
-            AppendKickOKLog("玩家ID: " + info.Name);
-            AppendKickOKLog("玩家数字ID: " + info.PersonaId);
-            AppendKickOKLog("踢出理由: " + info.Reason);
-            AppendKickOKLog("状态: " + info.Status + "\n");
+            AppendKickOKLog($"操作时间: {DateTime.Now}");
+            AppendKickOKLog($"玩家ID: {info.Name}");
+            AppendKickOKLog($"玩家数字ID: {info.PersonaId}");
+            AppendKickOKLog($"踢出理由: {info.Reason}");
+            AppendKickOKLog($"状态: {info.Status}\n");
 
             SQLiteHelper.AddLog2SQLite("kick_ok", info);
         });
@@ -82,11 +82,11 @@ public partial class LogView : UserControl
             if (TextBox_KickNOLog.LineCount >= 1000)
                 TextBox_KickNOLog.Clear();
 
-            AppendKickNOLog("操作时间: " + DateTime.Now.ToString());
-            AppendKickNOLog("玩家ID: " + info.Name);
-            AppendKickNOLog("玩家数字ID: " + info.PersonaId);
-            AppendKickNOLog("踢出理由: " + info.Reason);
-            AppendKickNOLog("状态: " + info.Status + "\n");
+            AppendKickNOLog($"操作时间: {DateTime.Now}");
+            AppendKickNOLog($"玩家ID: {info.Name}");
+            AppendKickNOLog($"玩家数字ID: {info.PersonaId}");
+            AppendKickNOLog($"踢出理由: {info.Reason}");
+            AppendKickNOLog($"状态: {info.Status}\n");
 
             SQLiteHelper.AddLog2SQLite("kick_no", info);
         });
@@ -103,14 +103,17 @@ public partial class LogView : UserControl
             if (TextBox_ChangeTeamLog.LineCount >= 1000)
                 TextBox_ChangeTeamLog.Clear();
 
-            AppendChangeTeamLog("操作时间: " + DateTime.Now.ToString());
-            AppendChangeTeamLog("玩家等级: " + info.Rank);
-            AppendChangeTeamLog("玩家ID: " + info.Name);
-            AppendChangeTeamLog("玩家数字ID: " + info.PersonaId);
-            AppendChangeTeamLog("状态: " + info.Status + "\n");
+            AppendChangeTeamLog($"操作时间: {DateTime.Now}");
+            AppendChangeTeamLog($"玩家等级: {info.Rank}");
+            AppendChangeTeamLog($"玩家ID: {info.Name}");
+            AppendChangeTeamLog($"玩家数字ID: {info.PersonaId}");
+            AppendChangeTeamLog($"队伍比分: {info.Team1Score} - {info.Team2Score}");
+            AppendChangeTeamLog($"状态: {info.Status}\n");
 
             SQLiteHelper.AddLog2SQLite(info);
         });
+
+        RobotView._dSendChangeTeamInfo(info);
     }
 
     private void MenuItem_ClearKickOKLog_Click(object sender, RoutedEventArgs e)

@@ -2,6 +2,7 @@
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Config;
+using BF1.ServerAdminTools.Features.Data;
 
 using RestSharp;
 using Websocket.Client;
@@ -22,7 +23,11 @@ public partial class RobotView : UserControl
     private static WebsocketClient websocketClient = null;
     private static RestClient client = null;
 
+    public static Action<ChangeTeamInfo> _dSendChangeTeamInfo;
+
     private RobotConfig RobotConfig;
+
+    private List<long> QQGroupList = new();
 
     public RobotView()
     {
@@ -37,6 +42,8 @@ public partial class RobotView : UserControl
         };
         client = new RestClient(options);
 
+        _dSendChangeTeamInfo = SendChangeTeamLogToQQ;
+
         //////////////////////////////////////////////////////////////////
 
         if (File.Exists(FileUtil.F_Robot_Path))
@@ -46,14 +53,16 @@ public partial class RobotView : UserControl
                 RobotConfig = JsonUtil.JsonDese<RobotConfig>(streamReader.ReadToEnd());
 
                 TextBox_QQGroupID.Text = RobotConfig.QQGroupID.ToString();
+
                 CheckBox_IgnoreQQGroupLimit.IsChecked = RobotConfig.IsIgnoreQQGroupLimit;
                 CheckBox_IgnoreQQGroupMemberLimit.IsChecked = RobotConfig.IsIgnoreQQGroupMemberLimit;
+
+                CheckBox_IsSendChangeTeam.IsChecked = RobotConfig.IsSendChangeTeam;
 
                 foreach (var item in RobotConfig.QQGroupMemberID)
                 {
                     ListBox_QQGroupMemberIDs.Items.Add(item);
                 }
-
             }
         }
         else
@@ -63,7 +72,8 @@ public partial class RobotView : UserControl
                 IsIgnoreQQGroupLimit = false,
                 IsIgnoreQQGroupMemberLimit = false,
                 QQGroupID = 0,
-                QQGroupMemberID = new List<long>() { }
+                QQGroupMemberID = new List<long>() { },
+                IsSendChangeTeam = false
             };
         }
     }
@@ -127,7 +137,22 @@ public partial class RobotView : UserControl
             {
                 ReconnectTimeout = TimeSpan.FromMinutes(5)
             };
-            websocketClient.ReconnectionHappened.Subscribe(info => AppendLog($"客户端重新连接, 类型: {info.Type}"));
+            websocketClient.ReconnectionHappened.Subscribe(async info =>
+            {
+                AppendLog($"客户端重新连接, 类型: {info.Type}");
+                QQGroupList.Clear();
+
+                var request = new RestRequest("/get_group_list");
+                var result = await client.ExecuteGetAsync(request);
+                var jNode = JsonNode.Parse(result.Content);
+                if (jNode["data"] is JsonArray ja)
+                {
+                    for (int i = 0; i < ja.Count; i++)
+                    {
+                        QQGroupList.Add(ja[i]["group_id"].GetValue<long>());
+                    }
+                }
+            });
 
             websocketClient
                 .MessageReceived
@@ -214,6 +239,30 @@ public partial class RobotView : UserControl
     }
 
     ////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 发送换边通知到QQ群
+    /// </summary>
+    /// <param name="info"></param>
+    private void SendChangeTeamLogToQQ(ChangeTeamInfo info)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("=== 换边通知 ===");
+        sb.AppendLine($"操作时间: {DateTime.Now}");
+        sb.AppendLine($"玩家等级: {info.Rank}");
+        sb.AppendLine($"玩家ID: {info.Name}");
+        sb.AppendLine($"玩家数字ID: {info.PersonaId}");
+        sb.AppendLine($"队伍比分: {info.Team1Score} - {info.Team2Score}");
+        sb.AppendLine($"状态: {info.Status}");
+
+        if (!RobotConfig.IsIgnoreQQGroupLimit)
+        {
+            if (QQGroupList.Contains(RobotConfig.QQGroupID))
+            {
+                SendGroupMsg(RobotConfig.QQGroupID, sb.ToString());
+            }
+        }
+    }
 
     /// <summary>
     /// 发送战地1中文聊天并返回聊天截图
@@ -396,9 +445,12 @@ public partial class RobotView : UserControl
     private void SaveRobotConfig()
     {
         RobotConfig.QQGroupMemberID.Clear();
-        foreach (string item in ListBox_QQGroupMemberIDs.Items)
+        if (ListBox_QQGroupMemberIDs.Items.Count != 0)
         {
-            RobotConfig.QQGroupMemberID.Add(long.Parse(item));
+            foreach (var item in ListBox_QQGroupMemberIDs.Items)
+            {
+                RobotConfig.QQGroupMemberID.Add(long.Parse(item.ToString()));
+            }
         }
 
         var qqGroup = TextBox_QQGroupID.Text.Trim();
@@ -406,6 +458,8 @@ public partial class RobotView : UserControl
 
         RobotConfig.IsIgnoreQQGroupLimit = CheckBox_IgnoreQQGroupLimit.IsChecked == true ? true : false;
         RobotConfig.IsIgnoreQQGroupMemberLimit = CheckBox_IgnoreQQGroupMemberLimit.IsChecked == true ? true : false;
+
+        RobotConfig.IsSendChangeTeam = CheckBox_IsSendChangeTeam.IsChecked == true ? true : false;
 
         File.WriteAllText(FileUtil.F_Robot_Path, JsonUtil.JsonSeri(RobotConfig));
     }

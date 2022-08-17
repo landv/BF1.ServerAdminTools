@@ -234,6 +234,9 @@
                             <TextBlock Foreground="Green" TextWrapping="Wrap">
                                 提示：生涯KD和KPM是玩家只要进入服务器就开始查询计算
                             </TextBlock>
+                            <TextBlock Foreground="Orange" TextWrapping="Wrap">
+                                提示：限制最高生涯武器、载具星数目前处于维护状态，不可使用
+                            </TextBlock>
                         </StackPanel>
 
                     </DockPanel>
