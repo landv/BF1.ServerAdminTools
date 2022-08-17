@@ -37,7 +37,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="0.3*" />
+            <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
         <!--  ################################  -->
         <TextBox
@@ -49,36 +49,10 @@
         <!--  ################################  -->
         <DockPanel Grid.Column="1" LastChildFill="True">
             <StackPanel DockPanel.Dock="Bottom">
-                <Label
-                    attached:Icon.Value="☕"
-                    Content="权限"
-                    Style="{StaticResource LabelStyle_Title}" />
-                <WrapPanel>
-                    <CheckBox
-                        x:Name="CheckBox_IgnoreQQGroupLimit"
-                        Margin="5"
-                        Content="忽略QQ群限制" />
-                    <CheckBox
-                        x:Name="CheckBox_IgnoreQQGroupMemberLimit"
-                        Margin="5"
-                        Content="忽略QQ群成员限制" />
-                </WrapPanel>
-                <TextBlock
-                    Margin="5"
-                    Text="授权的QQ群号及成员QQ号（第一行为QQ群号，后面一行一个群成员QQ号）"
-                    TextWrapping="Wrap" />
-                <TextBox
-                    x:Name="TextBox_GroupQQID"
-                    Height="200"
-                    Margin="5"
-                    Padding="5"
-                    AcceptsReturn="True"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ScrollViewer.VerticalScrollBarVisibility="Auto" />
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
-                    Text="提示：如果忽略QQ群限制，那么QQ群成员限制将失效" />
+                    Text="提示：先启动QQ机器人服务，等QQ机器人加载完成后再启动Websocket服务" />
                 <TextBlock
                     Margin="5"
                     Foreground="Green"
@@ -86,29 +60,7 @@
 
                 <Label
                     attached:Icon.Value="☕"
-                    Content="设置"
-                    Style="{StaticResource LabelStyle_Title}" />
-                <WrapPanel>
-                    <Button
-                        x:Name="Button_ChangeGoCqHttpQQID"
-                        Click="Button_ChangeGoCqHttpQQID_Click"
-                        Content="更换QQ机器人账号"
-                        Style="{StaticResource ButtonStyle_Web}" />
-                    <Button
-                        x:Name="Button_ClearImageCache"
-                        Click="Button_ClearImageCache_Click"
-                        Content="清理图片缓存"
-                        Style="{StaticResource ButtonStyle_Web}" />
-                    <Button
-                        x:Name="Button_OpenGoCqHttpPath"
-                        Click="Button_OpenGoCqHttpPath_Click"
-                        Content="打开配置文件夹"
-                        Style="{StaticResource ButtonStyle_Web}" />
-                </WrapPanel>
-
-                <Label
-                    attached:Icon.Value="☕"
-                    Content="功能"
+                    Content="功能开关"
                     Style="{StaticResource LabelStyle_Title}" />
                 <Button
                     x:Name="Button_RunGoCqHttpServer"
@@ -128,28 +80,147 @@
                         Style="{StaticResource ButtonStyle_Web}" />
                 </UniformGrid>
             </StackPanel>
-            <RichTextBox
+
+            <TabControl
                 Margin="5"
                 DockPanel.Dock="Top"
-                Style="{StaticResource RichTextBoxStyle_Page}">
-                <FlowDocument>
-                    <Paragraph Style="{StaticResource ParagraphStyle_Title}">
-                        可用指令
-                    </Paragraph>
-                    <Paragraph Style="{StaticResource ParagraphStyle_Content}">
-                        #中文聊天 xxxx<LineBreak />
-                        #屏幕截图<LineBreak />
-                        #得分板截图</Paragraph>
+                Style="{StaticResource TabControlStyle_Main}">
+                <TabControl.Resources>
+                    <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
+                </TabControl.Resources>
+                <!--  ################################  -->
+                <TabItem attached:Icon.Value="🍊" Header="说明">
+                    <RichTextBox
+                        Margin="5"
+                        DockPanel.Dock="Top"
+                        Style="{StaticResource RichTextBoxStyle_Page}">
+                        <FlowDocument>
+                            <Paragraph Style="{StaticResource ParagraphStyle_Title}">
+                                可用指令
+                            </Paragraph>
+                            <Paragraph Style="{StaticResource ParagraphStyle_Content}">
+                                #中文聊天 xxxx<LineBreak />
+                                #屏幕截图<LineBreak />
+                                #得分板截图</Paragraph>
 
-                    <Paragraph Style="{StaticResource ParagraphStyle_Title}">
-                        配置文件
-                    </Paragraph>
-                    <Paragraph>
-                        截图文件路径：C:\ProgramData\BF1 Server\Robot\data\images<LineBreak />
-                    </Paragraph>
+                            <Paragraph Style="{StaticResource ParagraphStyle_Title}">
+                                配置文件
+                            </Paragraph>
+                            <Paragraph>
+                                截图文件路径：C:\ProgramData\BF1 Server\Robot\data\images<LineBreak />
+                            </Paragraph>
 
-                </FlowDocument>
-            </RichTextBox>
+                        </FlowDocument>
+                    </RichTextBox>
+                </TabItem>
+                <!--  ################################  -->
+                <TabItem attached:Icon.Value="🍇" Header="权限">
+                    <StackPanel>
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="QQ群授权"
+                            Style="{StaticResource LabelStyle_Title}" />
+                        <UniformGrid Columns="2">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock
+                                    Margin="5"
+                                    DockPanel.Dock="Top"
+                                    Text="授权的QQ群成员列表"
+                                    TextWrapping="Wrap" />
+                                <ListBox
+                                    x:Name="ListBox_QQGroupMemberIDs"
+                                    Height="250"
+                                    Margin="5,5,0,5"
+                                    DockPanel.Dock="Bottom"
+                                    Style="{StaticResource ListBoxStyle_Normal}" />
+                            </DockPanel>
+                            <StackPanel>
+                                <TextBlock
+                                    Margin="5"
+                                    Text="授权的QQ群号"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    x:Name="TextBox_QQGroupID"
+                                    Margin="5"
+                                    Padding="5"
+                                    InputLanguageManager.InputLanguage="en-US" />
+                                <TextBlock
+                                    Margin="5"
+                                    Text="授权的QQ群成员QQ号"
+                                    TextWrapping="Wrap" />
+                                <TextBox
+                                    x:Name="TextBox_AddQQGroupMemberID"
+                                    Margin="5"
+                                    Padding="5"
+                                    DockPanel.Dock="Left"
+                                    InputLanguageManager.InputLanguage="en-US" />
+                                <WrapPanel>
+                                    <Button
+                                        x:Name="Button_AddQQGMID"
+                                        Click="Button_AddQQGMID_Click"
+                                        Content="增加"
+                                        Style="{StaticResource ButtonStyle_Normal}" />
+                                    <Button
+                                        x:Name="Button_RemoveQQGMID"
+                                        Click="Button_RemoveQQGMID_Click"
+                                        Content="删除"
+                                        Style="{StaticResource ButtonStyle_Normal}" />
+                                    <Button
+                                        x:Name="Button_ClearQQGMID"
+                                        Click="Button_ClearQQGMID_Click"
+                                        Content="清空"
+                                        Style="{StaticResource ButtonStyle_Normal}" />
+                                </WrapPanel>
+                                <WrapPanel>
+                                    <CheckBox
+                                        x:Name="CheckBox_IgnoreQQGroupLimit"
+                                        Margin="5"
+                                        Content="忽略QQ群限制" />
+                                    <CheckBox
+                                        x:Name="CheckBox_IgnoreQQGroupMemberLimit"
+                                        Margin="5"
+                                        Content="忽略QQ群成员限制" />
+                                </WrapPanel>
+                                <Button
+                                    x:Name="Button_SaveRobotConfig"
+                                    Click="Button_SaveRobotConfig_Click"
+                                    Content="保存"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                            </StackPanel>
+                        </UniformGrid>
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="QQ机器人功能"
+                            Style="{StaticResource LabelStyle_Title}" />
+                        <WrapPanel>
+                            <CheckBox Margin="5" Content="换边通知" />
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <!--  ################################  -->
+                <TabItem attached:Icon.Value="🍍" Header="高级">
+                    <StackPanel>
+                        <WrapPanel>
+                            <Button
+                                x:Name="Button_ChangeGoCqHttpQQID"
+                                Click="Button_ChangeGoCqHttpQQID_Click"
+                                Content="更换QQ机器人账号"
+                                Style="{StaticResource ButtonStyle_Web}" />
+                            <Button
+                                x:Name="Button_ClearImageCache"
+                                Click="Button_ClearImageCache_Click"
+                                Content="清理图片缓存"
+                                Style="{StaticResource ButtonStyle_Web}" />
+                            <Button
+                                x:Name="Button_OpenGoCqHttpPath"
+                                Click="Button_OpenGoCqHttpPath_Click"
+                                Content="打开配置文件夹"
+                                Style="{StaticResource ButtonStyle_Web}" />
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+
         </DockPanel>
 
     </Grid>

@@ -61,21 +61,8 @@ public partial class RuleView : UserControl
         };
         therad1.Start();
 
-        if (File.Exists(FileUtil.F_Rule_Path))
-        {
-            using (var streamReader = new StreamReader(FileUtil.F_Rule_Path))
-            {
-                RuleConfigs = JsonUtil.JsonDese<List<RuleConfig>>(streamReader.ReadToEnd());
 
-                foreach (var item in RuleConfigs)
-                {
-                    ComboBox_ConfigNames.Add(item.RuleName);
-                }
-
-                ApplyRuleByIndex(0);
-            }
-        }
-        else
+        if (!File.Exists(FileUtil.F_Rule_Path))
         {
             for (int i = 0; i < 10; i++)
             {
@@ -118,6 +105,23 @@ public partial class RuleView : UserControl
                         WhiteList = new List<string>() { }
                     }
                 });
+            }
+
+            File.WriteAllText(FileUtil.F_Rule_Path, JsonUtil.JsonSeri(RuleConfigs));
+        }
+
+        if (File.Exists(FileUtil.F_Rule_Path))
+        {
+            using (var streamReader = new StreamReader(FileUtil.F_Rule_Path))
+            {
+                RuleConfigs = JsonUtil.JsonDese<List<RuleConfig>>(streamReader.ReadToEnd());
+
+                foreach (var item in RuleConfigs)
+                {
+                    ComboBox_ConfigNames.Add(item.RuleName);
+                }
+
+                ApplyRuleByIndex(0);
             }
         }
     }

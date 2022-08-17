@@ -94,9 +94,6 @@ public partial class LoadWindow : Window
                 if (!File.Exists(FileUtil.F_Settings_Path))
                     File.Create(FileUtil.F_Settings_Path).Close();
 
-                if (!File.Exists(FileUtil.F_QQGroup_Path))
-                    File.Create(FileUtil.F_QQGroup_Path).Close();
-
                 // 释放必要文件
                 FileUtil.ExtractResFile(FileUtil.Resource_Path + "config.yml", FileUtil.D_Robot_Path + "\\config.yml");
                 FileUtil.ExtractResFile(FileUtil.Resource_Path + "go-cqhttp.exe", FileUtil.D_Robot_Path + "\\go-cqhttp.exe");

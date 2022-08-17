@@ -14,8 +14,7 @@ public class FileUtil
     public static string F_Settings_Path = D_Config_Path + @"\Settings.ini";
 
     public static string F_Rule_Path = D_Config_Path + @"\RuleConfig.json";
-
-    public static string F_QQGroup_Path = D_Config_Path + @"\QQGroup.txt";
+    public static string F_Robot_Path = D_Config_Path + @"\RobotConfig.json";
 
     public const string Resource_Path = "BF1.ServerAdminTools.Features.Files.";
 

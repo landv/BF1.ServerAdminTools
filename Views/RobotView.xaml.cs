@@ -1,6 +1,7 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
+using BF1.ServerAdminTools.Features.Config;
 
 using RestSharp;
 using Websocket.Client;
@@ -17,18 +18,16 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class RobotView : UserControl
 {
-    private Uri url = new("ws://127.0.0.1:8080");
-    private WebsocketClient websocketClient = null;
-
+    private readonly Uri url = new("ws://127.0.0.1:8080");
+    private static WebsocketClient websocketClient = null;
     private static RestClient client = null;
 
-    private List<long> GroupQQID = new();
-    private bool isIngoreQQGroupLimit = false;
-    private bool isIngoreQQGroupMemberLimit = false;
+    private RobotConfig RobotConfig;
 
     public RobotView()
     {
         InitializeComponent();
+        this.DataContext = this;
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
         var options = new RestClientOptions("http://127.0.0.1:5700")
@@ -38,17 +37,34 @@ public partial class RobotView : UserControl
         };
         client = new RestClient(options);
 
-        if (File.Exists(FileUtil.F_QQGroup_Path))
+        //////////////////////////////////////////////////////////////////
+
+        if (File.Exists(FileUtil.F_Robot_Path))
         {
-            string[] lines = File.ReadAllLines(FileUtil.F_QQGroup_Path);
-            foreach (string line in lines)
+            using (var streamReader = new StreamReader(FileUtil.F_Robot_Path))
             {
-                if (!string.IsNullOrEmpty(line))
+                RobotConfig = JsonUtil.JsonDese<RobotConfig>(streamReader.ReadToEnd());
+
+                TextBox_QQGroupID.Text = RobotConfig.QQGroupID.ToString();
+                CheckBox_IgnoreQQGroupLimit.IsChecked = RobotConfig.IsIgnoreQQGroupLimit;
+                CheckBox_IgnoreQQGroupMemberLimit.IsChecked = RobotConfig.IsIgnoreQQGroupMemberLimit;
+
+                foreach (var item in RobotConfig.QQGroupMemberID)
                 {
-                    TextBox_GroupQQID.AppendText(line + Environment.NewLine);
-                    GroupQQID.Add(long.Parse(line));
+                    ListBox_QQGroupMemberIDs.Items.Add(item);
                 }
+
             }
+        }
+        else
+        {
+            RobotConfig = new RobotConfig()
+            {
+                IsIgnoreQQGroupLimit = false,
+                IsIgnoreQQGroupMemberLimit = false,
+                QQGroupID = 0,
+                QQGroupMemberID = new List<long>() { }
+            };
         }
     }
 
@@ -56,10 +72,7 @@ public partial class RobotView : UserControl
     {
         ProcessUtil.CloseThirdProcess();
 
-        if (File.Exists(FileUtil.F_QQGroup_Path))
-        {
-            File.WriteAllText(FileUtil.F_QQGroup_Path, TextBox_GroupQQID.Text);
-        }
+        SaveRobotConfig();
     }
 
     private void AppendLog(string txt)
@@ -106,16 +119,9 @@ public partial class RobotView : UserControl
         }
         else
         {
-            GroupQQID.Clear();
-            for (int i = 0; i < TextBox_GroupQQID.LineCount; i++)
-            {
-                var line = TextBox_GroupQQID.GetLineText(i).Trim();
-                if (!string.IsNullOrEmpty(line))
-                    GroupQQID.Add(long.Parse(line));
-            }
+            SaveRobotConfig();
 
-            isIngoreQQGroupLimit = CheckBox_IgnoreQQGroupLimit.IsChecked == true ? true : false;
-            isIngoreQQGroupMemberLimit = CheckBox_IgnoreQQGroupMemberLimit.IsChecked == true ? true : false;
+            //////////////////////////////////////////////////////////////////
 
             websocketClient = new(url)
             {
@@ -161,14 +167,14 @@ public partial class RobotView : UserControl
                 var user_id = jNode["user_id"].GetValue<long>();
                 var group_id = jNode["group_id"].GetValue<long>();
 
-                if (!isIngoreQQGroupLimit)
+                if (!RobotConfig.IsIgnoreQQGroupLimit)
                 {
-                    if (group_id != GroupQQID[0])
+                    if (group_id != RobotConfig.QQGroupID)
                         return;
 
-                    if (!isIngoreQQGroupMemberLimit)
+                    if (!RobotConfig.IsIgnoreQQGroupMemberLimit)
                     {
-                        if (!GroupQQID.Contains(user_id))
+                        if (!RobotConfig.QQGroupMemberID.Contains(user_id))
                             return;
                     }
                 }
@@ -352,5 +358,55 @@ public partial class RobotView : UserControl
         AudioUtil.ClickSound();
 
         ProcessUtil.OpenLink(FileUtil.D_Robot_Path);
+    }
+
+    private void Button_AddQQGMID_Click(object sender, RoutedEventArgs e)
+    {
+        var qq = TextBox_AddQQGroupMemberID.Text.Trim();
+
+        if (CommonUtil.IsNumber(qq))
+        {
+            ListBox_QQGroupMemberIDs.Items.Add(qq);
+            TextBox_AddQQGroupMemberID.Clear();
+        }
+    }
+
+    private void Button_RemoveQQGMID_Click(object sender, RoutedEventArgs e)
+    {
+        var index = ListBox_QQGroupMemberIDs.SelectedIndex;
+        if (index != -1)
+        {
+            ListBox_QQGroupMemberIDs.Items.RemoveAt(index);
+        }
+    }
+
+    private void Button_ClearQQGMID_Click(object sender, RoutedEventArgs e)
+    {
+        ListBox_QQGroupMemberIDs.Items.Clear();
+    }
+
+    private void Button_SaveRobotConfig_Click(object sender, RoutedEventArgs e)
+    {
+        SaveRobotConfig();
+    }
+
+    /// <summary>
+    /// 保存机器人配置文件
+    /// </summary>
+    private void SaveRobotConfig()
+    {
+        RobotConfig.QQGroupMemberID.Clear();
+        foreach (string item in ListBox_QQGroupMemberIDs.Items)
+        {
+            RobotConfig.QQGroupMemberID.Add(long.Parse(item));
+        }
+
+        var qqGroup = TextBox_QQGroupID.Text.Trim();
+        RobotConfig.QQGroupID = string.IsNullOrEmpty(qqGroup) ? 0 : long.Parse(qqGroup);
+
+        RobotConfig.IsIgnoreQQGroupLimit = CheckBox_IgnoreQQGroupLimit.IsChecked == true ? true : false;
+        RobotConfig.IsIgnoreQQGroupMemberLimit = CheckBox_IgnoreQQGroupMemberLimit.IsChecked == true ? true : false;
+
+        File.WriteAllText(FileUtil.F_Robot_Path, JsonUtil.JsonSeri(RobotConfig));
     }
 }
