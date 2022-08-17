@@ -89,31 +89,6 @@
                     <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
                 </TabControl.Resources>
                 <!--  ################################  -->
-                <TabItem attached:Icon.Value="🍊" Header="说明">
-                    <RichTextBox
-                        Margin="5"
-                        DockPanel.Dock="Top"
-                        Style="{StaticResource RichTextBoxStyle_Page}">
-                        <FlowDocument>
-                            <Paragraph Style="{StaticResource ParagraphStyle_Title}">
-                                可用指令
-                            </Paragraph>
-                            <Paragraph Style="{StaticResource ParagraphStyle_Content}">
-                                #中文聊天 xxxx<LineBreak />
-                                #屏幕截图<LineBreak />
-                                #得分板截图</Paragraph>
-
-                            <Paragraph Style="{StaticResource ParagraphStyle_Title}">
-                                配置文件
-                            </Paragraph>
-                            <Paragraph>
-                                截图文件路径：C:\ProgramData\BF1 Server\Robot\data\images<LineBreak />
-                            </Paragraph>
-
-                        </FlowDocument>
-                    </RichTextBox>
-                </TabItem>
-                <!--  ################################  -->
                 <TabItem attached:Icon.Value="🍇" Header="权限">
                     <StackPanel>
                         <Label
@@ -221,6 +196,31 @@
                                 Style="{StaticResource ButtonStyle_Web}" />
                         </WrapPanel>
                     </StackPanel>
+                </TabItem>
+                <!--  ################################  -->
+                <TabItem attached:Icon.Value="🍊" Header="说明">
+                    <RichTextBox
+                        Margin="5"
+                        DockPanel.Dock="Top"
+                        Style="{StaticResource RichTextBoxStyle_Page}">
+                        <FlowDocument>
+                            <Paragraph Style="{StaticResource ParagraphStyle_Title}">
+                                可用指令
+                            </Paragraph>
+                            <Paragraph Style="{StaticResource ParagraphStyle_Content}">
+                                #中文聊天 xxxx<LineBreak />
+                                #屏幕截图<LineBreak />
+                                #得分板截图</Paragraph>
+
+                            <Paragraph Style="{StaticResource ParagraphStyle_Title}">
+                                配置文件
+                            </Paragraph>
+                            <Paragraph>
+                                截图文件路径：C:\ProgramData\BF1 Server\Robot\data\images<LineBreak />
+                            </Paragraph>
+
+                        </FlowDocument>
+                    </RichTextBox>
                 </TabItem>
             </TabControl>
 

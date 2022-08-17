@@ -252,8 +252,8 @@ public partial class RobotView : UserControl
         sb.AppendLine($"玩家等级: {info.Rank}");
         sb.AppendLine($"玩家ID: {info.Name}");
         sb.AppendLine($"玩家数字ID: {info.PersonaId}");
-        sb.AppendLine($"队伍比分: {info.Team1Score} - {info.Team2Score}");
-        sb.AppendLine($"状态: {info.Status}");
+        sb.AppendLine($"队伍比分: {info.Team1Score} 🆚 {info.Team2Score}");
+        sb.Append($"状态: {info.Status}");
 
         if (!RobotConfig.IsIgnoreQQGroupLimit)
         {
