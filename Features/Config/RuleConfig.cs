@@ -8,8 +8,8 @@ public class RuleConfig
     {
         public Normal Team1Normal;
         public Normal Team2Normal;
-        public List<Weapon> Team1Weapon;
-        public List<Weapon> Team2Weapon;
+        public List<string> Team1Weapon;
+        public List<string> Team2Weapon;
         public List<string> BlackList;
         public List<string> WhiteList;
         public class Normal
@@ -25,11 +25,6 @@ public class RuleConfig
             public float LifeMaxKPM;
             public int LifeMaxWeaponStar;
             public int LifeMaxVehicleStar;
-        }
-        public class Weapon
-        {
-            public string English;
-            public string Chinese;
         }
     }
 }

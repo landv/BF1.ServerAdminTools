@@ -197,38 +197,38 @@
                             Style="{StaticResource LabelStyle_Title}" />
                         <StackPanel Margin="5" DockPanel.Dock="Bottom">
                             <!--  ################################  -->
-                            <TextBlock Text="{Binding ElementName=Slider_Team1LifeMaxKD, Path=Value, StringFormat=最高生涯KD : {0:0.00}, FallbackValue='最高生涯KD :'}" />
+                            <TextBlock Text="{Binding RuleTeam1Model.LifeMaxKD, StringFormat=最高生涯KD : {0:0.00}, FallbackValue='最高生涯KD :'}" />
                             <Slider
-                                x:Name="Slider_Team1LifeMaxKD"
                                 Maximum="10"
                                 Minimum="0"
                                 TickFrequency="0.01"
-                                TickPlacement="None" />
-                            <TextBlock Text="{Binding ElementName=Slider_Team1LifeMaxKPM, Path=Value, StringFormat=最高生涯KPM : {0:0.00}, FallbackValue='最高生涯KPM :'}" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam1Model.LifeMaxKD, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding RuleTeam1Model.LifeMaxKPM, StringFormat=最高生涯KPM : {0:0.00}, FallbackValue='最高生涯KPM :'}" />
                             <Slider
-                                x:Name="Slider_Team1LifeMaxKPM"
                                 Maximum="10"
                                 Minimum="0"
                                 TickFrequency="0.01"
-                                TickPlacement="None" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam1Model.LifeMaxKPM, Mode=TwoWay}" />
                             <TextBlock />
                             <!--  ################################  -->
-                            <TextBlock Text="{Binding ElementName=Slider_Team1LifeMaxWeaponStar, Path=Value, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
+                            <TextBlock Text="{Binding RuleTeam1Model.LifeMaxWeaponStar, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
                             <Slider
-                                x:Name="Slider_Team1LifeMaxWeaponStar"
                                 IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
-                                TickPlacement="None" />
-                            <TextBlock Text="{Binding ElementName=Slider_Team1LifeMaxVehicleStar, Path=Value, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam1Model.LifeMaxWeaponStar, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding RuleTeam1Model.LifeMaxVehicleStar, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
                             <Slider
-                                x:Name="Slider_Team1LifeMaxVehicleStar"
                                 IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
-                                TickPlacement="None" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam1Model.LifeMaxVehicleStar, Mode=TwoWay}" />
                             <!--  ################################  -->
                             <TextBlock />
                             <TextBlock Foreground="Green" TextWrapping="Wrap">
@@ -246,38 +246,38 @@
                             Style="{StaticResource LabelStyle_Title}" />
                         <StackPanel Margin="5" DockPanel.Dock="Bottom">
                             <!--  ################################  -->
-                            <TextBlock Text="{Binding ElementName=Slider_Team2LifeMaxKD, Path=Value, StringFormat=最高生涯KD : {0:0.00}, FallbackValue='最高生涯KD :'}" />
+                            <TextBlock Text="{Binding RuleTeam2Model.LifeMaxKD, StringFormat=最高生涯KD : {0:0.00}, FallbackValue='最高生涯KD :'}" />
                             <Slider
-                                x:Name="Slider_Team2LifeMaxKD"
                                 Maximum="10"
                                 Minimum="0"
                                 TickFrequency="0.01"
-                                TickPlacement="None" />
-                            <TextBlock Text="{Binding ElementName=Slider_Team2LifeMaxKPM, Path=Value, StringFormat=最高生涯KPM : {0:0.00}, FallbackValue='最高生涯KPM :'}" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam2Model.LifeMaxKD, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding RuleTeam2Model.LifeMaxKPM, StringFormat=最高生涯KPM : {0:0.00}, FallbackValue='最高生涯KPM :'}" />
                             <Slider
-                                x:Name="Slider_Team2LifeMaxKPM"
                                 Maximum="10"
                                 Minimum="0"
                                 TickFrequency="0.01"
-                                TickPlacement="None" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam2Model.LifeMaxKPM, Mode=TwoWay}" />
                             <TextBlock />
                             <!--  ################################  -->
-                            <TextBlock Text="{Binding ElementName=Slider_Team2LifeMaxWeaponStar, Path=Value, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
+                            <TextBlock Text="{Binding RuleTeam2Model.LifeMaxWeaponStar, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
                             <Slider
-                                x:Name="Slider_Team2LifeMaxWeaponStar"
                                 IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
-                                TickPlacement="None" />
-                            <TextBlock Text="{Binding ElementName=Slider_Team2LifeMaxVehicleStar, Path=Value, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam2Model.LifeMaxWeaponStar, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding RuleTeam2Model.LifeMaxVehicleStar, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
                             <Slider
-                                x:Name="Slider_Team2LifeMaxVehicleStar"
                                 IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
-                                TickPlacement="None" />
+                                TickPlacement="None"
+                                Value="{Binding RuleTeam2Model.LifeMaxVehicleStar, Mode=TwoWay}" />
                             <!--  ################################  -->
                             <TextBlock />
 
@@ -442,20 +442,40 @@
                     Style="{StaticResource LabelStyle_Title}" />
                 <DockPanel LastChildFill="True">
                     <Button
+                        x:Name="Button_SaveCurrentRule"
                         Margin="5"
+                        Click="Button_SaveCurrentRule_Click"
+                        Content="保存"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource ButtonStyle_Normal}" />
+                    <Button
+                        x:Name="Button_ReNameRule"
+                        Margin="0,5,0,5"
+                        Click="Button_ReNameRule_Click"
                         Content="重命名"
                         DockPanel.Dock="Right"
                         Style="{StaticResource ButtonStyle_Normal}" />
                     <TextBox
+                        x:Name="TextBox_ReNameRule"
                         Margin="5"
                         Padding="5"
-                        DockPanel.Dock="Left" />
+                        DockPanel.Dock="Left"
+                        Text="{Binding ElementName=ComboBox_CustomConfigName, Path=SelectedValue, Mode=OneWay}" />
                 </DockPanel>
                 <ComboBox
                     x:Name="ComboBox_CustomConfigName"
                     Margin="5"
-                    Padding="5"
-                    VerticalContentAlignment="Center" />
+                    Padding="8"
+                    VerticalContentAlignment="Center"
+                    ItemsSource="{Binding ComboBox_ConfigNames}"
+                    SelectedIndex="0"
+                    SelectionChanged="ComboBox_CustomConfigName_SelectionChanged">
+                    <ComboBox.Resources>
+                        <Style TargetType="{x:Type ComboBoxItem}">
+                            <Setter Property="Padding" Value="8" />
+                        </Style>
+                    </ComboBox.Resources>
+                </ComboBox>
                 <!--  ################  -->
                 <Label
                     attached:Icon.Value="☕"

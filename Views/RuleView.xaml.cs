@@ -1,13 +1,10 @@
 ﻿using BF1.ServerAdminTools.Models.Rule;
 using BF1.ServerAdminTools.Common.Utils;
-using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
-using BF1.ServerAdminTools.Features.Client;
 using BF1.ServerAdminTools.Features.Data;
-using BF1.ServerAdminTools.Models.Score;
 using BF1.ServerAdminTools.Features.Config;
+using BF1.ServerAdminTools.Features.Client;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -22,6 +19,7 @@ public partial class RuleView : UserControl
     public RuleTeamModel RuleTeam2Model { get; set; } = new();
 
     public ObservableCollection<RuleWeaponModel> DataGrid_RuleWeaponModels { get; set; } = new();
+    public ObservableCollection<string> ComboBox_ConfigNames { get; set; } = new();
 
     /// <summary>
     /// 是否已经执行
@@ -71,44 +69,10 @@ public partial class RuleView : UserControl
 
                 foreach (var item in RuleConfigs)
                 {
-                    ComboBox_CustomConfigName.Items.Add(item.RuleName);
+                    ComboBox_ConfigNames.Add(item.RuleName);
                 }
 
-                var r0 = RuleConfigs[0].RuleInfos;
-
-                RuleTeam1Model.MaxKill = r0.Team1Normal.MaxKill;
-                RuleTeam1Model.KDFlag = r0.Team1Normal.KDFlag;
-                RuleTeam1Model.MaxKD = r0.Team1Normal.MaxKD;
-                RuleTeam1Model.KPMFlag = r0.Team1Normal.KPMFlag;
-                RuleTeam1Model.MaxKPM = r0.Team1Normal.MaxKPM;
-                RuleTeam1Model.MinRank = r0.Team1Normal.MinRank;
-                RuleTeam1Model.MaxRank = r0.Team1Normal.MaxRank;
-                RuleTeam1Model.LifeMaxKD = r0.Team1Normal.LifeMaxKD;
-                RuleTeam1Model.LifeMaxKPM = r0.Team1Normal.LifeMaxKPM;
-                RuleTeam1Model.LifeMaxWeaponStar = r0.Team1Normal.LifeMaxWeaponStar;
-                RuleTeam1Model.LifeMaxVehicleStar = r0.Team1Normal.LifeMaxVehicleStar;
-
-                RuleTeam2Model.MaxKill = r0.Team2Normal.MaxKill;
-                RuleTeam2Model.KDFlag = r0.Team2Normal.KDFlag;
-                RuleTeam2Model.MaxKD = r0.Team2Normal.MaxKD;
-                RuleTeam2Model.KPMFlag = r0.Team2Normal.KPMFlag;
-                RuleTeam2Model.MaxKPM = r0.Team2Normal.MaxKPM;
-                RuleTeam2Model.MinRank = r0.Team2Normal.MinRank;
-                RuleTeam2Model.MaxRank = r0.Team2Normal.MaxRank;
-                RuleTeam2Model.LifeMaxKD = r0.Team2Normal.LifeMaxKD;
-                RuleTeam2Model.LifeMaxKPM = r0.Team2Normal.LifeMaxKPM;
-                RuleTeam2Model.LifeMaxWeaponStar = r0.Team2Normal.LifeMaxWeaponStar;
-                RuleTeam2Model.LifeMaxVehicleStar = r0.Team2Normal.LifeMaxVehicleStar;
-
-                foreach (var item in r0.BlackList)
-                {
-                    ListBox_Custom_BlackList.Items.Add(item);
-                }
-
-                foreach (var item in r0.WhiteList)
-                {
-                    ListBox_Custom_WhiteList.Items.Add(item);
-                }
+                ApplyRuleByIndex(0);
             }
         }
         else
@@ -148,8 +112,8 @@ public partial class RuleView : UserControl
                             LifeMaxWeaponStar = 0,
                             LifeMaxVehicleStar = 0
                         },
-                        Team1Weapon = new List<RuleConfig.RuleInfo.Weapon>() { },
-                        Team2Weapon = new List<RuleConfig.RuleInfo.Weapon>() { },
+                        Team1Weapon = new List<string>() { },
+                        Team2Weapon = new List<string>() { },
                         BlackList = new List<string>() { },
                         WhiteList = new List<string>() { }
                     }
@@ -161,6 +125,125 @@ public partial class RuleView : UserControl
     private void MainWindow_ClosingDisposeEvent()
     {
         File.WriteAllText(FileUtil.F_Rule_Path, JsonUtil.JsonSeri(RuleConfigs));
+    }
+
+    /// <summary>
+    /// 应用规则
+    /// </summary>
+    /// <param name="index"></param>
+    private void ApplyRuleByIndex(int index)
+    {
+        var rule = RuleConfigs[index].RuleInfos;
+
+        RuleTeam1Model.MaxKill = rule.Team1Normal.MaxKill;
+        RuleTeam1Model.KDFlag = rule.Team1Normal.KDFlag;
+        RuleTeam1Model.MaxKD = rule.Team1Normal.MaxKD;
+        RuleTeam1Model.KPMFlag = rule.Team1Normal.KPMFlag;
+        RuleTeam1Model.MaxKPM = rule.Team1Normal.MaxKPM;
+        RuleTeam1Model.MinRank = rule.Team1Normal.MinRank;
+        RuleTeam1Model.MaxRank = rule.Team1Normal.MaxRank;
+        RuleTeam1Model.LifeMaxKD = rule.Team1Normal.LifeMaxKD;
+        RuleTeam1Model.LifeMaxKPM = rule.Team1Normal.LifeMaxKPM;
+        RuleTeam1Model.LifeMaxWeaponStar = rule.Team1Normal.LifeMaxWeaponStar;
+        RuleTeam1Model.LifeMaxVehicleStar = rule.Team1Normal.LifeMaxVehicleStar;
+
+        RuleTeam2Model.MaxKill = rule.Team2Normal.MaxKill;
+        RuleTeam2Model.KDFlag = rule.Team2Normal.KDFlag;
+        RuleTeam2Model.MaxKD = rule.Team2Normal.MaxKD;
+        RuleTeam2Model.KPMFlag = rule.Team2Normal.KPMFlag;
+        RuleTeam2Model.MaxKPM = rule.Team2Normal.MaxKPM;
+        RuleTeam2Model.MinRank = rule.Team2Normal.MinRank;
+        RuleTeam2Model.MaxRank = rule.Team2Normal.MaxRank;
+        RuleTeam2Model.LifeMaxKD = rule.Team2Normal.LifeMaxKD;
+        RuleTeam2Model.LifeMaxKPM = rule.Team2Normal.LifeMaxKPM;
+        RuleTeam2Model.LifeMaxWeaponStar = rule.Team2Normal.LifeMaxWeaponStar;
+        RuleTeam2Model.LifeMaxVehicleStar = rule.Team2Normal.LifeMaxVehicleStar;
+
+        ListBox_Custom_BlackList.Items.Clear();
+        foreach (var item in rule.BlackList)
+        {
+            ListBox_Custom_BlackList.Items.Add(item);
+        }
+
+        ListBox_Custom_WhiteList.Items.Clear();
+        foreach (var item in rule.WhiteList)
+        {
+            ListBox_Custom_WhiteList.Items.Add(item);
+        }
+
+        for (int i = 0; i < DataGrid_RuleWeaponModels.Count; i++)
+        {
+            var item = DataGrid_RuleWeaponModels[i];
+
+            var v1 = rule.Team1Weapon.IndexOf(item.English);
+            if (v1 != -1)
+                item.Team1 = true;
+            else
+                item.Team1 = false;
+
+            var v2 = rule.Team2Weapon.IndexOf(item.English);
+            if (v2 != -1)
+                item.Team2 = true;
+            else
+                item.Team2 = false;
+        }
+    }
+
+    /// <summary>
+    /// 保存规则
+    /// </summary>
+    /// <param name="index"></param>
+    private void SaveRuleByIndex(int index)
+    {
+        var rule = RuleConfigs[index].RuleInfos;
+
+        rule.Team1Normal.MaxKill = RuleTeam1Model.MaxKill;
+        rule.Team1Normal.KDFlag = RuleTeam1Model.KDFlag;
+        rule.Team1Normal.MaxKD = RuleTeam1Model.MaxKD;
+        rule.Team1Normal.KPMFlag = RuleTeam1Model.KPMFlag;
+        rule.Team1Normal.MaxKPM = RuleTeam1Model.MaxKPM;
+        rule.Team1Normal.MinRank = RuleTeam1Model.MinRank;
+        rule.Team1Normal.MaxRank = RuleTeam1Model.MaxRank;
+        rule.Team1Normal.LifeMaxKD = RuleTeam1Model.LifeMaxKD;
+        rule.Team1Normal.LifeMaxKPM = RuleTeam1Model.LifeMaxKPM;
+        rule.Team1Normal.LifeMaxWeaponStar = RuleTeam1Model.LifeMaxWeaponStar;
+        rule.Team1Normal.LifeMaxVehicleStar = RuleTeam1Model.LifeMaxVehicleStar;
+
+        rule.Team2Normal.MaxKill = RuleTeam2Model.MaxKill;
+        rule.Team2Normal.KDFlag = RuleTeam2Model.KDFlag;
+        rule.Team2Normal.MaxKD = RuleTeam2Model.MaxKD;
+        rule.Team2Normal.KPMFlag = RuleTeam2Model.KPMFlag;
+        rule.Team2Normal.MaxKPM = RuleTeam2Model.MaxKPM;
+        rule.Team2Normal.MinRank = RuleTeam2Model.MinRank;
+        rule.Team2Normal.MaxRank = RuleTeam2Model.MaxRank;
+        rule.Team2Normal.LifeMaxKD = RuleTeam2Model.LifeMaxKD;
+        rule.Team2Normal.LifeMaxKPM = RuleTeam2Model.LifeMaxKPM;
+        rule.Team2Normal.LifeMaxWeaponStar = RuleTeam2Model.LifeMaxWeaponStar;
+        rule.Team2Normal.LifeMaxVehicleStar = RuleTeam2Model.LifeMaxVehicleStar;
+
+        rule.BlackList.Clear();
+        foreach (string item in ListBox_Custom_BlackList.Items)
+        {
+            rule.BlackList.Add(item);
+        }
+
+        rule.WhiteList.Clear();
+        foreach (string item in ListBox_Custom_WhiteList.Items)
+        {
+            rule.WhiteList.Add(item);
+        }
+
+        rule.Team1Weapon.Clear();
+        rule.Team2Weapon.Clear();
+        for (int i = 0; i < DataGrid_RuleWeaponModels.Count; i++)
+        {
+            var item = DataGrid_RuleWeaponModels[i];
+            if (item.Team1)
+                rule.Team1Weapon.Add(item.English);
+
+            if (item.Team2)
+                rule.Team2Weapon.Add(item.English);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -949,5 +1032,39 @@ public partial class RuleView : UserControl
 
             MainWindow._SetOperatingState(1, $"环境检查完毕，自动踢人可以开启");
         }
+    }
+
+    private void Button_ReNameRule_Click(object sender, RoutedEventArgs e)
+    {
+        var name = TextBox_ReNameRule.Text.Trim();
+        if (string.IsNullOrEmpty(name))
+            return;
+
+        var index = ComboBox_CustomConfigName.SelectedIndex;
+        if (index == -1)
+            return;
+
+        ComboBox_ConfigNames[index] = name;
+        RuleConfigs[index].RuleName = name;
+
+        ComboBox_CustomConfigName.SelectedIndex = index;
+    }
+
+    private void Button_SaveCurrentRule_Click(object sender, RoutedEventArgs e)
+    {
+        var index = ComboBox_CustomConfigName.SelectedIndex;
+        if (index == -1)
+            return;
+
+        SaveRuleByIndex(index);
+    }
+
+    private void ComboBox_CustomConfigName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var index = ComboBox_CustomConfigName.SelectedIndex;
+        if (index == -1)
+            return;
+
+        ApplyRuleByIndex(index);
     }
 }
