@@ -5,6 +5,7 @@
     xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
     xmlns:views="clr-namespace:BF1.ServerAdminTools.Views"
     Name="Window_Main"
     Title="战地1服务器管理工具"
@@ -19,11 +20,12 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="40" />
-        </Grid.RowDefinitions>
-
+        <notifications:NotificationArea
+            x:Name="WindowArea"
+            Margin="0,0,0,10"
+            Panel.ZIndex="999"
+            MaxItems="5"
+            Position="BottomCenter" />
         <!--  #############################################################################  -->
         <TabControl
             x:Name="TabControl_Main"
@@ -92,32 +94,5 @@
                 <views:AboutView />
             </TabItem>
         </TabControl>
-
-        <!--  #############################################################################  -->
-        <DockPanel
-            Grid.Row="1"
-            Margin="5,0,5,5"
-            LastChildFill="True">
-            <Border
-                BorderBrush="{Binding ElementName=Border_OperateState, Path=Background}"
-                BorderThickness="1"
-                DockPanel.Dock="Right">
-                <TextBlock
-                    Margin="5"
-                    VerticalAlignment="Center"
-                    Text="{Binding MainModel.AppRunTime, FallbackValue='运行时间 : Loading...'}" />
-            </Border>
-            <Border x:Name="Border_OperateState" Background="Green">
-                <TextBlock
-                    x:Name="TextBlock_OperateState"
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center"
-                    Foreground="White"
-                    Text="操作状态 : 无"
-                    TextTrimming="CharacterEllipsis"
-                    TextWrapping="NoWrap"
-                    ToolTip="{Binding ElementName=TextBlock_OperateState, Path=Text}" />
-            </Border>
-        </DockPanel>
     </Grid>
 </Window>

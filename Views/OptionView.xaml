@@ -17,6 +17,12 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="5">
+            <GroupBox Header="时间">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="{Binding OptionModel.AppRunTime, FallbackValue='运行时间 : Loading...'}" />
+            </GroupBox>
             <GroupBox Header="按键音">
                 <WrapPanel>
                     <RadioButton

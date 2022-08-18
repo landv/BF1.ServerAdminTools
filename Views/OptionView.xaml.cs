@@ -1,4 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Models;
+using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.Views;
@@ -8,9 +9,24 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class OptionView : UserControl
 {
+    public OptionModel OptionModel { get; set; } = new();
+
+    // 声明一个变量，用于存储软件开始运行的时间
+    private DateTime Origin_DateTime;
+
     public OptionView()
     {
         InitializeComponent();
+        this.DataContext = this;
+
+        OptionModel.AppRunTime = "运行时间 : Loading...";
+
+        // 获取当前时间，存储到对于变量中
+        Origin_DateTime = DateTime.Now;
+
+        var thread0 = new Thread(UpdateState);
+        thread0.IsBackground = true;
+        thread0.Start();
 
         var temp = IniHelper.ReadString("Options", "AudioIndex", "", FileUtil.F_Settings_Path);
         if (!string.IsNullOrEmpty(temp))
@@ -75,6 +91,26 @@ public partial class OptionView : UserControl
                 AudioUtil.ClickSoundIndex = 5;
                 AudioUtil.ClickSound();
                 break;
+        }
+    }
+
+    private void UpdateState()
+    {
+        while (true)
+        {
+            // 获取软件运行时间
+            OptionModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
+
+            if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    MainWindow.ThisMainWindow.Close();
+                });
+                return;
+            }
+
+            Thread.Sleep(1000);
         }
     }
 }

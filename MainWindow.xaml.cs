@@ -5,10 +5,10 @@ using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Chat;
+using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Windows.Kits;
 
 using CommunityToolkit.Mvvm.Messaging;
-using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools;
 
@@ -27,11 +27,6 @@ public partial class MainWindow : Window
 
     public static MainWindow ThisMainWindow;
 
-    public MainModel MainModel { get; set; } = new();
-
-    // 声明一个变量，用于存储软件开始运行的时间
-    private DateTime Origin_DateTime;
-
     ///////////////////////////////////////////////////////
 
     public MainWindow()
@@ -41,32 +36,24 @@ public partial class MainWindow : Window
 
     private void Window_Main_Loaded(object sender, RoutedEventArgs e)
     {
+        this.DataContext = this;
+        ThisMainWindow = this;
+
         // 提示信息委托
         _SetOperatingState = SetOperatingState;
-
-        MainModel.AppRunTime = "运行时间 : Loading...";
-
-        ThisMainWindow = this;
 
         ////////////////////////////////
 
         Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo
             + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
 
-        // 获取当前时间，存储到对于变量中
-        Origin_DateTime = DateTime.Now;
-
         ////////////////////////////////
 
-        var thread0 = new Thread(UpdateState);
-        thread0.IsBackground = true;
-        thread0.Start();
-
-        var therad1 = new Thread(InitThread);
-        therad1.IsBackground = true;
-        therad1.Start();
-
-        this.DataContext = this;
+        var therad0 = new Thread(InitThread)
+        {
+            IsBackground = true
+        };
+        therad0.Start();
     }
 
     private void Window_Main_Closing(object sender, CancelEventArgs e)
@@ -158,27 +145,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private void UpdateState()
-    {
-        while (true)
-        {
-            // 获取软件运行时间
-            MainModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
-
-            if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.Close();
-                });
-                return;
-            }
-
-            Thread.Sleep(1000);
-        }
-    }
-
-    #region 常用方法
     /// <summary>
     /// 提示信息，绿色信息1，灰色警告2，红色错误3
     /// </summary>
@@ -186,30 +152,17 @@ public partial class MainWindow : Window
     /// <param name="str">消息内容</param>
     private void SetOperatingState(int index, string str)
     {
-        this.Dispatcher.BeginInvoke(() =>
+        switch (index)
         {
-            if (index == 1)
-            {
-                Border_OperateState.Background = Brushes.Green;
-                TextBlock_OperateState.Text = $"信息 : {str}";
-            }
-            else if (index == 2)
-            {
-                Border_OperateState.Background = Brushes.Gray;
-                TextBlock_OperateState.Text = $"警告 : {str}";
-            }
-            else if (index == 3)
-            {
-                Border_OperateState.Background = Brushes.Red;
-                TextBlock_OperateState.Text = $"错误 : {str}";
-            }
-        });
+            case 1:
+                NotifierHelp.Show("信息", str);
+                break;
+            case 2:
+                NotifierHelp.Show("警告", str);
+                break;
+            case 3:
+                NotifierHelp.Show("错误", str);
+                break;
+        }
     }
-
-    private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-    {
-        ProcessUtil.OpenLink(e.Uri.OriginalString);
-        e.Handled = true;
-    }
-    #endregion
 }

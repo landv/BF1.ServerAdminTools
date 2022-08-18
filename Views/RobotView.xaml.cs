@@ -411,6 +411,8 @@ public partial class RobotView : UserControl
 
     private void Button_AddQQGMID_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         var qq = TextBox_AddQQGroupMemberID.Text.Trim();
 
         if (CommonUtil.IsNumber(qq))
@@ -422,6 +424,8 @@ public partial class RobotView : UserControl
 
     private void Button_RemoveQQGMID_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         var index = ListBox_QQGroupMemberIDs.SelectedIndex;
         if (index != -1)
         {
@@ -431,11 +435,15 @@ public partial class RobotView : UserControl
 
     private void Button_ClearQQGMID_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         ListBox_QQGroupMemberIDs.Items.Clear();
     }
 
     private void Button_SaveRobotConfig_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         SaveRobotConfig();
     }
 
