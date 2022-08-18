@@ -1,11 +1,11 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Core;
+using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
 using CommunityToolkit.Mvvm.Messaging;
-using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -74,7 +74,7 @@ public partial class AuthView : UserControl
         {
             TextBlock_CheckSessionIdStatus.Text = "正在验证中，请等待...";
             TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-            MainWindow._SetOperatingState(2, "正在验证中，请等待...");
+            NotifierHelper.Show(NotiferType.Information, "正在验证中，请等待...");
 
             await BF1API.SetAPILocale();
             var result = await BF1API.GetWelcomeMessage();
@@ -88,19 +88,19 @@ public partial class AuthView : UserControl
                 TextBlock_CheckSessionIdStatus.Text = msg;
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
 
-                MainWindow._SetOperatingState(1, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotiferType.Success, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
                 TextBlock_CheckSessionIdStatus.Text = "验证失败";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                MainWindow._SetOperatingState(3, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotiferType.Error, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
         else
         {
-            MainWindow._SetOperatingState(2, "请先获取玩家SessionID后，再执行本操作");
+            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID后，再执行本操作");
         }
     }
 
@@ -112,18 +112,18 @@ public partial class AuthView : UserControl
         {
             Task.Run(() =>
             {
-                MainWindow._SetOperatingState(2, "正在获取中，请等待...");
+                NotifierHelper.Show(NotiferType.Information, "正在获取中，请等待...");
 
                 var str = Search.SearchMemory(Offsets.SessionIDMask);
                 if (str != string.Empty)
                 {
                     Globals.SessionId = str;
-                    MainWindow._SetOperatingState(1, $"获取玩家SessionID成功");
+                    NotifierHelper.Show(NotiferType.Success, $"获取玩家SessionID成功");
                 }
                 else
                 {
                     LoggerHelper.Error($"获取玩家SessionID失败");
-                    MainWindow._SetOperatingState(2, $"获取玩家SessionID失败");
+                    NotifierHelper.Show(NotiferType.Error, $"获取玩家SessionID失败");
                 }
             });
         }

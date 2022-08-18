@@ -1,6 +1,4 @@
-﻿using BF1.ServerAdminTools.Views;
-using BF1.ServerAdminTools.Models;
-using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Core;
@@ -17,11 +15,6 @@ namespace BF1.ServerAdminTools;
 /// </summary>
 public partial class MainWindow : Window
 {
-    /// <summary>
-    /// 主窗口全局提示信息委托
-    /// </summary>
-    public static Action<int, string> _SetOperatingState;
-
     public delegate void ClosingDispose();
     public static event ClosingDispose ClosingDisposeEvent;
 
@@ -38,9 +31,6 @@ public partial class MainWindow : Window
     {
         this.DataContext = this;
         ThisMainWindow = this;
-
-        // 提示信息委托
-        _SetOperatingState = SetOperatingState;
 
         ////////////////////////////////
 
@@ -142,27 +132,6 @@ public partial class MainWindow : Window
             {
                 LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
             }
-        }
-    }
-
-    /// <summary>
-    /// 提示信息，绿色信息1，灰色警告2，红色错误3
-    /// </summary>
-    /// <param name="index">绿色信息1，灰色警告2，红色错误3</param>
-    /// <param name="str">消息内容</param>
-    private void SetOperatingState(int index, string str)
-    {
-        switch (index)
-        {
-            case 1:
-                NotifierHelp.Show("信息", str);
-                break;
-            case 2:
-                NotifierHelp.Show("警告", str);
-                break;
-            case 3:
-                NotifierHelp.Show("错误", str);
-                break;
         }
     }
 }

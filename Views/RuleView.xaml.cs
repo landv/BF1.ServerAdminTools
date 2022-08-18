@@ -5,6 +5,7 @@ using BF1.ServerAdminTools.Features.API.RespJson;
 using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.Config;
 using BF1.ServerAdminTools.Features.Client;
+using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -468,7 +469,7 @@ public partial class RuleView : UserControl
             AppendLog($"队伍1 限制等级规则设置不正确");
             AppendLog("");
 
-            MainWindow._SetOperatingState(3, $"队伍1 限制等级规则设置不正确");
+            NotifierHelper.Show(NotiferType.Warning, $"队伍1 限制等级规则设置不正确");
 
             return;
         }
@@ -481,7 +482,7 @@ public partial class RuleView : UserControl
             AppendLog($"队伍2 限制等级规则设置不正确");
             AppendLog("");
 
-            MainWindow._SetOperatingState(3, $"队伍2 限制等级规则设置不正确");
+            NotifierHelper.Show(NotiferType.Warning, $"队伍2 限制等级规则设置不正确");
 
             return;
         }
@@ -533,7 +534,7 @@ public partial class RuleView : UserControl
         AppendLog($"成功提交当前规则，请重新启动自动踢人功能");
         AppendLog("");
 
-        MainWindow._SetOperatingState(1, $"应用当前规则成功，请点击<查询当前规则>检验规则是否正确");
+        NotifierHelper.Show(NotiferType.Success, $"应用当前规则成功，请点击<查询当前规则>检验规则是否正确");
 
         Task.Run(() =>
         {
@@ -627,7 +628,7 @@ public partial class RuleView : UserControl
         }
         AppendLog("\n");
 
-        MainWindow._SetOperatingState(1, $"查询当前规则成功，请点击<检查违规玩家>测试是否正确");
+        NotifierHelper.Show(NotiferType.Success, $"查询当前规则成功，请点击<检查违规玩家>测试是否正确");
     }
 
     private void Button_CheckBreakRulePlayer_Click(object sender, RoutedEventArgs e)
@@ -701,7 +702,7 @@ public partial class RuleView : UserControl
         }
         AppendLog("\n");
 
-        MainWindow._SetOperatingState(1, $"检查违规玩家成功，如果符合规则就可以勾选<激活自动踢出违规玩家>了");
+        NotifierHelper.Show(NotiferType.Success, $"检查违规玩家成功，如果符合规则就可以勾选<激活自动踢出违规玩家>了");
     }
 
     private void Button_Add_BlackList_Click(object sender, RoutedEventArgs e)
@@ -724,18 +725,18 @@ public partial class RuleView : UserControl
             {
                 ListBox_Custom_BlackList.Items.Add(TextBox_BlackList_PlayerName.Text);
 
-                MainWindow._SetOperatingState(1, $"添加 {TextBox_BlackList_PlayerName.Text} 到黑名单列表成功");
+                NotifierHelper.Show(NotiferType.Success, $"添加 {TextBox_BlackList_PlayerName.Text} 到黑名单列表成功");
                 TextBox_BlackList_PlayerName.Text = "";
             }
             else
             {
-                MainWindow._SetOperatingState(2, $"该项 {TextBox_BlackList_PlayerName.Text} 已经存在了，请不要重复添加");
+                NotifierHelper.Show(NotiferType.Warning, $"该项 {TextBox_BlackList_PlayerName.Text} 已经存在了，请不要重复添加");
                 TextBox_BlackList_PlayerName.Text = "";
             }
         }
         else
         {
-            MainWindow._SetOperatingState(2, $"待添加黑名单玩家ID为空，添加操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"待添加黑名单玩家ID为空，添加操作取消");
         }
     }
 
@@ -745,12 +746,12 @@ public partial class RuleView : UserControl
 
         if (ListBox_Custom_BlackList.SelectedIndex != -1)
         {
-            MainWindow._SetOperatingState(1, $"从黑名单列表删除（{ListBox_Custom_BlackList.SelectedItem}）成功");
+            NotifierHelper.Show(NotiferType.Success, $"从黑名单列表删除（{ListBox_Custom_BlackList.SelectedItem}）成功");
             ListBox_Custom_BlackList.Items.Remove(ListBox_Custom_BlackList.SelectedItem);
         }
         else
         {
-            MainWindow._SetOperatingState(2, $"请正确选中你要删除的玩家ID或自定义黑名单列表为空，删除操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"请正确选中你要删除的玩家ID或自定义黑名单列表为空，删除操作取消");
         }
     }
 
@@ -762,7 +763,7 @@ public partial class RuleView : UserControl
         Globals.Custom_BlackList.Clear();
         ListBox_Custom_BlackList.Items.Clear();
 
-        MainWindow._SetOperatingState(1, $"清空黑名单列表成功");
+        NotifierHelper.Show(NotiferType.Success, $"清空黑名单列表成功");
     }
 
     private void Button_Add_WhiteList_Click(object sender, RoutedEventArgs e)
@@ -785,19 +786,19 @@ public partial class RuleView : UserControl
             {
                 ListBox_Custom_WhiteList.Items.Add(TextBox_WhiteList_PlayerName.Text);
 
-                MainWindow._SetOperatingState(1, $"添加 {TextBox_WhiteList_PlayerName.Text} 到白名单列表成功");
+                NotifierHelper.Show(NotiferType.Success, $"添加 {TextBox_WhiteList_PlayerName.Text} 到白名单列表成功");
 
                 TextBox_WhiteList_PlayerName.Text = "";
             }
             else
             {
-                MainWindow._SetOperatingState(2, $"该项 {TextBox_WhiteList_PlayerName.Text} 已经存在了，请不要重复添加");
+                NotifierHelper.Show(NotiferType.Warning, $"该项 {TextBox_WhiteList_PlayerName.Text} 已经存在了，请不要重复添加");
                 TextBox_WhiteList_PlayerName.Text = "";
             }
         }
         else
         {
-            MainWindow._SetOperatingState(2, $"待添加白名单玩家ID为空，添加操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"待添加白名单玩家ID为空，添加操作取消");
         }
     }
 
@@ -807,12 +808,12 @@ public partial class RuleView : UserControl
 
         if (ListBox_Custom_WhiteList.SelectedIndex != -1)
         {
-            MainWindow._SetOperatingState(1, $"从白名单列表删除（{ListBox_Custom_WhiteList.SelectedItem}）成功");
+            NotifierHelper.Show(NotiferType.Success, $"从白名单列表删除（{ListBox_Custom_WhiteList.SelectedItem}）成功");
             ListBox_Custom_WhiteList.Items.Remove(ListBox_Custom_WhiteList.SelectedItem);
         }
         else
         {
-            MainWindow._SetOperatingState(2, $"请正确选中你要删除的玩家ID或自定义白名单列表为空，删除操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"请正确选中你要删除的玩家ID或自定义白名单列表为空，删除操作取消");
         }
     }
 
@@ -824,7 +825,7 @@ public partial class RuleView : UserControl
         Globals.Custom_WhiteList.Clear();
         ListBox_Custom_WhiteList.Items.Clear();
 
-        MainWindow._SetOperatingState(1, $"清空白名单列表成功");
+        NotifierHelper.Show(NotiferType.Success, $"清空白名单列表成功");
     }
 
     /// <summary>
@@ -835,7 +836,7 @@ public partial class RuleView : UserControl
     {
         TextBox_RuleLog.Clear();
 
-        MainWindow._SetOperatingState(2, $"正在检查环境...");
+        NotifierHelper.Show(NotiferType.Information, $"正在检查环境...");
 
         AppendLog("===== 操作时间 =====");
         AppendLog("");
@@ -846,7 +847,7 @@ public partial class RuleView : UserControl
         if (!isApplyRule)
         {
             AppendLog("❌ 玩家没有正确应用规则，请点击应用当前规则，操作取消");
-            MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"环境检查未通过，操作取消");
             return false;
         }
         else
@@ -859,7 +860,7 @@ public partial class RuleView : UserControl
         if (string.IsNullOrEmpty(Globals.SessionId))
         {
             AppendLog("❌ SessionId为空，请先获取SessionId，操作取消");
-            MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"环境检查未通过，操作取消");
             return false;
         }
         else
@@ -873,7 +874,7 @@ public partial class RuleView : UserControl
         if (!result.IsSuccess)
         {
             AppendLog("❌ SessionId 已过期，请刷新SessionId，操作取消");
-            MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"环境检查未通过，操作取消");
             return false;
         }
         else
@@ -886,7 +887,7 @@ public partial class RuleView : UserControl
         if (string.IsNullOrEmpty(Globals.GameId))
         {
             AppendLog("❌ GameId 为空，请先进入服务器，操作取消");
-            MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"环境检查未通过，操作取消");
             return false;
         }
         else
@@ -899,7 +900,7 @@ public partial class RuleView : UserControl
         if (Globals.Server_AdminList_PID.Count == 0)
         {
             AppendLog("❌ 服务器管理员列表 为空，请先获取当前服务器详情数据，操作取消");
-            MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"环境检查未通过，操作取消");
             return false;
         }
         else
@@ -915,7 +916,7 @@ public partial class RuleView : UserControl
         if (!Globals.Server_AdminList_Name.Contains(playerName))
         {
             AppendLog("❌ 玩家不是当前服务器管理，请确认服务器是否选择正确，操作取消");
-            MainWindow._SetOperatingState(2, $"环境检查未通过，操作取消");
+            NotifierHelper.Show(NotiferType.Warning, $"环境检查未通过，操作取消");
             return false;
         }
         else
@@ -940,7 +941,7 @@ public partial class RuleView : UserControl
                 isHasBeenExec = false;
 
                 Globals.AutoKickBreakPlayer = true;
-                MainWindow._SetOperatingState(1, $"自动踢人开启成功");
+                NotifierHelper.Show(NotiferType.Success, $"自动踢人开启成功");
             }
             else
             {
@@ -951,7 +952,7 @@ public partial class RuleView : UserControl
         else
         {
             Globals.AutoKickBreakPlayer = false;
-            MainWindow._SetOperatingState(1, $"自动踢人关闭成功");
+            NotifierHelper.Show(NotiferType.Success, $"自动踢人关闭成功");
         }
     }
 
@@ -1020,7 +1021,7 @@ public partial class RuleView : UserControl
                 CheckBreakLifePlayer(item);
             }
 
-            MainWindow._SetOperatingState(1, "执行手动踢人操作成功，请查看日志了解执行结果");
+            NotifierHelper.Show(NotiferType.Success, "执行手动踢人操作成功，请查看日志了解执行结果");
         }
     }
 
@@ -1034,12 +1035,14 @@ public partial class RuleView : UserControl
             AppendLog("");
             AppendLog("环境检查完毕，自动踢人可以开启");
 
-            MainWindow._SetOperatingState(1, $"环境检查完毕，自动踢人可以开启");
+            NotifierHelper.Show(NotiferType.Success, $"环境检查完毕，自动踢人可以开启");
         }
     }
 
     private void Button_ReNameRule_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         var name = TextBox_ReNameRule.Text.Trim();
         if (string.IsNullOrEmpty(name))
             return;
@@ -1056,6 +1059,8 @@ public partial class RuleView : UserControl
 
     private void Button_SaveCurrentRule_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         var index = ComboBox_CustomConfigName.SelectedIndex;
         if (index == -1)
             return;

@@ -5,6 +5,7 @@ using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
 using CommunityToolkit.Mvvm.Input;
+using BF1.ServerAdminTools.Common.Helper;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -79,12 +80,9 @@ public partial class ServerView : UserControl
 
             ServerModel.ServerName = ServerModel.ServerName.Trim();
 
-            MainWindow._SetOperatingState(2, $"正在查询服务器 {ServerModel.ServerName} 数据中...");
+            NotifierHelper.Show(NotiferType.Information, $"正在查询服务器 {ServerModel.ServerName} 数据中...");
 
             var result = await BF1API.SearchServers(ServerModel.ServerName);
-
-            ServerModel.LoadingVisibility = Visibility.Collapsed;
-
             if (result.IsSuccess)
             {
                 var searchServers = JsonUtil.JsonDese<SearchServers>(result.Message);
@@ -111,16 +109,18 @@ public partial class ServerView : UserControl
                     }));
                 }
 
-                MainWindow._SetOperatingState(1, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotiferType.Success, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                MainWindow._SetOperatingState(3, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotiferType.Error, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
             }
+
+            ServerModel.LoadingVisibility = Visibility.Collapsed;
         }
         else
         {
-            MainWindow._SetOperatingState(2, $"请输入正确的服务器名称");
+            NotifierHelper.Show(NotiferType.Warning, $"请输入正确的服务器名称");
         }
     }
 
