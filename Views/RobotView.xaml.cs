@@ -255,7 +255,7 @@ public partial class RobotView : UserControl
         sb.AppendLine($"队伍比分: {info.Team1Score} 🆚 {info.Team2Score}");
         sb.Append($"状态: {info.Status}");
 
-        if (!RobotConfig.IsIgnoreQQGroupLimit)
+        if (RobotConfig.IsSendChangeTeam)
         {
             if (QQGroupList.Contains(RobotConfig.QQGroupID))
             {
