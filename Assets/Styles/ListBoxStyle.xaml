@@ -30,7 +30,7 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#00a1d6" />
+                                        <Setter TargetName="border" Property="Background" Value="#409EFF" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="Orange" />
@@ -45,17 +45,12 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="0.8*" />
-                        </Grid.RowDefinitions>
-                        <Image
-                            VerticalAlignment="Center"
-                            RenderOptions.BitmapScalingMode="HighQuality"
-                            Source="{Binding mapImage, Converter={StaticResource MyImageConverter}}"
-                            Stretch="UniformToFill" />
-                        <UniformGrid Grid.Row="1" Rows="2">
+                    <DockPanel Background="Transparent" LastChildFill="True">
+                        <UniformGrid
+                            Name="uniformGrid"
+                            Height="90"
+                            DockPanel.Dock="Bottom"
+                            Rows="2">
                             <TextBlock
                                 Margin="20,0,0,5"
                                 VerticalAlignment="Bottom"
@@ -67,7 +62,39 @@
                                 Foreground="White"
                                 Text="{Binding mapPrettyName}" />
                         </UniformGrid>
-                    </Grid>
+                        <Image
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Top"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="{Binding mapImage, Converter={StaticResource MyImageConverter}}"
+                            Stretch="UniformToFill" />
+                    </DockPanel>
+                    <DataTemplate.Triggers>
+                        <EventTrigger RoutedEvent="DockPanel.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="uniformGrid"
+                                        Storyboard.TargetProperty="Height"
+                                        From="90"
+                                        To="130"
+                                        Duration="0:0:.1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="DockPanel.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="uniformGrid"
+                                        Storyboard.TargetProperty="Height"
+                                        From="130"
+                                        To="90"
+                                        Duration="0:0:.1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -98,7 +125,7 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#00a1d6" />
+                                        <Setter TargetName="border" Property="Background" Value="#409EFF" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="Orange" />
@@ -174,7 +201,7 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#00a1d6" />
+                                        <Setter TargetName="border" Property="Background" Value="#409EFF" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="border" Property="Background" Value="Orange" />
@@ -227,7 +254,7 @@
 
     <!--  =====================================================================================  -->
 
-    <SolidColorBrush x:Key="ListBoxItemColor" Color="#03A9F4" />
+    <SolidColorBrush x:Key="ListBoxItemColor" Color="#409EFF" />
 
     <Style x:Key="ListBoxStyle_PlayerData" TargetType="{x:Type ListBox}">
         <Setter Property="Template">
