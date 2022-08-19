@@ -182,6 +182,10 @@
                                 Foreground="Green"
                                 Text="提示：按方向键左右可以精确调整，也可用鼠标点击大致位置或者按住滑块拖动调整"
                                 TextWrapping="Wrap" />
+                            <TextBlock
+                                Foreground="Green"
+                                Text="提示：行动模式队伍1为进攻方，队伍2为防守方"
+                                TextWrapping="Wrap" />
                         </StackPanel>
                     </DockPanel>
                 </UniformGrid>
@@ -317,7 +321,7 @@
                 </DataGrid>
             </TabItem>
             <!--  ################################  -->
-            <TabItem attached:Icon.Value="🍓" Header="玩家黑/白名单">
+            <TabItem attached:Icon.Value="🍉" Header="玩家黑/白名单">
                 <UniformGrid Columns="2">
                     <DockPanel LastChildFill="True">
                         <TextBlock

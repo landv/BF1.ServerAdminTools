@@ -17,12 +17,13 @@ public partial class AuthView : UserControl
     public AuthView()
     {
         InitializeComponent();
+        this.DataContext = this;
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
         var timerAutoRefresh = new Timer
         {
             AutoReset = true,
-            Interval = TimeSpan.FromMinutes(10).TotalMilliseconds
+            Interval = TimeSpan.FromMinutes(5).TotalMilliseconds
         };
         timerAutoRefresh.Elapsed += TimerAutoRefresh_Elapsed;
         timerAutoRefresh.Start();

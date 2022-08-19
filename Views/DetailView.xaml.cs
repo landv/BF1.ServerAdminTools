@@ -44,16 +44,13 @@ public partial class DetailView : UserControl
     {
         InitializeComponent();
         this.DataContext = this;
-
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-        WeakReferenceMessenger.Default.Register<string, string>(this, "RefreshData", (s, e) =>
+        var thread0 = new Thread(UpdateServerDetils)
         {
-            this.Dispatcher.BeginInvoke(() =>
-            {
-                GetFullServerDetails();
-            });
-        });
+            IsBackground = true
+        };
+        thread0.Start();
     }
 
     private void MainWindow_ClosingDisposeEvent()
@@ -61,7 +58,59 @@ public partial class DetailView : UserControl
 
     }
 
-    private async void GetFullServerDetails()
+    private void UpdateServerDetils()
+    {
+        bool isClear = true;
+
+        while (true)
+        {
+            if (Globals.GameId == string.Empty)
+            {
+                if (!isClear)
+                {
+                    isClear = true;
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        DetailModel.ServerName = string.Empty;
+                        DetailModel.ServerDescription = string.Empty;
+                        DetailModel.ServerOwnerName = string.Empty;
+                        DetailModel.ServerOwnerPersonaId = string.Empty;
+                        DetailModel.ServerID = string.Empty;
+                        DetailModel.ServerGameID = string.Empty;
+
+                        DetailModel.ServerOwnerImage = null;
+                        DetailModel.ServerCurrentMap = null;
+
+                        ListBox_Map.Items.Clear();
+                        ListBox_Admin.Items.Clear();
+                        ListBox_VIP.Items.Clear();
+                        ListBox_BAN.Items.Clear();
+
+                        Globals.Server_AdminList_PID.Clear();
+                        Globals.Server_AdminList_Name.Clear();
+                        Globals.Server_VIPList.Clear();
+                    });
+                }
+            }
+            else
+            {
+                if (isClear)
+                {
+                    isClear = false;
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        GetFullServerDetails(true);
+                    });
+                }
+            }
+
+            Thread.Sleep(1000);
+        }
+    }
+
+    private async void GetFullServerDetails(bool isInit = false)
     {
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
@@ -88,7 +137,8 @@ public partial class DetailView : UserControl
 
                 /////////////////////////////////////////////////////////////////////////////////
 
-                NotifierHelper.Show(NotiferType.Information, $"正在获取服务器 {Globals.GameId} 详细数据中...");
+                if (!isInit)
+                    NotifierHelper.Show(NotiferType.Information, $"正在获取服务器 {Globals.GameId} 详细数据中...");
 
                 await BF1API.SetAPILocale();
                 var result = await BF1API.GetFullServerDetails();
@@ -176,21 +226,25 @@ public partial class DetailView : UserControl
                         });
                     }
 
-                    NotifierHelper.Show(NotiferType.Success, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    if (!isInit)
+                        NotifierHelper.Show(NotiferType.Success, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    if (!isInit)
+                        NotifierHelper.Show(NotiferType.Error, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请先进入服务器获取GameID");
+                if (!isInit)
+                    NotifierHelper.Show(NotiferType.Warning, "请先进入服务器获取GameID");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            if (!isInit)
+                NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
         }
     }
 
@@ -267,7 +321,7 @@ public partial class DetailView : UserControl
             }
         }
 
-        // 使ListBox能够相应重复点击
+        // 使ListBox能够响应重复点击
         ListBox_Map.SelectedIndex = -1;
     }
 

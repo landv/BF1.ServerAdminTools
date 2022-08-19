@@ -128,25 +128,11 @@ public partial class ScoreView : UserControl
             // 服务器地图名称
             _serverInfo.MapName = Memory.ReadString(Offsets.OFFSET_CLIENTGAMECONTEXT, Offsets.ServerMapName, 64);
             _serverInfo.MapName = string.IsNullOrEmpty(_serverInfo.MapName) ? "未知" : _serverInfo.MapName;
-
-            // 服务器时间
-            _serverInfo.Time = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
             // 服务器游戏模式
             _serverInfo.GameMode = Memory.ReadString(Memory.GetBaseAddress() + Offsets.ServerID_Offset, Offsets.ServerGameMode, 64);
 
-            // 比分数据地址
-            _serverInfo.OffsetTemp = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
-            // 最大比分
-            _serverInfo.MaxScore = Memory.Read<int>(_serverInfo.OffsetTemp + 0x120);
-            // 队伍1、队伍2分数
-            _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.OffsetTemp + 0xE8);
-            _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.OffsetTemp + 0x118);
-            // 队伍1、队伍2从击杀获取得分
-            _serverInfo.Team1Kill = Memory.Read<int>(_serverInfo.OffsetTemp + 0x230);
-            _serverInfo.Team2Kill = Memory.Read<int>(_serverInfo.OffsetTemp + 0x238);
-            // 队伍1、队伍2从旗帜获取得分
-            _serverInfo.Team1Flag = Memory.Read<int>(_serverInfo.OffsetTemp + 0x250);
-            _serverInfo.Team2Flag = Memory.Read<int>(_serverInfo.OffsetTemp + 0x258);
+            // 服务器时间
+            _serverInfo.Time = Memory.Read<float>(Memory.GetBaseAddress() + Offsets.ServerTime_Offset, Offsets.ServerTime);
 
             //////////////////////////////// 服务器数据整理 ////////////////////////////////
 
@@ -167,31 +153,49 @@ public partial class ScoreView : UserControl
 
             ServerInfoModel.ServerTime = PlayerUtil.SecondsToMMSS(_serverInfo.Time);
 
-            //////////////////////////////// 修正服务器得分数据 ////////////////////////////////
-
-            _serverInfo.Team1Score = PlayerUtil.FixedServerScore(_serverInfo.Team1Score);
-            _serverInfo.Team2Score = PlayerUtil.FixedServerScore(_serverInfo.Team2Score);
-
-            if (_serverInfo.MaxScore != 0)
+            // 当服务器模式为征服时，下列数据才有效
+            if (_serverInfo.GameMode == "征服")
             {
-                var scale = _serverInfo.MaxScore / 1000.0f;
-                ServerInfoModel.Team1ScoreWidth = PlayerUtil.FixedServerScore(_serverInfo.Team1Score / (8 * scale));
-                ServerInfoModel.Team2ScoreWidth = PlayerUtil.FixedServerScore(_serverInfo.Team2Score / (8 * scale));
+                // 比分数据地址
+                _serverInfo.OffsetTemp = Memory.Read<long>(Memory.GetBaseAddress() + Offsets.ServerScore_Offset, Offsets.ServerScoreTeam);
+                // 最大比分
+                _serverInfo.MaxScore = Memory.Read<int>(_serverInfo.OffsetTemp + 0x120);
+                // 队伍1、队伍2分数
+                _serverInfo.Team1Score = Memory.Read<int>(_serverInfo.OffsetTemp + 0xE8);
+                _serverInfo.Team2Score = Memory.Read<int>(_serverInfo.OffsetTemp + 0x118);
+                // 队伍1、队伍2从击杀获取得分
+                _serverInfo.Team1Kill = Memory.Read<int>(_serverInfo.OffsetTemp + 0x230);
+                _serverInfo.Team2Kill = Memory.Read<int>(_serverInfo.OffsetTemp + 0x238);
+                // 队伍1、队伍2从旗帜获取得分
+                _serverInfo.Team1Flag = Memory.Read<int>(_serverInfo.OffsetTemp + 0x250);
+                _serverInfo.Team2Flag = Memory.Read<int>(_serverInfo.OffsetTemp + 0x258);
+
+                //////////////////////////////// 修正服务器得分数据 ////////////////////////////////
+
+                _serverInfo.Team1Score = PlayerUtil.FixedServerScore(_serverInfo.Team1Score);
+                _serverInfo.Team2Score = PlayerUtil.FixedServerScore(_serverInfo.Team2Score);
+
+                if (_serverInfo.MaxScore != 0)
+                {
+                    var scale = _serverInfo.MaxScore / 1000.0f;
+                    ServerInfoModel.Team1ScoreWidth = PlayerUtil.FixedServerScore(_serverInfo.Team1Score / (8 * scale));
+                    ServerInfoModel.Team2ScoreWidth = PlayerUtil.FixedServerScore(_serverInfo.Team2Score / (8 * scale));
+                }
+                else
+                {
+                    ServerInfoModel.Team1ScoreWidth = 0;
+                    ServerInfoModel.Team2ScoreWidth = 0;
+                }
+
+                ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
+                ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();
+
+                ServerInfoModel.Team1Flag = PlayerUtil.FixedServerScore(_serverInfo.Team1Flag);
+                ServerInfoModel.Team1Kill = PlayerUtil.FixedServerScore(_serverInfo.Team1Kill);
+
+                ServerInfoModel.Team2Flag = PlayerUtil.FixedServerScore(_serverInfo.Team2Flag);
+                ServerInfoModel.Team2Kill = PlayerUtil.FixedServerScore(_serverInfo.Team2Kill);
             }
-            else
-            {
-                ServerInfoModel.Team1ScoreWidth = 0;
-                ServerInfoModel.Team2ScoreWidth = 0;
-            }
-
-            ServerInfoModel.Team1Score = _serverInfo.Team1Score.ToString();
-            ServerInfoModel.Team2Score = _serverInfo.Team2Score.ToString();
-
-            ServerInfoModel.Team1Flag = PlayerUtil.FixedServerScore(_serverInfo.Team1Flag);
-            ServerInfoModel.Team1Kill = PlayerUtil.FixedServerScore(_serverInfo.Team1Kill);
-
-            ServerInfoModel.Team2Flag = PlayerUtil.FixedServerScore(_serverInfo.Team2Flag);
-            ServerInfoModel.Team2Kill = PlayerUtil.FixedServerScore(_serverInfo.Team2Kill);
 
             ////////////////////////////////////////////////////////////////////////////////
 

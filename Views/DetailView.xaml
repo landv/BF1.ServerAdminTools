@@ -2,6 +2,7 @@
     x:Class="BF1.ServerAdminTools.Views.DetailView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Detail"
@@ -23,14 +24,14 @@
                 <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
             </TabControl.Resources>
             <!--  ################################  -->
-            <TabItem Header="地图">
+            <TabItem attached:Icon.Value="🍇" Header="地图">
                 <ListBox
                     x:Name="ListBox_Map"
                     SelectionChanged="ListBox_Map_SelectionChanged"
                     Style="{StaticResource ListBoxStyle_Map}" />
             </TabItem>
             <!--  ################################  -->
-            <TabItem Header="Admin">
+            <TabItem attached:Icon.Value="🍓" Header="Admin">
                 <UniformGrid Columns="2">
                     <ListBox
                         x:Name="ListBox_Admin"
@@ -118,7 +119,7 @@
                 </UniformGrid>
             </TabItem>
             <!--  ################################  -->
-            <TabItem Header="VIP">
+            <TabItem attached:Icon.Value="🍈" Header="VIP">
                 <UniformGrid Columns="2">
                     <ListBox
                         x:Name="ListBox_VIP"
@@ -200,7 +201,7 @@
                 </UniformGrid>
             </TabItem>
             <!--  ################################  -->
-            <TabItem Header="BAN">
+            <TabItem attached:Icon.Value="🍒" Header="BAN">
                 <UniformGrid Columns="2">
                     <ListBox
                         x:Name="ListBox_BAN"
@@ -282,7 +283,7 @@
                 </UniformGrid>
             </TabItem>
             <!--  ################################  -->
-            <TabItem Header="高级">
+            <TabItem attached:Icon.Value="🍑" Header="高级">
                 <UniformGrid Columns="2">
                     <StackPanel>
                         <TextBlock
@@ -340,7 +341,7 @@
                 </UniformGrid>
             </TabItem>
             <!--  ################################  -->
-            <TabItem Header="观战">
+            <TabItem attached:Icon.Value="🥭" Header="观战">
                 <UniformGrid Columns="2">
                     <ListBox
                         x:Name="ListBox_Spectator"

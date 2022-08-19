@@ -1,11 +1,11 @@
 ﻿using BF1.ServerAdminTools.Models.Rule;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Features.API;
-using BF1.ServerAdminTools.Features.API.RespJson;
 using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.Config;
 using BF1.ServerAdminTools.Features.Client;
+using BF1.ServerAdminTools.Features.API;
+using BF1.ServerAdminTools.Features.API.RespJson;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -61,7 +61,6 @@ public partial class RuleView : UserControl
             IsBackground = true
         };
         therad1.Start();
-
 
         if (!File.Exists(FileUtil.F_Rule_Path))
         {
