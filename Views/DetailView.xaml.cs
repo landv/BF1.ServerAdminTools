@@ -7,8 +7,6 @@ using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
-using CommunityToolkit.Mvvm.Messaging;
-
 namespace BF1.ServerAdminTools.Views;
 
 /// <summary>

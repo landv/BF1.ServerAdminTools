@@ -54,12 +54,14 @@ public static class ChatHelper
     /// <summary>
     /// 设置输入法为英文
     /// </summary>
-    public static void SetIMEStateToEN()
+    public static void SetIMEStateToEN(int delay)
     {
+        Thread.Sleep(delay);
         Application.Current.Dispatcher.Invoke(() =>
         {
             InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
         });
+        Thread.Sleep(delay);
     }
 
     /// <summary>
@@ -73,7 +75,7 @@ public static class ChatHelper
             return;
 
         // 切换输入法到英文状态
-        SetIMEStateToEN();
+        SetIMEStateToEN(KeyPressDelay);
 
         // 将窗口置顶
         Memory.SetForegroundWindow();

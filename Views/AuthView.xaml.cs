@@ -48,22 +48,15 @@ public partial class AuthView : UserControl
 
     private void TimerAutoRefresh_Elapsed(object sender, ElapsedEventArgs e)
     {
-        try
+        var str = Search.SearchMemory(Offsets.SessionIDMask);
+        if (str != string.Empty)
         {
-            var str = Search.SearchMemory(Offsets.SessionIDMask);
-            if (str != string.Empty)
-            {
-                Globals.SessionId = str;
-                LoggerHelper.Info($"获取SessionID成功 {Globals.SessionId}");
-            }
-            else
-            {
-                LoggerHelper.Error($"获取SessionID失败");
-            }
+            Globals.SessionId = str;
+            LoggerHelper.Info($"获取SessionID成功 {Globals.SessionId}");
         }
-        catch (Exception ex)
+        else
         {
-            LoggerHelper.Error($"获取SessionID失败", ex);
+            LoggerHelper.Error($"获取SessionID失败");
         }
     }
 
@@ -109,28 +102,23 @@ public partial class AuthView : UserControl
     {
         AudioUtil.ClickSound();
 
-        try
-        {
-            Task.Run(() =>
-            {
-                NotifierHelper.Show(NotiferType.Information, "正在获取中，请等待...");
+        NotifierHelper.Show(NotiferType.Information, "正在获取中，请等待...");
 
-                var str = Search.SearchMemory(Offsets.SessionIDMask);
-                if (str != string.Empty)
-                {
-                    Globals.SessionId = str;
-                    NotifierHelper.Show(NotiferType.Success, $"获取玩家SessionID成功");
-                }
-                else
-                {
-                    LoggerHelper.Error($"获取玩家SessionID失败");
-                    NotifierHelper.Show(NotiferType.Error, $"获取玩家SessionID失败");
-                }
-            });
-        }
-        catch (Exception ex)
+        Task.Run(() =>
         {
-            LoggerHelper.Error($"获取玩家SessionID失败", ex);
-        }
+            return Search.SearchMemory(Offsets.SessionIDMask);
+        }).ContinueWith((str) =>
+        {
+            if (str.Result != string.Empty)
+            {
+                Globals.SessionId = str.Result;
+                NotifierHelper.Show(NotiferType.Success, $"获取玩家SessionID成功 {Globals.SessionId}");
+            }
+            else
+            {
+                LoggerHelper.Error($"获取玩家SessionID失败");
+                NotifierHelper.Show(NotiferType.Error, $"获取玩家SessionID失败，请尝试刷新伺服器列表");
+            }
+        });
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace BF1.ServerAdminTools.Features.Core;
+﻿namespace BF1.ServerAdminTools.Features.Core;
 
 public static class Search
 {
@@ -58,6 +57,11 @@ public static class Search
 
     private static List<CanReadAddress> canReads = new();
 
+    /// <summary>
+    /// 搜索内存
+    /// </summary>
+    /// <param name="mask"></param>
+    /// <returns></returns>
     public static string SearchMemory(string mask)
     {
         canReads.Clear();
@@ -105,6 +109,13 @@ public static class Search
         return string.Empty;
     }
 
+    /// <summary>
+    /// 特征码搜索
+    /// </summary>
+    /// <param name="pattern"></param>
+    /// <param name="baseAddress"></param>
+    /// <param name="moduleSize"></param>
+    /// <returns></returns>
     private static long FindPattern(string pattern, long baseAddress, int moduleSize)
     {
         List<byte> tempArray = new();
@@ -142,6 +153,11 @@ public static class Search
         return 0;
     }
 
+    /// <summary>
+    /// 判断字符串是否为GUID
+    /// </summary>
+    /// <param name="strSrc"></param>
+    /// <returns></returns>
     private static bool IsGuidByReg(string strSrc)
     {
         strSrc = strSrc.ToLower();
