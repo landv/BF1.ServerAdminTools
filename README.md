@@ -9,7 +9,7 @@
 
 * Windows 10 专业版 21H2 x64
 * Visual Studio 2022
-* .NET 6.0.3
+* .NET 6.0.8
 
 ## 环境
 
