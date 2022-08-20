@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <!--  ################################  -->
         <StackPanel Grid.Column="0">
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="请选择工作模式" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="工作模式" />
             <Label
                 attached:Icon.Value="☕"
                 Content="设置模式"
