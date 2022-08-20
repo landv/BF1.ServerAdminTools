@@ -29,7 +29,7 @@
                             x:Name="rect"
                             Width="0"
                             HorizontalAlignment="Right"
-                            Fill="{TemplateBinding BorderBrush}" />
+                            Fill="#5B5B5B" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -93,7 +93,7 @@
                             x:Name="rect"
                             Height="0"
                             VerticalAlignment="Bottom"
-                            Fill="{TemplateBinding BorderBrush}" />
+                            Fill="#5B5B5B" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -147,6 +147,10 @@
 
     <!--  水平垂直滚动条样式  -->
     <Style x:Key="ScrollBarStyle" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Width" Value="7" />
+        <Setter Property="MinWidth" Value="7" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="MinHeight" Value="0" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ContextMenu" Value="{x:Null}" />
@@ -176,15 +180,15 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto" />
                 <Setter Property="MinWidth" Value="0" />
-                <Setter Property="Height" Value="8" />
-                <Setter Property="MinHeight" Value="8" />
+                <Setter Property="Height" Value="7" />
+                <Setter Property="MinHeight" Value="7" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ScrollBar}">
                             <Grid SnapsToDevicePixels="true">
                                 <Track
                                     x:Name="PART_Track"
-                                    IsDirectionReversed="true"
+                                    IsDirectionReversed="False"
                                     IsEnabled="{TemplateBinding IsMouseOver}">
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource RepeatStyle}" />
@@ -219,8 +223,8 @@
                             Content="{TemplateBinding Content}" />
                         <ScrollBar
                             x:Name="PART_VerticalScrollBar"
-                            MinWidth="15"
-                            MaxWidth="15"
+                            MinWidth="7"
+                            MaxWidth="7"
                             HorizontalAlignment="Right"
                             AutomationProperties.AutomationId="VerticalScrollBar"
                             BorderBrush="#BBBBBB"
@@ -233,8 +237,8 @@
                             Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                         <ScrollBar
                             x:Name="PART_HorizontalScrollBar"
-                            MinHeight="15"
-                            MaxHeight="15"
+                            MinHeight="7"
+                            MaxHeight="7"
                             VerticalAlignment="Bottom"
                             AutomationProperties.AutomationId="HorizontalScrollBar"
                             BorderBrush="#BBBBBB"

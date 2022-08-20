@@ -1615,8 +1615,8 @@ public partial class ScoreView : UserControl
         if (_dataGridSelcContent.IsOK)
         {
             sb.Append($"玩家ID : {_dataGridSelcContent.Name}");
-            sb.Append($"  |  玩家队伍ID : {_dataGridSelcContent.TeamID}");
-            sb.Append($"  |  玩家等级 : {_dataGridSelcContent.Rank}");
+            sb.Append($"  |  队伍ID : {_dataGridSelcContent.TeamID}");
+            sb.Append($"  |  等级 : {_dataGridSelcContent.Rank}");
             sb.Append($"  |  更新时间 : {DateTime.Now}");
         }
         else

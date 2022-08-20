@@ -296,19 +296,21 @@
             <!--  ################################  -->
             <TabItem attached:Icon.Value="🍋" Header="限制武器">
                 <DataGrid
-                    ColumnHeaderStyle="{StaticResource ColumnHeaderStyle_Weapon}"
+                    Margin="5"
                     ItemsSource="{Binding DataGrid_RuleWeaponModels}"
                     Style="{StaticResource DataGridStyle_Weapon}">
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Binding="{Binding Class}"
                             ElementStyle="{StaticResource DataGridTextColumnStyle_Weapon}"
-                            Header="分类" />
+                            Header="分类"
+                            IsReadOnly="True" />
                         <DataGridTextColumn
                             Width="*"
                             Binding="{Binding Name}"
                             ElementStyle="{StaticResource DataGridTextColumnStyle_Weapon}"
-                            Header="名称" />
+                            Header="名称"
+                            IsReadOnly="True" />
                         <DataGridCheckBoxColumn
                             Binding="{Binding Team1, UpdateSourceTrigger=PropertyChanged}"
                             ElementStyle="{StaticResource DataGridCheckBoxColumn_Weapon}"

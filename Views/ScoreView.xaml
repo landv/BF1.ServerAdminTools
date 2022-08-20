@@ -282,7 +282,7 @@
                     <!--  ################################  -->
                     <DataGrid
                         x:Name="DataGrid_Team1"
-                        ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                        Margin="5,5,2.5,5"
                         ContextMenu="{StaticResource ContextMenu_Main}"
                         DockPanel.Dock="Bottom"
                         ItemsSource="{Binding DataGrid_PlayerList_Team1}"
@@ -436,7 +436,7 @@
                     <!--  ################################  -->
                     <DataGrid
                         x:Name="DataGrid_Team2"
-                        ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}"
+                        Margin="2.5,5,5,5"
                         ContextMenu="{StaticResource ContextMenu_Main}"
                         DockPanel.Dock="Bottom"
                         ItemsSource="{Binding DataGrid_PlayerList_Team2}"
