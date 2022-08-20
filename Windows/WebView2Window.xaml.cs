@@ -56,6 +56,11 @@ public partial class WebView2Window : Window
 
     private async void CoreWebView2_SourceChanged(object sender, CoreWebView2SourceChangedEventArgs e)
     {
+        TextBox_Remid.Clear();
+        TextBox_Sid.Clear();
+        TextBox_AuthCode.Clear();
+        TextBox_SessionId.Clear();
+
         if (!WebView2.Source.ToString().Contains("http://127.0.0.1/success?code="))
             return;
 
@@ -73,6 +78,7 @@ public partial class WebView2Window : Window
                 if (!string.IsNullOrEmpty(item.Value))
                 {
                     Globals.Remid = item.Value;
+                    TextBox_Remid.Text = Globals.Remid;
                 }
                 continue;
             }
@@ -82,19 +88,22 @@ public partial class WebView2Window : Window
                 if (!string.IsNullOrEmpty(item.Value))
                 {
                     Globals.Sid = item.Value;
+                    TextBox_Sid.Text = Globals.Sid;
                 }
                 continue;
             }
         }
 
         string code = WebView2.Source.ToString().Replace("http://127.0.0.1/success?code=", "");
+        TextBox_AuthCode.Text = code;
         NotifierHelper.Show(NotiferType.Success, $"登录完成，正在获取SessionId，Code为{code}");
 
         var result = await BF1API.GetEnvIdViaAuthCode(code);
         if (result.IsSuccess)
         {
             var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-            Globals.SessionId = envIdViaAuthCode.result.sessionId;
+            Globals.SessionId_Mode2 = envIdViaAuthCode.result.sessionId;
+            TextBox_SessionId.Text = Globals.SessionId;
             NotifierHelper.Show(NotiferType.Success, $"获取SessionID成功:{Globals.SessionId}  |  耗时: {result.ExecTime:0.00} 秒");
 
             WeakReferenceMessenger.Default.Send("", "SendRemidSid");

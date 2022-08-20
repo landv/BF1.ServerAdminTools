@@ -23,10 +23,6 @@ public partial class AuthView : UserControl
 
     private WebView2Window WebView2Window = null;
 
-    private bool _isUseMode1 = true;
-    private string _sessionIdMode1 = string.Empty;
-    private string _sessionIdMode2 = string.Empty;
-
     public AuthView()
     {
         InitializeComponent();
@@ -62,6 +58,8 @@ public partial class AuthView : UserControl
                 TextBox_Remid.Text = Globals.Remid;
                 TextBox_Sid.Text = Globals.Sid;
                 TextBox_SessionId.Text = Globals.SessionId;
+
+                SaveAuthConfig();
             });
         });
 
@@ -112,13 +110,12 @@ public partial class AuthView : UserControl
 
     private void TimerAutoRefreshMode1_Elapsed(object sender, ElapsedEventArgs e)
     {
-        if (_isUseMode1)
+        if (Globals.IsUseMode1)
         {
             var str = Search.SearchMemory(Offsets.SessionIDMask);
             if (str != string.Empty)
             {
-                Globals.SessionId = str;
-                _sessionIdMode1 = Globals.SessionId;
+                Globals.SessionId_Mode1 = str;
                 LoggerHelper.Info($"获取SessionID成功 {Globals.SessionId}");
             }
             else
@@ -130,7 +127,7 @@ public partial class AuthView : UserControl
 
     private async void TimerAutoRefreshMode2_Elapsed(object sender, ElapsedEventArgs e)
     {
-        if (!_isUseMode1)
+        if (!Globals.IsUseMode1)
         {
             try
             {
@@ -172,8 +169,7 @@ public partial class AuthView : UserControl
                             if (result.IsSuccess)
                             {
                                 var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-                                Globals.SessionId = envIdViaAuthCode.result.sessionId;
-                                _sessionIdMode2 = Globals.SessionId;
+                                Globals.SessionId_Mode2 = envIdViaAuthCode.result.sessionId;
                                 LoggerHelper.Info($"刷新SessionID成功 {Globals.SessionId}");
                             }
                             else
@@ -213,21 +209,22 @@ public partial class AuthView : UserControl
 
         Globals.Sid = auth.Sid;
         Globals.Remid = auth.Remid;
-        Globals.SessionId = auth.SessionId;
-
-        _sessionIdMode1 = Globals.SessionId;
+        Globals.SessionId_Mode2 = auth.SessionId;
 
         TextBox_Remid.Text = Globals.Remid;
         TextBox_Sid.Text = Globals.Sid;
-        TextBox_SessionId.Text = Globals.SessionId;
+        TextBox_SessionId.Text = Globals.SessionId_Mode2;
     }
 
     /// <summary>
     /// 保存授权
     /// </summary>
-    /// <param name="index"></param>
-    private void SaveAuthByIndex(int index)
+    private void SaveAuthConfig()
     {
+        var index = ComboBox_CustomConfigName.SelectedIndex;
+        if (index == -1)
+            return;
+
         var auth = AuthConfigs[index];
 
         auth.Sid = Globals.Sid;
@@ -287,8 +284,7 @@ public partial class AuthView : UserControl
         {
             if (str.Result != string.Empty)
             {
-                Globals.SessionId = str.Result;
-                _sessionIdMode1 = Globals.SessionId;
+                Globals.SessionId_Mode1 = str.Result;
                 NotifierHelper.Show(NotiferType.Success, $"获取玩家SessionID成功 {Globals.SessionId}");
             }
             else
@@ -321,11 +317,7 @@ public partial class AuthView : UserControl
     {
         AudioUtil.ClickSound();
 
-        var index = ComboBox_CustomConfigName.SelectedIndex;
-        if (index == -1)
-            return;
-
-        SaveAuthByIndex(index);
+        SaveAuthConfig();
     }
 
     private void ComboBox_CustomConfigName_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -375,105 +367,8 @@ public partial class AuthView : UserControl
         GetPlayerRemidSid();
     }
 
-    private async void Button_GetPlayerSessionID_Click(object sender, RoutedEventArgs e)
-    {
-        AudioUtil.ClickSound();
-
-        if (string.IsNullOrEmpty(TextBox_Remid.Text) || string.IsNullOrEmpty(TextBox_Sid.Text))
-        {
-            NotifierHelper.Show(NotiferType.Warning, $"Remid或Sid为空，请先获取获取玩家Remid和Sid后再执行本操作");
-            return;
-        }
-
-        NotifierHelper.Show(NotiferType.Information, "正在获取AuthCode");
-
-        string url = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
-        var options = new RestClientOptions(url)
-        {
-            MaxTimeout = 5000,
-            FollowRedirects = false
-        };
-
-        var client = new RestClient(options);
-        var request = new RestRequest()
-            .AddHeader("Cookie", $"remid={Globals.Remid};{Globals.Sid};");
-
-        var response = await client.ExecuteGetAsync(request);
-        if (response.StatusCode != HttpStatusCode.Redirect)
-        {
-            NotifierHelper.Show(NotiferType.Error, $"EA连接失败 {response.StatusCode}");
-            return;
-        }
-
-        if (response.Headers == null)
-        {
-            NotifierHelper.Show(NotiferType.Error, $"EA连接失败: Headers null");
-            return;
-        }
-
-        var list = response.Headers.Where(a => a.Name == "Location").Select(a => a.Value?.ToString());
-        if (!list.Any())
-        {
-            NotifierHelper.Show(NotiferType.Error, $"EA连接失败: Location null");
-            return;
-        }
-
-        string location = list.First();
-        if (location == null)
-        {
-            NotifierHelper.Show(NotiferType.Error, $"EA连接失败:Location null");
-            return;
-        }
-
-        if (location.Contains("http://127.0.0.1/success?code="))
-        {
-            string code = location.Replace("http://127.0.0.1/success?code=", "");
-            NotifierHelper.Show(NotiferType.Information, $"正在获取SessionId，Code为: {code}");
-
-            if (response.Cookies["remid"] != null)
-            {
-                Globals.Remid = response.Cookies["remid"].Value;
-            }
-            if (response.Cookies["sid"] != null)
-            {
-                Globals.Sid = response.Cookies["sid"].Value;
-            }
-
-            var result = await BF1API.GetEnvIdViaAuthCode(code);
-            if (result.IsSuccess)
-            {
-                var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
-                Globals.SessionId = envIdViaAuthCode.result.sessionId;
-                _sessionIdMode2 = Globals.SessionId;
-                NotifierHelper.Show(NotiferType.Success, $"获取SessionID成功  |  耗时: {result.ExecTime:0.00} 秒");
-
-                TextBox_Remid.Text = Globals.Remid;
-                TextBox_Sid.Text = Globals.Sid;
-                TextBox_SessionId.Text = Globals.SessionId;
-            }
-            else
-            {
-                NotifierHelper.Show(NotiferType.Error, $"获取SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
-            }
-        }
-        else
-        {
-            NotifierHelper.Show(NotiferType.Warning, $"Cookie已失效，正在启动网页登录程序");
-            GetPlayerRemidSid();
-        }
-    }
-
     private void RadioButton_Mode12_Click(object sender, RoutedEventArgs e)
     {
-        if (RadioButton_Mode1.IsChecked == true)
-        {
-            _isUseMode1 = true;
-            Globals.SessionId = _sessionIdMode1;
-        }
-        else
-        {
-            _isUseMode1 = false;
-            Globals.SessionId = _sessionIdMode2;
-        }
+        Globals.IsUseMode1 = RadioButton_Mode1.IsChecked == true;
     }
 }

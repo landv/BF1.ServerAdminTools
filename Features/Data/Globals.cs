@@ -5,7 +5,19 @@ public static class Globals
     public static string Remid = string.Empty;
     public static string Sid = string.Empty;
 
-    public static string SessionId = string.Empty;
+    public static bool IsUseMode1 = true;
+
+    public static string SessionId_Mode1 = string.Empty;
+    public static string SessionId_Mode2 = string.Empty;
+
+    public static string SessionId
+    {
+        get
+        {
+            return IsUseMode1 ? SessionId_Mode1 : SessionId_Mode2;
+        }
+    }
+
     public static string GameId = string.Empty;
     public static string ServerId = string.Empty;
     public static string PersistedGameId = string.Empty;

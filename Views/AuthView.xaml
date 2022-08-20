@@ -10,6 +10,18 @@
     d:DesignWidth="1600"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <Style x:Key="TextBoxStyle_Info" TargetType="{x:Type TextBox}">
+            <Setter Property="Height" Value="70" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Arrow" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -131,41 +143,6 @@
                 attached:Icon.Value="☕"
                 Content="获取数据"
                 Style="{StaticResource LabelStyle_Title}" />
-            <Button
-                x:Name="Button_GetPlayerRemidSid"
-                Click="Button_GetPlayerRemidSid_Click"
-                Content="获取玩家Remid和Sid"
-                Style="{StaticResource ButtonStyle_Web}" />
-            <TextBlock Margin="5" Text="Remid" />
-            <TextBox
-                x:Name="TextBox_Remid"
-                Height="70"
-                Margin="5"
-                Padding="5"
-                VerticalContentAlignment="Center"
-                TextWrapping="Wrap" />
-            <TextBlock Margin="5" Text="Sid" />
-            <TextBox
-                x:Name="TextBox_Sid"
-                Height="70"
-                Margin="5"
-                Padding="5"
-                VerticalContentAlignment="Center"
-                TextWrapping="Wrap" />
-            <TextBlock Margin="5" Text="SessionID" />
-            <TextBox
-                x:Name="TextBox_SessionId"
-                Height="70"
-                Margin="5"
-                Padding="5"
-                VerticalContentAlignment="Center"
-                IsReadOnly="True"
-                TextWrapping="Wrap" />
-            <Button
-                x:Name="Button_GetPlayerSessionID"
-                Click="Button_GetPlayerSessionID_Click"
-                Content="获取玩家SessionID"
-                Style="{StaticResource ButtonStyle_Web}" />
             <TextBlock Margin="5">
                 <Run>
                     安装WebView2外部依赖
@@ -177,6 +154,19 @@
                     https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download-section
                 </TextBlock.ToolTip>
             </TextBlock>
+            <Button
+                x:Name="Button_GetPlayerRemidSid"
+                Click="Button_GetPlayerRemidSid_Click"
+                Content="获取玩家Remid、Sid等数据"
+                Style="{StaticResource ButtonStyle_Web}" />
+            <TextBlock Margin="5" Text="Remid" />
+            <TextBox x:Name="TextBox_Remid" Style="{StaticResource TextBoxStyle_Info}" />
+            <TextBlock Margin="5" Text="Sid" />
+            <TextBox x:Name="TextBox_Sid" Style="{StaticResource TextBoxStyle_Info}" />
+            <TextBlock Margin="5" Text="AuthCode" />
+            <TextBox x:Name="TextBox_AuthCode" Style="{StaticResource TextBoxStyle_Info}" />
+            <TextBlock Margin="5" Text="SessionID" />
+            <TextBox x:Name="TextBox_SessionId" Style="{StaticResource TextBoxStyle_Info}" />
 
         </StackPanel>
     </Grid>
