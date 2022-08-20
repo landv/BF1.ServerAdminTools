@@ -85,14 +85,11 @@ public partial class LoadWindow : Window
                 LoggerHelper.Info("简繁翻译库初始化成功");
 
                 // 创建文件夹
+                Directory.CreateDirectory(FileUtil.D_Cache_Path);
                 Directory.CreateDirectory(FileUtil.D_Config_Path);
                 Directory.CreateDirectory(FileUtil.D_Data_Path);
                 Directory.CreateDirectory(FileUtil.D_Log_Path);
                 Directory.CreateDirectory(FileUtil.D_Robot_Path);
-
-                // 创建ini文件
-                if (!File.Exists(FileUtil.F_Settings_Path))
-                    File.Create(FileUtil.F_Settings_Path).Close();
 
                 // 释放必要文件
                 FileUtil.ExtractResFile(FileUtil.Resource_Path + "config.yml", FileUtil.D_Robot_Path + "\\config.yml");

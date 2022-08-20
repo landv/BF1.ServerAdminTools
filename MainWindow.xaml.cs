@@ -52,10 +52,6 @@ public partial class MainWindow : Window
         ClosingDisposeEvent();
         LoggerHelper.Info($"调用关闭事件成功");
 
-        // 写入SessionId
-        IniHelper.WriteString("Globals", "SessionId", Globals.SessionId, FileUtil.F_Settings_Path);
-        LoggerHelper.Info($"保存配置文件成功");
-
         SQLiteHelper.CloseConnection();
         LoggerHelper.Info($"关闭数据库链接成功");
 
@@ -70,15 +66,6 @@ public partial class MainWindow : Window
 
     private async void InitThread()
     {
-        // 读取SessionId
-        Globals.SessionId = IniHelper.ReadString("Globals", "SessionId", "", FileUtil.F_Settings_Path);
-
-        // 调用刷新SessionID功能
-        LoggerHelper.Info($"开始调用刷新SessionID功能");
-        WeakReferenceMessenger.Default.Send("", "RefreshData");
-
-        ///////////////////////////////////////////////////////////
-
         CoreUtil.FlushDNSCache();
         LoggerHelper.Info("刷新DNS缓存成功");
 

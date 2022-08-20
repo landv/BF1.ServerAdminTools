@@ -2,6 +2,7 @@
     x:Class="BF1.ServerAdminTools.Views.AuthView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="View_Auth"
@@ -11,13 +12,36 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.4*" />
+            <ColumnDefinition />
+            <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <!--  ################################  -->
         <StackPanel Grid.Column="0">
-            <!--  ################################  -->
-            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="验证SessionID" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="请选择工作模式" />
+            <Label
+                attached:Icon.Value="☕"
+                Content="设置模式"
+                Style="{StaticResource LabelStyle_Title}" />
+            <GroupBox Margin="5" Header="工作模式">
+                <StackPanel>
+                    <RadioButton
+                        x:Name="RadioButton_Mode1"
+                        Margin="5"
+                        Click="RadioButton_Mode12_Click"
+                        Content="[模式1] 自动从战地1内存中读取当前账号SessionID"
+                        IsChecked="True" />
+                    <RadioButton
+                        x:Name="RadioButton_Mode2"
+                        Margin="5"
+                        Click="RadioButton_Mode12_Click"
+                        Content="[模式2] 传统模式，使用玩家Cookies获取，支持多账号切换" />
+                </StackPanel>
+            </GroupBox>
+            <Label
+                attached:Icon.Value="☕"
+                Content="验证权限"
+                Style="{StaticResource LabelStyle_Title}" />
             <TextBlock
                 x:Name="TextBlock_CheckSessionIdStatus"
                 Margin="5"
@@ -27,34 +51,134 @@
                 Foreground="White"
                 Text="等待玩家操作"
                 TextAlignment="Center" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作"
-                TextWrapping="Wrap" />
-            <Button
-                x:Name="Button_GetPlayerSessionId"
-                Margin="5,0,5,5"
-                Click="Button_GetPlayerSessionId_Click"
-                Content="手动获取玩家SessionID"
-                Style="{StaticResource ButtonStyle_Web}" />
             <Button
                 x:Name="Button_VerifyPlayerSessionId"
                 Margin="5,0,5,5"
                 Click="Button_VerifyPlayerSessionId_Click"
                 Content="验证玩家SessionID有效性"
                 Style="{StaticResource ButtonStyle_Web}" />
-            <!--  ################################  -->
-            <TextBlock />
             <TextBlock
                 Margin="5"
                 Foreground="Green"
-                Text="提示：如果欢迎语不是中文，请重新获取（必须是中文，英文可能会导致问题）"
+                Text="提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作"
                 TextWrapping="Wrap" />
+            <TextBlock
+                Margin="5"
+                Foreground="Green"
+                Text="提示：如果欢迎语不是中文，请重新获取（必须是中文才可以，英文可能会导致问题）"
+                TextWrapping="Wrap" />
+        </StackPanel>
+        <!--  ################################  -->
+        <StackPanel Grid.Column="1">
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="模式一" />
+            <Label
+                attached:Icon.Value="☕"
+                Content="内存读取"
+                Style="{StaticResource LabelStyle_Title}" />
+            <Button
+                x:Name="Button_ReadPlayerSessionId"
+                Margin="5,0,5,5"
+                Click="Button_ReadPlayerSessionId_Click"
+                Content="手动读取当前玩家SessionID"
+                Style="{StaticResource ButtonStyle_Web}" />
 
         </StackPanel>
         <!--  ################################  -->
+        <StackPanel Grid.Column="2">
+            <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="模式二" />
+            <Label
+                attached:Icon.Value="☕"
+                Content="配置授权"
+                Style="{StaticResource LabelStyle_Title}" />
+            <DockPanel LastChildFill="True">
+                <Button
+                    x:Name="Button_SaveCurrentAuth"
+                    Margin="5"
+                    Click="Button_SaveCurrentAuth_Click"
+                    Content="保存"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource ButtonStyle_Normal}" />
+                <Button
+                    x:Name="Button_ReNameAuth"
+                    Margin="0,5,0,5"
+                    Click="Button_ReNameAuth_Click"
+                    Content="重命名"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource ButtonStyle_Normal}" />
+                <TextBox
+                    x:Name="TextBox_ReNameAuth"
+                    Margin="5"
+                    Padding="5"
+                    DockPanel.Dock="Left"
+                    Text="{Binding ElementName=ComboBox_CustomConfigName, Path=SelectedValue, Mode=OneWay}" />
+            </DockPanel>
+            <ComboBox
+                x:Name="ComboBox_CustomConfigName"
+                Margin="5"
+                Padding="8"
+                VerticalContentAlignment="Center"
+                ItemsSource="{Binding ComboBox_ConfigNames}"
+                SelectedIndex="0"
+                SelectionChanged="ComboBox_CustomConfigName_SelectionChanged">
+                <ComboBox.Resources>
+                    <Style TargetType="{x:Type ComboBoxItem}">
+                        <Setter Property="Padding" Value="8" />
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+            <!--  ################  -->
+            <Label
+                attached:Icon.Value="☕"
+                Content="获取数据"
+                Style="{StaticResource LabelStyle_Title}" />
+            <Button
+                x:Name="Button_GetPlayerRemidSid"
+                Click="Button_GetPlayerRemidSid_Click"
+                Content="获取玩家Remid和Sid"
+                Style="{StaticResource ButtonStyle_Web}" />
+            <TextBlock Margin="5" Text="Remid" />
+            <TextBox
+                x:Name="TextBox_Remid"
+                Height="70"
+                Margin="5"
+                Padding="5"
+                VerticalContentAlignment="Center"
+                TextWrapping="Wrap" />
+            <TextBlock Margin="5" Text="Sid" />
+            <TextBox
+                x:Name="TextBox_Sid"
+                Height="70"
+                Margin="5"
+                Padding="5"
+                VerticalContentAlignment="Center"
+                TextWrapping="Wrap" />
+            <TextBlock Margin="5" Text="SessionID" />
+            <TextBox
+                x:Name="TextBox_SessionId"
+                Height="70"
+                Margin="5"
+                Padding="5"
+                VerticalContentAlignment="Center"
+                IsReadOnly="True"
+                TextWrapping="Wrap" />
+            <Button
+                x:Name="Button_GetPlayerSessionID"
+                Click="Button_GetPlayerSessionID_Click"
+                Content="获取玩家SessionID"
+                Style="{StaticResource ButtonStyle_Web}" />
+            <TextBlock Margin="5">
+                <Run>
+                    安装WebView2外部依赖
+                </Run>
+                <Hyperlink NavigateUri="https://go.microsoft.com/fwlink/p/?LinkId=2124703" RequestNavigate="Hyperlink_RequestNavigate">
+                    👉 点我下载安装
+                </Hyperlink>
+                <TextBlock.ToolTip>
+                    https://developer.microsoft.com/zh-cn/microsoft-edge/webview2/#download-section
+                </TextBlock.ToolTip>
+            </TextBlock>
 
+        </StackPanel>
     </Grid>
 
 </UserControl>

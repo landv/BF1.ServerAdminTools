@@ -2,6 +2,9 @@
 
 public static class Globals
 {
+    public static string Remid = string.Empty;
+    public static string Sid = string.Empty;
+
     public static string SessionId = string.Empty;
     public static string GameId = string.Empty;
     public static string ServerId = string.Empty;

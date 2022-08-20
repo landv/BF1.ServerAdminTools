@@ -18,6 +18,7 @@ public partial class OptionView : UserControl
     {
         InitializeComponent();
         this.DataContext = this;
+        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
         OptionModel.AppRunTime = "运行时间 : Loading...";
 
@@ -27,10 +28,6 @@ public partial class OptionView : UserControl
         var thread0 = new Thread(UpdateState);
         thread0.IsBackground = true;
         thread0.Start();
-
-        var temp = IniHelper.ReadString("Options", "AudioIndex", "", FileUtil.F_Settings_Path);
-        if (!string.IsNullOrEmpty(temp))
-            AudioUtil.ClickSoundIndex = Convert.ToInt32(temp);
 
         switch (AudioUtil.ClickSoundIndex)
         {
@@ -53,13 +50,11 @@ public partial class OptionView : UserControl
                 RadioButton_ClickAudioSelect5.IsChecked = true;
                 break;
         }
-
-        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
     }
 
     private void MainWindow_ClosingDisposeEvent()
     {
-        IniHelper.WriteString("Options", "AudioIndex", AudioUtil.ClickSoundIndex.ToString(), FileUtil.F_Settings_Path);
+
     }
 
     private void RadioButton_ClickAudioSelect_Click(object sender, RoutedEventArgs e)

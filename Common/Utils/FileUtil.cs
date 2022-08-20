@@ -6,14 +6,15 @@ public class FileUtil
 {
     public static string Default_Path = @"C:\ProgramData\BF1 Server";
 
+    public static string D_Cache_Path = Default_Path + @"\Cache";
     public static string D_Config_Path = Default_Path + @"\Config";
     public static string D_Data_Path = Default_Path + @"\Data";
     public static string D_Log_Path = Default_Path + @"\Log";
     public static string D_Robot_Path = Default_Path + @"\Robot";
 
-    public static string F_Settings_Path = D_Config_Path + @"\Settings.ini";
-
+    public static string F_Auth_Path = D_Config_Path + @"\AuthConfig.json";
     public static string F_Rule_Path = D_Config_Path + @"\RuleConfig.json";
+    public static string F_Chat_Path = D_Config_Path + @"\ChatConfig.json";
     public static string F_Robot_Path = D_Config_Path + @"\RobotConfig.json";
 
     public const string Resource_Path = "BF1.ServerAdminTools.Features.Files.";

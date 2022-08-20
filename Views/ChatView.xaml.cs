@@ -3,6 +3,7 @@ using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Chat;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Utils;
+using BF1.ServerAdminTools.Features.Config;
 
 using CommunityToolkit.Mvvm.Input;
 
@@ -13,14 +14,20 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class ChatView : UserControl
 {
-    private string[] defaultMsg = new string[10];
+    private ChatConfig ChatConfig { get; set; } = new();
 
+    /// <summary>
+    /// 自动发送文本定时器
+    /// </summary>
     private Timer timerAutoSendMsg;
     private List<string> queueMsg = new();
 
     private int queueMsgSleep = 1;
 
-    private Timer timerNoAFK;
+    /// <summary>
+    /// 挂机防踢定时器
+    /// </summary>
+    private Timer timerNoAFK = null;
 
     public RelayCommand SendChsMessageCommand { get; set; }
 
@@ -28,26 +35,31 @@ public partial class ChatView : UserControl
     {
         InitializeComponent();
         this.DataContext = this;
+        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-        defaultMsg[0] = IniHelper.ReadString("ChatMsg", "Msg0", "", FileUtil.F_Settings_Path);
-        defaultMsg[1] = IniHelper.ReadString("ChatMsg", "Msg1", "", FileUtil.F_Settings_Path);
-        defaultMsg[2] = IniHelper.ReadString("ChatMsg", "Msg2", "", FileUtil.F_Settings_Path);
-        defaultMsg[3] = IniHelper.ReadString("ChatMsg", "Msg3", "", FileUtil.F_Settings_Path);
-        defaultMsg[4] = IniHelper.ReadString("ChatMsg", "Msg4", "", FileUtil.F_Settings_Path);
-        defaultMsg[5] = IniHelper.ReadString("ChatMsg", "Msg5", "", FileUtil.F_Settings_Path);
-        defaultMsg[6] = IniHelper.ReadString("ChatMsg", "Msg6", "", FileUtil.F_Settings_Path);
-        defaultMsg[7] = IniHelper.ReadString("ChatMsg", "Msg7", "", FileUtil.F_Settings_Path);
-        defaultMsg[8] = IniHelper.ReadString("ChatMsg", "Msg8", "", FileUtil.F_Settings_Path);
-        defaultMsg[9] = IniHelper.ReadString("ChatMsg", "Msg9", "", FileUtil.F_Settings_Path);
+        ChatConfig.ChatContents = new();
 
-        if (string.IsNullOrEmpty(defaultMsg[0]))
+        if (!File.Exists(FileUtil.F_Chat_Path))
         {
-            defaultMsg[0] = "战地1中文输入测试，最大30个汉字";
+            for (int i = 0; i < 10; i++)
+            {
+                ChatConfig.ChatContents.Add(new ChatConfig.ChatContent()
+                {
+                    Name = $"自定义聊天 {i}",
+                    Content = "战地1中文聊天内容测试"
+                });
+            }
+
+            File.WriteAllText(FileUtil.F_Chat_Path, JsonUtil.JsonSeri(ChatConfig));
         }
 
-        TextBox_InputMsg.Text = defaultMsg[0];
-
-        MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
+        if (File.Exists(FileUtil.F_Chat_Path))
+        {
+            using (var streamReader = new StreamReader(FileUtil.F_Chat_Path))
+            {
+                ChatConfig = JsonUtil.JsonDese<ChatConfig>(streamReader.ReadToEnd());
+            }
+        }
 
         timerAutoSendMsg = new()
         {
@@ -67,33 +79,14 @@ public partial class ChatView : UserControl
 
     private void MainWindow_ClosingDisposeEvent()
     {
-        defaultMsg[RadioButtonWhoIsChecked()] = TextBox_InputMsg.Text;
+        ChatConfig.ChatContents[RadioButtonWhoIsChecked()].Content = TextBox_InputMsg.Text;
 
-        IniHelper.WriteString("ChatMsg", "Msg0", defaultMsg[0], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg1", defaultMsg[1], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg2", defaultMsg[2], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg3", defaultMsg[3], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg4", defaultMsg[4], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg5", defaultMsg[5], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg6", defaultMsg[6], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg7", defaultMsg[7], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg8", defaultMsg[8], FileUtil.F_Settings_Path);
-        IniHelper.WriteString("ChatMsg", "Msg9", defaultMsg[9], FileUtil.F_Settings_Path);
-    }
-
-    private void SetIMEState()
-    {
-        // 设置输入法为英文
-        this.Dispatcher.Invoke(() =>
-        {
-            InputLanguageManager.Current.CurrentInputLanguage = new CultureInfo("en-US");
-        });
+        File.WriteAllText(FileUtil.F_Chat_Path, JsonUtil.JsonSeri(ChatConfig));
     }
 
     private void TimerAutoSendMsg_Elapsed(object sender, ElapsedEventArgs e)
     {
-        SetIMEState();
-        Thread.Sleep(50);
+        ChatHelper.SetIMEStateToEN();
 
         for (int i = 0; i < queueMsg.Count; i++)
         {
@@ -104,8 +97,7 @@ public partial class ChatView : UserControl
 
     private void TimerNoAFK_Elapsed(object sender, ElapsedEventArgs e)
     {
-        SetIMEState();
-        Thread.Sleep(50);
+        ChatHelper.SetIMEStateToEN();
 
         Memory.SetForegroundWindow();
         Thread.Sleep(50);
@@ -120,8 +112,7 @@ public partial class ChatView : UserControl
     {
         AudioUtil.ClickSound();
 
-        SetIMEState();
-        Thread.Sleep(20);
+        ChatHelper.SetIMEStateToEN();
 
         ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
 
@@ -198,12 +189,13 @@ public partial class ChatView : UserControl
     {
         TextBlock_TxtLength.Text = $"当前文本长度 : {PlayerUtil.GetStrLength(TextBox_InputMsg.Text)} 字符";
 
-        defaultMsg[RadioButtonWhoIsChecked()] = TextBox_InputMsg.Text;
+        if (ChatConfig.ChatContents != null)
+            ChatConfig.ChatContents[RadioButtonWhoIsChecked()].Content = TextBox_InputMsg.Text;
     }
 
     private void RadioButton_DefaultText0_Click(object sender, RoutedEventArgs e)
     {
-        TextBox_InputMsg.Text = defaultMsg[RadioButtonWhoIsChecked()];
+        TextBox_InputMsg.Text = ChatConfig.ChatContents[RadioButtonWhoIsChecked()].Content;
     }
 
     private int RadioButtonWhoIsChecked()
@@ -248,34 +240,34 @@ public partial class ChatView : UserControl
             queueMsg.Clear();
 
             if (CheckBox_DefaultText0 != null && CheckBox_DefaultText0.IsChecked == true)
-                queueMsg.Add(defaultMsg[0]);
+                queueMsg.Add(ChatConfig.ChatContents[0].Content);
 
             if (CheckBox_DefaultText1 != null && CheckBox_DefaultText1.IsChecked == true)
-                queueMsg.Add(defaultMsg[1]);
+                queueMsg.Add(ChatConfig.ChatContents[1].Content);
 
             if (CheckBox_DefaultText2 != null && CheckBox_DefaultText2.IsChecked == true)
-                queueMsg.Add(defaultMsg[2]);
+                queueMsg.Add(ChatConfig.ChatContents[2].Content);
 
             if (CheckBox_DefaultText3 != null && CheckBox_DefaultText3.IsChecked == true)
-                queueMsg.Add(defaultMsg[3]);
+                queueMsg.Add(ChatConfig.ChatContents[3].Content);
 
             if (CheckBox_DefaultText4 != null && CheckBox_DefaultText4.IsChecked == true)
-                queueMsg.Add(defaultMsg[4]);
+                queueMsg.Add(ChatConfig.ChatContents[4].Content);
 
             if (CheckBox_DefaultText5 != null && CheckBox_DefaultText5.IsChecked == true)
-                queueMsg.Add(defaultMsg[5]);
+                queueMsg.Add(ChatConfig.ChatContents[5].Content);
 
             if (CheckBox_DefaultText6 != null && CheckBox_DefaultText6.IsChecked == true)
-                queueMsg.Add(defaultMsg[6]);
+                queueMsg.Add(ChatConfig.ChatContents[6].Content);
 
             if (CheckBox_DefaultText7 != null && CheckBox_DefaultText7.IsChecked == true)
-                queueMsg.Add(defaultMsg[7]);
+                queueMsg.Add(ChatConfig.ChatContents[7].Content);
 
             if (CheckBox_DefaultText8 != null && CheckBox_DefaultText8.IsChecked == true)
-                queueMsg.Add(defaultMsg[8]);
+                queueMsg.Add(ChatConfig.ChatContents[8].Content);
 
             if (CheckBox_DefaultText9 != null && CheckBox_DefaultText9.IsChecked == true)
-                queueMsg.Add(defaultMsg[9]);
+                queueMsg.Add(ChatConfig.ChatContents[9].Content);
 
             ChatHelper.KeyPressDelay = (int)Slider_KeyPressDelay.Value;
 

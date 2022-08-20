@@ -54,7 +54,7 @@ public static class ChatHelper
     /// <summary>
     /// 设置输入法为英文
     /// </summary>
-    public static void SetIMEStateToEN(int delay)
+    public static void SetIMEStateToEN(int delay = 50)
     {
         Thread.Sleep(delay);
         Application.Current.Dispatcher.Invoke(() =>

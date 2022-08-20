@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Features.Core;
+using Microsoft.Web.WebView2.Core;
 
 namespace BF1.ServerAdminTools.Common.Utils;
 
@@ -97,5 +98,21 @@ public static class CoreUtil
     public static void FlushDNSCache()
     {
         WinAPI.DnsFlushResolverCache();
+    }
+
+    /// <summary>
+    /// 是否安装了WebView2依赖，安装了返回true，否则返回false
+    /// </summary>
+    /// <returns></returns>
+    public static bool IsWebView2DependencyInstalled()
+    {
+        try
+        {
+            return !string.IsNullOrEmpty(CoreWebView2Environment.GetAvailableBrowserVersionString());
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
