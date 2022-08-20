@@ -22,7 +22,7 @@
 
 ## 截图
 
-![image.png](https://pic.rmb.bdstatic.com/bjh/017c200fecc7c61297121987fe82e4b8.png)
+![image111.png](https://pic.rmb.bdstatic.com/bjh/017c200fecc7c61297121987fe82e4b8.png)
 
 ## 预览
 
