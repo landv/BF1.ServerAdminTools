@@ -216,7 +216,6 @@
                             <!--  ################################  -->
                             <TextBlock Text="{Binding RuleTeam1Model.LifeMaxWeaponStar, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
                             <Slider
-                                IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
@@ -224,7 +223,6 @@
                                 Value="{Binding RuleTeam1Model.LifeMaxWeaponStar, Mode=TwoWay}" />
                             <TextBlock Text="{Binding RuleTeam1Model.LifeMaxVehicleStar, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
                             <Slider
-                                IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
@@ -232,11 +230,8 @@
                                 Value="{Binding RuleTeam1Model.LifeMaxVehicleStar, Mode=TwoWay}" />
                             <!--  ################################  -->
                             <TextBlock />
-                            <TextBlock Foreground="Green" TextWrapping="Wrap">
-                                提示：生涯KD和KPM是玩家只要进入服务器就开始查询计算
-                            </TextBlock>
-                            <TextBlock Foreground="Orange" TextWrapping="Wrap">
-                                提示：限制最高生涯武器、载具星数目前处于维护状态，不可使用
+                            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                                提示：生涯KD、生涯KPM、最高武器星数、最高载具星数、是玩家只要进入服务器就开始查询计算，无论是否部署或使用
                             </TextBlock>
                         </StackPanel>
 
@@ -268,7 +263,6 @@
                             <!--  ################################  -->
                             <TextBlock Text="{Binding RuleTeam2Model.LifeMaxWeaponStar, StringFormat=最高生涯武器星数 : {0:0}, FallbackValue='最高生涯武器星数 :'}" />
                             <Slider
-                                IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
@@ -276,7 +270,6 @@
                                 Value="{Binding RuleTeam2Model.LifeMaxWeaponStar, Mode=TwoWay}" />
                             <TextBlock Text="{Binding RuleTeam2Model.LifeMaxVehicleStar, StringFormat=最高生涯载具星数 : {0:0}, FallbackValue='最高生涯载具星数 :'}" />
                             <Slider
-                                IsEnabled="False"
                                 Maximum="100"
                                 Minimum="0"
                                 TickFrequency="1"
@@ -284,6 +277,7 @@
                                 Value="{Binding RuleTeam2Model.LifeMaxVehicleStar, Mode=TwoWay}" />
                             <!--  ################################  -->
                             <TextBlock />
+
 
                         </StackPanel>
 

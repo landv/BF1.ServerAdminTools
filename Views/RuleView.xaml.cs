@@ -6,6 +6,8 @@ using BF1.ServerAdminTools.Features.Config;
 using BF1.ServerAdminTools.Features.Client;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
+using BF1.ServerAdminTools.Features.Utils;
+using static BF1.ServerAdminTools.Windows.QueryRecordWindow;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -333,12 +335,6 @@ public partial class RuleView : UserControl
             float kd = (float)Math.Round((double)kills / deaths, 2);
             float kpm = detailedStats.result.basicStats.kpm;
 
-            //int weaponStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
-            //int vehicleStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
-
-            //weaponStar = weaponStar / 100;
-            //vehicleStar = vehicleStar / 100;
-
             // 限制玩家生涯KD
             if (ServerRule.Team1.LifeMaxKD != 0 && kd > ServerRule.Team1.LifeMaxKD)
             {
@@ -364,35 +360,79 @@ public partial class RuleView : UserControl
 
                 return;
             }
-
-            //// 限制玩家武器星级
-            //if (ServerRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRule.LifeMaxWeaponStar)
-            //{
-            //    AutoKickPlayer(new BreakRuleInfo
-            //    {
-            //        Name = data.Name,
-            //        PersonaId = data.PersonaId,
-            //        Reason = $"Life Weapon Star Limit {ServerRule.LifeMaxWeaponStar:0}"
-            //    });
-
-            //    return;
-            //}
-
-            //// 限制玩家载具星级
-            //if (ServerRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRule.LifeMaxVehicleStar)
-            //{
-            //    AutoKickPlayer(new BreakRuleInfo
-            //    {
-            //        Name = data.Name,
-            //        PersonaId = data.PersonaId,
-            //        Reason = $"Life Vehicle Star Limit {ServerRule.LifeMaxVehicleStar:0}"
-            //    });
-
-            //    return;
-            //}
         }
 
         result = await BF1API.GetWeaponsByPersonaId(data.PersonaId);
+        if (result.IsSuccess)
+        {
+            var getWeapons = JsonUtil.JsonDese<GetWeapons>(result.Message);
+
+            var weaponStar = new List<int>();
+            foreach (var res in getWeapons.result)
+            {
+                foreach (var wea in res.weapons)
+                {
+                    if (wea.stats.values.kills == 0)
+                        continue;
+
+                    weaponStar.Add((int)wea.stats.values.kills);
+                }
+            }
+
+            if (weaponStar.Count == 0)
+                return;
+
+            weaponStar.Sort((x, y) => -x.CompareTo(y));
+
+            // 限制玩家武器星级
+            if (ServerRule.Team1.LifeMaxWeaponStar != 0 && weaponStar[0] / 100 > ServerRule.Team1.LifeMaxWeaponStar)
+            {
+                AutoKickPlayer(new BreakRuleInfo
+                {
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life Weapon Star Limit {ServerRule.Team1.LifeMaxWeaponStar:0}"
+                });
+
+                return;
+            }
+        }
+
+        result = await BF1API.GetVehiclesByPersonaId(data.PersonaId);
+        if (result.IsSuccess)
+        {
+            var getVehicles = JsonUtil.JsonDese<GetVehicles>(result.Message);
+
+            var vehicleStar = new List<int>();
+            foreach (var res in getVehicles.result)
+            {
+                foreach (var veh in res.vehicles)
+                {
+                    if (veh.stats.values.kills == 0)
+                        continue;
+
+                    vehicleStar.Add((int)veh.stats.values.kills);
+                }
+            }
+
+            if (vehicleStar.Count == 0)
+                return;
+
+            vehicleStar.Sort((x, y) => -x.CompareTo(y));
+
+            // 限制玩家载具星级
+            if (ServerRule.Team1.LifeMaxVehicleStar != 0 && vehicleStar[0] / 100 > ServerRule.Team1.LifeMaxVehicleStar)
+            {
+                AutoKickPlayer(new BreakRuleInfo
+                {
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life Vehicle Star Limit {ServerRule.Team1.LifeMaxVehicleStar:0}"
+                });
+
+                return;
+            }
+        }
     }
 
     /// <summary>
@@ -421,12 +461,6 @@ public partial class RuleView : UserControl
             float kd = (float)Math.Round((double)kills / deaths, 2);
             float kpm = detailedStats.result.basicStats.kpm;
 
-            //int weaponStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
-            //int vehicleStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
-
-            //weaponStar = weaponStar / 100;
-            //vehicleStar = vehicleStar / 100;
-
             // 限制玩家生涯KD
             if (ServerRule.Team2.LifeMaxKD != 0 && kd > ServerRule.Team2.LifeMaxKD)
             {
@@ -452,32 +486,72 @@ public partial class RuleView : UserControl
 
                 return;
             }
+        }
 
-            //// 限制玩家武器星级
-            //if (ServerRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRule.LifeMaxWeaponStar)
-            //{
-            //    AutoKickPlayer(new BreakRuleInfo
-            //    {
-            //        Name = data.Name,
-            //        PersonaId = data.PersonaId,
-            //        Reason = $"Life Weapon Star Limit {ServerRule.LifeMaxWeaponStar:0}"
-            //    });
+        result = await BF1API.GetWeaponsByPersonaId(data.PersonaId);
+        if (result.IsSuccess)
+        {
+            var getWeapons = JsonUtil.JsonDese<GetWeapons>(result.Message);
 
-            //    return;
-            //}
+            var weaponStar = new List<int>();
+            foreach (var res in getWeapons.result)
+            {
+                foreach (var wea in res.weapons)
+                {
+                    if (wea.stats.values.kills == 0)
+                        continue;
 
-            //// 限制玩家载具星级
-            //if (ServerRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRule.LifeMaxVehicleStar)
-            //{
-            //    AutoKickPlayer(new BreakRuleInfo
-            //    {
-            //        Name = data.Name,
-            //        PersonaId = data.PersonaId,
-            //        Reason = $"Life Vehicle Star Limit {ServerRule.LifeMaxVehicleStar:0}"
-            //    });
+                    weaponStar.Add((int)wea.stats.values.kills);
+                }
+            }
 
-            //    return;
-            //}
+            weaponStar.Sort((x, y) => -x.CompareTo(y));
+
+            // 限制玩家武器星级
+            if (ServerRule.Team2.LifeMaxWeaponStar != 0 && weaponStar[0] / 100 > ServerRule.Team2.LifeMaxWeaponStar)
+            {
+                AutoKickPlayer(new BreakRuleInfo
+                {
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life Weapon Star Limit {ServerRule.Team2.LifeMaxWeaponStar:0}"
+                });
+
+                return;
+            }
+        }
+
+        result = await BF1API.GetVehiclesByPersonaId(data.PersonaId);
+        if (result.IsSuccess)
+        {
+            var getVehicles = JsonUtil.JsonDese<GetVehicles>(result.Message);
+
+            var vehicleStar = new List<int>();
+            foreach (var res in getVehicles.result)
+            {
+                foreach (var veh in res.vehicles)
+                {
+                    if (veh.stats.values.kills == 0)
+                        continue;
+
+                    vehicleStar.Add((int)veh.stats.values.kills);
+                }
+            }
+
+            vehicleStar.Sort((x, y) => -x.CompareTo(y));
+
+            // 限制玩家载具星级
+            if (ServerRule.Team2.LifeMaxVehicleStar != 0 && vehicleStar[0] / 100 > ServerRule.Team2.LifeMaxVehicleStar)
+            {
+                AutoKickPlayer(new BreakRuleInfo
+                {
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life Vehicle Star Limit {ServerRule.Team2.LifeMaxVehicleStar:0}"
+                });
+
+                return;
+            }
         }
     }
 
