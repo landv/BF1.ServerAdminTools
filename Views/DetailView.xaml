@@ -327,16 +327,12 @@
                             Style="{StaticResource ButtonStyle_Web}" />
                         <!--  ################################  -->
                         <TextBlock />
-                        <TextBlock
-                            Margin="5"
-                            Foreground="Green"
-                            Text="说明：仅服主有上述服务器信息修改权限"
-                            TextWrapping="Wrap" />
-                        <TextBlock
-                            Margin="5"
-                            Foreground="Green"
-                            Text="说明：服务器名称不可出现中文，否则会报错，文字超过限定字数也会报错；服务器描述可以改成繁体中文，但是如果战地1客户端语言为非中文版本，可能看到的是方块乱码"
-                            TextWrapping="Wrap" />
+                        <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                            说明：仅服主有上述服务器信息修改权限
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                            说明：服务器名称不可出现中文，否则会报错，文字超过限定字数也会报错；服务器描述可以改成繁体中文，但是如果战地1客户端语言为非中文版本，可能看到的是方块乱码
+                        </TextBlock>
                     </StackPanel>
                 </UniformGrid>
             </TabItem>

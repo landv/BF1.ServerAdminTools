@@ -17,7 +17,7 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class AuthView : UserControl
 {
-    private List<AuthConfig> AuthConfigs { get; set; } = new();
+    private AuthConfig AuthConfig { get; set; } = new();
 
     public ObservableCollection<string> ComboBox_ConfigNames { get; set; } = new();
 
@@ -65,9 +65,12 @@ public partial class AuthView : UserControl
 
         if (!File.Exists(FileUtil.F_Auth_Path))
         {
+            AuthConfig.IsUseMode1 = true;
+            AuthConfig.AuthInfos = new();
+
             for (int i = 0; i < 10; i++)
             {
-                AuthConfigs.Add(new AuthConfig()
+                AuthConfig.AuthInfos.Add(new AuthConfig.AuthInfo()
                 {
                     AuthName = $"自定义授权 {i}",
                     Sid = "",
@@ -76,16 +79,28 @@ public partial class AuthView : UserControl
                 });
             }
 
-            File.WriteAllText(FileUtil.F_Auth_Path, JsonUtil.JsonSeri(AuthConfigs));
+            File.WriteAllText(FileUtil.F_Auth_Path, JsonUtil.JsonSeri(AuthConfig));
         }
 
         if (File.Exists(FileUtil.F_Auth_Path))
         {
             using (var streamReader = new StreamReader(FileUtil.F_Auth_Path))
             {
-                AuthConfigs = JsonUtil.JsonDese<List<AuthConfig>>(streamReader.ReadToEnd());
+                AuthConfig = JsonUtil.JsonDese<AuthConfig>(streamReader.ReadToEnd());
 
-                foreach (var item in AuthConfigs)
+                Globals.IsUseMode1 = AuthConfig.IsUseMode1;
+                if (AuthConfig.IsUseMode1)
+                {
+                    RadioButton_Mode1.IsChecked = true;
+                    RadioButton_Mode2.IsChecked = false;
+                }
+                else
+                {
+                    RadioButton_Mode1.IsChecked = false;
+                    RadioButton_Mode2.IsChecked = true;
+                }
+
+                foreach (var item in AuthConfig.AuthInfos)
                 {
                     ComboBox_ConfigNames.Add(item.AuthName);
                 }
@@ -99,7 +114,8 @@ public partial class AuthView : UserControl
     {
         WebView2Window?.Close();
 
-        File.WriteAllText(FileUtil.F_Auth_Path, JsonUtil.JsonSeri(AuthConfigs));
+        AuthConfig.IsUseMode1 = Globals.IsUseMode1;
+        File.WriteAllText(FileUtil.F_Auth_Path, JsonUtil.JsonSeri(AuthConfig));
     }
 
     private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -205,7 +221,7 @@ public partial class AuthView : UserControl
     /// <param name="index"></param>
     private void ApplyAuthByIndex(int index)
     {
-        var auth = AuthConfigs[index];
+        var auth = AuthConfig.AuthInfos[index];
 
         Globals.Sid = auth.Sid;
         Globals.Remid = auth.Remid;
@@ -225,7 +241,7 @@ public partial class AuthView : UserControl
         if (index == -1)
             return;
 
-        var auth = AuthConfigs[index];
+        var auth = AuthConfig.AuthInfos[index];
 
         auth.Sid = Globals.Sid;
         auth.Remid = Globals.Remid;
@@ -308,7 +324,7 @@ public partial class AuthView : UserControl
             return;
 
         ComboBox_ConfigNames[index] = name;
-        AuthConfigs[index].AuthName = name;
+        AuthConfig.AuthInfos[index].AuthName = name;
 
         ComboBox_CustomConfigName.SelectedIndex = index;
     }

@@ -37,10 +37,10 @@ public partial class ChatView : UserControl
         this.DataContext = this;
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-        ChatConfig.ChatContents = new();
-
         if (!File.Exists(FileUtil.F_Chat_Path))
         {
+            ChatConfig.ChatContents = new();
+
             for (int i = 0; i < 10; i++)
             {
                 ChatConfig.ChatContents.Add(new ChatConfig.ChatContent()
@@ -70,7 +70,7 @@ public partial class ChatView : UserControl
         timerNoAFK = new()
         {
             AutoReset = true,
-            Interval = 30000
+            Interval = TimeSpan.FromSeconds(30).TotalMilliseconds
         };
         timerNoAFK.Elapsed += TimerNoAFK_Elapsed;
 
@@ -273,7 +273,7 @@ public partial class ChatView : UserControl
 
             queueMsgSleep = (int)Slider_AutoSendMsgSleep.Value;
 
-            timerAutoSendMsg.Interval = Slider_AutoSendMsg.Value * 1000 * 60;
+            timerAutoSendMsg.Interval = TimeSpan.FromMinutes(Slider_AutoSendMsg.Value).TotalMilliseconds;
             timerAutoSendMsg.Start();
 
             NotifierHelper.Show(NotiferType.Notification, "已启用定时发送指定文本功能");

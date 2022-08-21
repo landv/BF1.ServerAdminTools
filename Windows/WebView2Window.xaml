@@ -46,14 +46,23 @@
             <TextBox x:Name="TextBox_Sid" />
             <TextBlock Margin="5" Text="AuthCode" />
             <TextBox x:Name="TextBox_AuthCode" />
-            <TextBlock Margin="5" Text="SessionID" />
+            <TextBlock Margin="5" Text="SessionId" />
             <TextBox x:Name="TextBox_SessionId" />
+
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                提示：当上述几个文本框获取到内容后即可关闭窗口
+            </TextBlock>
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                提示：登录账号后，左边浏览器会跳转到这个页面 http://127.0.0.1/success?code=abcdefd....xyz 是正常现象
+            </TextBlock>
+
             <Button
                 x:Name="Button_ClearCache"
                 Margin="5,5,5,5"
                 Click="Button_ClearCache_Click"
-                Content="清空缓存"
+                Content="清空缓存（更换账号使用）"
                 Style="{StaticResource ButtonStyle_Web}" />
+
         </StackPanel>
     </Grid>
 

@@ -49,15 +49,12 @@
         <!--  ################################  -->
         <DockPanel Grid.Column="1" LastChildFill="True">
             <StackPanel DockPanel.Dock="Bottom">
-                <TextBlock
-                    Margin="5"
-                    Foreground="Green"
-                    Text="提示：先启动QQ机器人服务，等QQ机器人加载完成后再启动Websocket服务" />
-                <TextBlock
-                    Margin="5"
-                    Foreground="Orange"
-                    Text="提示：如果修改上述权限内容，需要重新启动Websocket服务生效" />
-
+                <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                    提示：先启动QQ机器人服务，等QQ机器人加载完成后再启动Websocket服务
+                </TextBlock>
+                <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                    提示：如果修改上述权限内容，需要重新启动Websocket服务生效
+                </TextBlock>
                 <Label
                     attached:Icon.Value="☕"
                     Content="功能开关"
@@ -79,6 +76,7 @@
                         Content="关闭Websocket服务"
                         Style="{StaticResource ButtonStyle_Web}" />
                 </UniformGrid>
+
             </StackPanel>
 
             <TabControl

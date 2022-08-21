@@ -23,7 +23,7 @@ public partial class DetailView : UserControl
         public string modePrettyName { get; set; }
     }
 
-    public class ListItem
+    public class RSPInfo
     {
         public int Index { get; set; }
         public string platform { get; set; }
@@ -178,7 +178,7 @@ public partial class DetailView : UserControl
 
                     // 服主
                     int index = 0;
-                    ListBox_Admin.Items.Add(new ListItem()
+                    ListBox_Admin.Items.Add(new RSPInfo()
                     {
                         Index = index++,
                         avatar = fullServerDetails.result.rspInfo.owner.avatar,
@@ -190,7 +190,7 @@ public partial class DetailView : UserControl
                     // 管理员列表
                     foreach (var item in fullServerDetails.result.rspInfo.adminList)
                     {
-                        ListBox_Admin.Items.Add(new ListItem()
+                        ListBox_Admin.Items.Add(new RSPInfo()
                         {
                             Index = index++,
                             avatar = item.avatar,
@@ -206,7 +206,7 @@ public partial class DetailView : UserControl
                     index = 1;
                     foreach (var item in fullServerDetails.result.rspInfo.vipList)
                     {
-                        ListBox_VIP.Items.Add(new ListItem()
+                        ListBox_VIP.Items.Add(new RSPInfo()
                         {
                             Index = index++,
                             avatar = item.avatar,
@@ -221,7 +221,7 @@ public partial class DetailView : UserControl
                     index = 1;
                     foreach (var item in fullServerDetails.result.rspInfo.bannedList)
                     {
-                        ListBox_BAN.Items.Add(new ListItem()
+                        ListBox_BAN.Items.Add(new RSPInfo()
                         {
                             Index = index++,
                             avatar = item.avatar,
@@ -333,18 +333,18 @@ public partial class DetailView : UserControl
     {
         AudioUtil.ClickSound();
 
-        ListItem currListItem = ListBox_Admin.SelectedItem as ListItem;
+        RSPInfo rSPInfo = ListBox_Admin.SelectedItem as RSPInfo;
 
-        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器管理员 {currListItem.displayName} 中...");
+        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器管理员 {rSPInfo.displayName} 中...");
 
-        var result = await BF1API.RemoveServerAdmin(currListItem.personaId);
+        var result = await BF1API.RemoveServerAdmin(rSPInfo.personaId);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"移除服务器管理员 {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Success, $"移除服务器管理员 {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"移除服务器管理员 {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Error, $"移除服务器管理员 {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -369,18 +369,18 @@ public partial class DetailView : UserControl
     {
         AudioUtil.ClickSound();
 
-        ListItem currListItem = ListBox_VIP.SelectedItem as ListItem;
+        RSPInfo rSPInfo = ListBox_VIP.SelectedItem as RSPInfo;
 
-        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器VIP {currListItem.displayName} 中...");
+        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器VIP {rSPInfo.displayName} 中...");
 
-        var result = await BF1API.RemoveServerVip(currListItem.personaId);
+        var result = await BF1API.RemoveServerVip(rSPInfo.personaId);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"移除服务器VIP {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Success, $"移除服务器VIP {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"移除服务器VIP {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Error, $"移除服务器VIP {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -405,18 +405,18 @@ public partial class DetailView : UserControl
     {
         AudioUtil.ClickSound();
 
-        ListItem currListItem = ListBox_BAN.SelectedItem as ListItem;
+        RSPInfo rSPInfo = ListBox_BAN.SelectedItem as RSPInfo;
 
-        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器BAN {currListItem.displayName} 中...");
+        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器BAN {rSPInfo.displayName} 中...");
 
-        var result = await BF1API.RemoveServerBan(currListItem.personaId);
+        var result = await BF1API.RemoveServerBan(rSPInfo.personaId);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"移除服务器BAN {currListItem.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Success, $"移除服务器BAN {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"移除服务器BAN {currListItem.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Error, $"移除服务器BAN {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 

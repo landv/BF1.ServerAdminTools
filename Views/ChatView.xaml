@@ -91,36 +91,22 @@
                 Command="{Binding SendChsMessageCommand}"
                 Content="发送文本到战地1聊天框"
                 Style="{StaticResource ButtonStyle_Web}" />
+
             <TextBlock />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="说明：直接输入简体中文即可，程序会自动转换成繁体中文发送"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="说明：最大支持90个字符，汉字一个占3字符，英文字母数字符合占1个字符，不要超过90个字符，否则可能会导致游戏崩溃"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="说明：使用此功能前，游戏不能全屏和最小化，否则会无效果。并把输入法调成美式键盘（不能是中文输入法状态，否则会导致发生中文失败）"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Orange"
-                Text="提示：输入法必须处于美式键盘状态才可以正常使用中文输入"
-                TextWrapping="Wrap" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                说明：直接输入简体中文即可，程序会自动转换成繁体中文发送
+            </TextBlock>
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                说明：最大支持90个字符，汉字一个占3字符，英文字母数字符合占1个字符，不要超过90个字符，否则可能会导致游戏崩溃
+            </TextBlock>
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                说明：使用此功能前，游戏不能全屏和最小化，否则会无效果。并把输入法调成美式键盘（不能是中文输入法状态，否则会导致发生中文失败）
+            </TextBlock>
             <Image
                 Height="150"
                 Margin="5"
                 HorizontalAlignment="Left"
-                Source="/Assets/Images/Other/InputMethod.png">
-                <Image.ToolTip>
-                    <Image Source="/Assets/Images/Other/InputMethod.png" />
-                </Image.ToolTip>
-            </Image>
+                Source="/Assets/Images/Other/InputMethod.png" />
         </StackPanel>
         <!--  ################################  -->
         <StackPanel>
@@ -193,16 +179,12 @@
                 VerticalAlignment="Center"
                 Click="CheckBox_ActiveAutoSendMsg_Click"
                 Content="启用定时发送指定文本" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="说明：配置较低的电脑请增大按键间隔和文本间隔的延迟时间"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="说明：上述设置如果调整了需要重新勾选《启用定时发送指定文本》才会生效"
-                TextWrapping="Wrap" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                说明：配置较低的电脑请增大按键间隔和文本间隔的延迟时间
+            </TextBlock>
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                说明：上述设置如果调整了需要重新勾选《启用定时发送指定文本》才会生效
+            </TextBlock>
             <!--  ################  -->
             <TextBlock Style="{StaticResource TextBlockStyle_Title}" Text="挂机防踢" />
             <CheckBox
@@ -211,11 +193,9 @@
                 VerticalAlignment="Center"
                 Click="CheckBox_ActiveNoAFK_Click"
                 Content="启用游戏内挂机防踢" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="原理：每隔30秒自动按一次Tab键持续3秒并把游戏窗口置前"
-                TextWrapping="Wrap" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                原理：每隔30秒自动按一次Tab键持续3秒并把游戏窗口置前
+            </TextBlock>
         </StackPanel>
         <!--  ################################  -->
         <StackPanel />

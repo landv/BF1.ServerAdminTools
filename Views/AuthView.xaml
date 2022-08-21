@@ -69,16 +69,13 @@
                 Click="Button_VerifyPlayerSessionId_Click"
                 Content="验证玩家SessionID有效性"
                 Style="{StaticResource ButtonStyle_Web}" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Margin="5"
-                Foreground="Green"
-                Text="提示：如果欢迎语不是中文，请重新获取（必须是中文才可以，英文可能会导致问题）"
-                TextWrapping="Wrap" />
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                提示：如果验证成功，会提示玩家的ID和欢迎语，否则请检查操作
+            </TextBlock>
+            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                提示：如果欢迎语不是中文，请重新获取（必须是中文才可以，英文可能会导致问题）
+            </TextBlock>
+
         </StackPanel>
         <!--  ################################  -->
         <StackPanel Grid.Column="1">
@@ -163,8 +160,6 @@
             <TextBox x:Name="TextBox_Remid" Style="{StaticResource TextBoxStyle_Info}" />
             <TextBlock Margin="5" Text="Sid" />
             <TextBox x:Name="TextBox_Sid" Style="{StaticResource TextBoxStyle_Info}" />
-            <TextBlock Margin="5" Text="AuthCode" />
-            <TextBox x:Name="TextBox_AuthCode" Style="{StaticResource TextBoxStyle_Info}" />
             <TextBlock Margin="5" Text="SessionID" />
             <TextBox x:Name="TextBox_SessionId" Style="{StaticResource TextBoxStyle_Info}" />
 
