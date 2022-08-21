@@ -44,11 +44,17 @@ public partial class DetailView : UserControl
         this.DataContext = this;
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-        var thread0 = new Thread(UpdateServerDetils)
+        Task.Run(() =>
         {
-            IsBackground = true
-        };
-        thread0.Start();
+            Task.Delay(5000).Wait();
+        }).ContinueWith((t) =>
+        {
+            var thread0 = new Thread(UpdateServerDetils)
+            {
+                IsBackground = true
+            };
+            thread0.Start();
+        });
     }
 
     private void MainWindow_ClosingDisposeEvent()
@@ -179,7 +185,7 @@ public partial class DetailView : UserControl
                         displayName = fullServerDetails.result.rspInfo.owner.displayName,
                         personaId = fullServerDetails.result.rspInfo.owner.personaId
                     });
-                    Globals.Server_AdminList_PID.Add(fullServerDetails.result.rspInfo.owner.personaId);
+                    Globals.Server_AdminList_PID.Add(long.Parse(fullServerDetails.result.rspInfo.owner.personaId));
                     Globals.Server_AdminList_Name.Add(fullServerDetails.result.rspInfo.owner.displayName);
                     // 管理员列表
                     foreach (var item in fullServerDetails.result.rspInfo.adminList)
@@ -192,7 +198,7 @@ public partial class DetailView : UserControl
                             personaId = item.personaId
                         });
 
-                        Globals.Server_AdminList_PID.Add(item.personaId);
+                        Globals.Server_AdminList_PID.Add(long.Parse(item.personaId));
                         Globals.Server_AdminList_Name.Add(item.displayName);
                     }
 
@@ -208,7 +214,7 @@ public partial class DetailView : UserControl
                             personaId = item.personaId
                         });
 
-                        Globals.Server_VIPList.Add(item.personaId);
+                        Globals.Server_VIPList.Add(long.Parse(item.personaId));
                     }
 
                     // BAN列表
@@ -302,7 +308,7 @@ public partial class DetailView : UserControl
                 {
                     NotifierHelper.Show(NotiferType.Information, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
 
-                    var result = await BF1API.ChangeServerMap(Globals.PersistedGameId, index.ToString());
+                    var result = await BF1API.ChangeServerMap(Globals.PersistedGameId, index);
                     if (result.IsSuccess)
                     {
                         NotifierHelper.Show(NotiferType.Success, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
@@ -443,7 +449,7 @@ public partial class DetailView : UserControl
 
             var reason = ChsUtil.ToTraditionalChinese(TextBox_KickSelectedSpectatorReason.Text);
 
-            var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), reason);
+            var result = await BF1API.AdminKickPlayer(info.PersonaId, reason);
             if (result.IsSuccess)
             {
                 NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {info.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");

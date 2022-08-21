@@ -325,76 +325,84 @@
             <!--  ################################  -->
             <TabItem attached:Icon.Value="🍉" Header="玩家黑/白名单">
                 <UniformGrid Columns="2">
-                    <DockPanel LastChildFill="True">
+                    <DockPanel Margin="0,0,-2,0" LastChildFill="True">
                         <TextBlock
                             DockPanel.Dock="Top"
                             Style="{StaticResource TextBlockStyle_Title}"
                             Text="全局黑名单" />
-                        <UniformGrid Columns="3" DockPanel.Dock="Bottom">
-                            <Button
-                                x:Name="Button_Add_BlackList"
-                                Margin="5,5,0,5"
-                                Click="Button_Add_BlackList_Click"
-                                Content="添加"
-                                Style="{StaticResource ButtonStyle_Web}" />
-                            <Button
-                                x:Name="Button_Remove_BlackList"
-                                Margin="5,5,0,5"
-                                Click="Button_Remove_BlackList_Click"
-                                Content="移除"
-                                Style="{StaticResource ButtonStyle_Web}" />
-                            <Button
-                                x:Name="Button_Clear_BlackList"
-                                Margin="5,5,2.5,5"
-                                Click="Button_Clear_BlackList_Click"
-                                Content="清空"
-                                Style="{StaticResource ButtonStyle_WebRed}" />
-                        </UniformGrid>
-                        <TextBox
-                            x:Name="TextBox_BlackList_PlayerName"
-                            Margin="5,0,2.5,0"
-                            Padding="10"
-                            DockPanel.Dock="Bottom" />
+                        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                            <WrapPanel DockPanel.Dock="Right">
+                                <Button
+                                    x:Name="Button_Add_BlackList"
+                                    Margin="5"
+                                    Click="Button_Add_BlackList_Click"
+                                    Content="添加"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                                <Button
+                                    x:Name="Button_Remove_BlackList"
+                                    Margin="0,5,0,5"
+                                    Click="Button_Remove_BlackList_Click"
+                                    Content="移除"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                                <Button
+                                    x:Name="Button_Clear_BlackList"
+                                    Margin="5"
+                                    Click="Button_Clear_BlackList_Click"
+                                    Content="清空"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                            </WrapPanel>
+                            <TextBox
+                                x:Name="TextBox_BlackList_PlayerName"
+                                Margin="5"
+                                Padding="5"
+                                VerticalContentAlignment="Center"
+                                DockPanel.Dock="Left" />
+                        </DockPanel>
+                        <!--  ################  -->
                         <ListBox
                             x:Name="ListBox_Custom_BlackList"
-                            Margin="5,5,2.5,5"
-                            DockPanel.Dock="Top"
+                            Margin="5"
+                            DockPanel.Dock="Bottom"
                             Style="{StaticResource ListBoxStyle_Normal}" />
                     </DockPanel>
-                    <DockPanel LastChildFill="True">
+                    <!--  ################################  -->
+                    <DockPanel Margin="-2,0,0,0" LastChildFill="True">
                         <TextBlock
                             DockPanel.Dock="Top"
                             Style="{StaticResource TextBlockStyle_Title}"
                             Text="全局白名单" />
-                        <UniformGrid Columns="3" DockPanel.Dock="Bottom">
-                            <Button
-                                x:Name="Button_Add_WhiteList"
-                                Margin="2.5,5,0,5"
-                                Click="Button_Add_WhiteList_Click"
-                                Content="添加"
-                                Style="{StaticResource ButtonStyle_Web}" />
-                            <Button
-                                x:Name="Button_Remove_WhiteList"
-                                Margin="5,5,0,5"
-                                Click="Button_Remove_WhiteList_Click"
-                                Content="移除"
-                                Style="{StaticResource ButtonStyle_Web}" />
-                            <Button
-                                x:Name="Button_Clear_WhiteList"
+                        <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+                            <WrapPanel DockPanel.Dock="Right">
+                                <Button
+                                    x:Name="Button_Add_WhiteList"
+                                    Margin="5"
+                                    Click="Button_Add_WhiteList_Click"
+                                    Content="添加"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                                <Button
+                                    x:Name="Button_Remove_WhiteList"
+                                    Margin="0,5,0,5"
+                                    Click="Button_Remove_WhiteList_Click"
+                                    Content="移除"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                                <Button
+                                    x:Name="Button_Clear_WhiteList"
+                                    Margin="5"
+                                    Click="Button_Clear_WhiteList_Click"
+                                    Content="清空"
+                                    Style="{StaticResource ButtonStyle_Normal}" />
+                            </WrapPanel>
+                            <TextBox
+                                x:Name="TextBox_WhiteList_PlayerName"
                                 Margin="5"
-                                Click="Button_Clear_WhiteList_Click"
-                                Content="清空"
-                                Style="{StaticResource ButtonStyle_WebRed}" />
-                        </UniformGrid>
-                        <TextBox
-                            x:Name="TextBox_WhiteList_PlayerName"
-                            Margin="2.5,0,5,0"
-                            Padding="10"
-                            DockPanel.Dock="Bottom" />
+                                Padding="5"
+                                DockPanel.Dock="Left" />
+                        </DockPanel>
+                        <!--  ################  -->
                         <ListBox
                             x:Name="ListBox_Custom_WhiteList"
-                            Margin="2.5,5,5,5"
-                            DockPanel.Dock="Top"
+                            Margin="5"
+                            DockPanel.Dock="Bottom"
                             Style="{StaticResource ListBoxStyle_Normal}" />
                     </DockPanel>
                 </UniformGrid>

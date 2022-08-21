@@ -21,11 +21,11 @@ public static class BF1API
         {
             var options = new RestClientOptions(Host)
             {
-                MaxTimeout = 5000
+                MaxTimeout = 5000,
+                ThrowOnAnyError = true
             };
 
             client = new RestClient(options);
-
             headers = new Dictionary<string, string>
             {
                 ["User-Agent"] = "ProtoHttp 1.3/DS 15.1.2.1.0 (Windows)",
@@ -40,7 +40,6 @@ public static class BF1API
             };
         }
     }
-
 
     /// <summary>
     /// 获取玩家AuthCode
@@ -74,7 +73,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -101,7 +99,7 @@ public static class BF1API
     /// <summary>
     /// 获取玩家SessionID
     /// </summary>
-    public static async Task<RespContent> GetCareerForOwnedGamesByPersonaId(string personaId)
+    public static async Task<RespContent> GetCareerForOwnedGamesByPersonaId(long personaId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -130,7 +128,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -139,7 +136,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -186,7 +182,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -195,7 +190,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -241,7 +235,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -250,7 +243,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -268,7 +260,7 @@ public static class BF1API
     /// <summary>
     /// 踢出指定玩家
     /// </summary>
-    public static async Task<RespContent> AdminKickPlayer(string personaId, string reason)
+    public static async Task<RespContent> AdminKickPlayer(long personaId, string reason)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -299,7 +291,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -308,7 +299,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -326,7 +316,7 @@ public static class BF1API
     /// <summary>
     /// 更换指定玩家队伍
     /// </summary>
-    public static async Task<RespContent> AdminMovePlayer(string personaId, string teamId)
+    public static async Task<RespContent> AdminMovePlayer(long personaId, int teamId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -359,7 +349,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -368,7 +357,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -386,7 +374,7 @@ public static class BF1API
     /// <summary>
     /// 更换服务器地图
     /// </summary>
-    public static async Task<RespContent> ChangeServerMap(string persistedGameId, string levelIndex)
+    public static async Task<RespContent> ChangeServerMap(string persistedGameId, int levelIndex)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -416,7 +404,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -425,7 +412,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -472,7 +458,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -481,7 +466,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -529,7 +513,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -538,7 +521,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -586,7 +568,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -595,7 +576,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -643,7 +623,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -652,7 +631,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -700,7 +678,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -709,7 +686,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -757,7 +733,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -766,7 +741,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -814,7 +788,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -823,7 +796,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -870,7 +842,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -879,7 +850,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -914,7 +884,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -923,7 +892,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -974,7 +942,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -983,7 +950,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -1031,7 +997,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -1040,7 +1005,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -1059,7 +1023,7 @@ public static class BF1API
     /// 获取玩家PersonasByIds
     /// </summary>
     /// <returns></returns>
-    public static async Task<RespContent> GetPersonasByIds(string personaId)
+    public static async Task<RespContent> GetPersonasByIds(long personaId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -1088,7 +1052,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -1097,7 +1060,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -1115,7 +1077,7 @@ public static class BF1API
     /// <summary>
     /// 获取玩家战绩
     /// </summary>
-    public static async Task<RespContent> DetailedStatsByPersonaId(string personaId)
+    public static async Task<RespContent> DetailedStatsByPersonaId(long personaId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -1144,7 +1106,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -1153,7 +1114,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -1171,7 +1131,7 @@ public static class BF1API
     /// <summary>
     /// 获取玩家武器
     /// </summary>
-    public static async Task<RespContent> GetWeaponsByPersonaId(string personaId)
+    public static async Task<RespContent> GetWeaponsByPersonaId(long personaId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -1200,7 +1160,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -1209,7 +1168,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }
@@ -1227,7 +1185,7 @@ public static class BF1API
     /// <summary>
     /// 获取玩家载具
     /// </summary>
-    public static async Task<RespContent> GetVehiclesByPersonaId(string personaId)
+    public static async Task<RespContent> GetVehiclesByPersonaId(long personaId)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -1256,7 +1214,6 @@ public static class BF1API
                 .AddJsonBody(reqBody);
 
             var response = await client.ExecutePostAsync(request);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 respContent.IsSuccess = true;
@@ -1265,7 +1222,6 @@ public static class BF1API
             else
             {
                 var respError = JsonUtil.JsonDese<RespError>(response.Content);
-
                 respContent.Message = $"{respError.error.code} {respError.error.message}";
             }
         }

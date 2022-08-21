@@ -86,7 +86,7 @@ public partial class ScoreView : UserControl
     private struct DataGridSelcContent
     {
         public bool IsOK;
-        public int TeamID;
+        public int TeamId;
         public int Rank;
         public string Name;
         public long PersonaId;
@@ -381,8 +381,8 @@ public partial class ScoreView : UserControl
 
             foreach (var item in PlayerList_All)
             {
-                item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_AdminList_PID);
-                item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId.ToString(), Globals.Server_VIPList);
+                item.Admin = PlayerUtil.CheckAdminVIP(item.PersonaId, Globals.Server_AdminList_PID);
+                item.VIP = PlayerUtil.CheckAdminVIP(item.PersonaId, Globals.Server_VIPList);
 
                 switch (item.TeamId)
                 {
@@ -408,7 +408,7 @@ public partial class ScoreView : UserControl
                 Globals.Server_SpectatorList.Add(new SpectatorInfo()
                 {
                     Name = item.Name,
-                    PersonaId = item.PersonaId.ToString(),
+                    PersonaId = item.PersonaId,
                 });
             }
 
@@ -1161,7 +1161,7 @@ public partial class ScoreView : UserControl
                 item.Flag = -1;
 
                 // 跳过管理员
-                if (!Globals.Server_AdminList_PID.Contains(item.PersonaId.ToString()))
+                if (!Globals.Server_AdminList_PID.Contains(item.PersonaId))
                 {
                     // 跳过白名单玩家
                     if (!Globals.Custom_WhiteList.Contains(item.Name))
@@ -1231,7 +1231,7 @@ public partial class ScoreView : UserControl
     /// <param name="info"></param>
     private async void AutoKickPlayer(BreakRuleInfo info)
     {
-        var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+        var result = await BF1API.AdminKickPlayer(info.PersonaId, info.Reason);
 
         if (result.IsSuccess)
         {
@@ -1265,7 +1265,7 @@ public partial class ScoreView : UserControl
             {
                 NotifierHelper.Show(NotiferType.Information, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
 
-                var result = await BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId.ToString(), reason);
+                var result = await BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId, reason);
                 if (result.IsSuccess)
                 {
                     NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
@@ -1383,7 +1383,7 @@ public partial class ScoreView : UserControl
         {
             if (_dataGridSelcContent.IsOK)
             {
-                var customKickWindow = new CustomKickWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId.ToString())
+                var customKickWindow = new CustomKickWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId)
                 {
                     Owner = MainWindow.ThisMainWindow
                 };
@@ -1433,7 +1433,7 @@ public partial class ScoreView : UserControl
             {
                 NotifierHelper.Show(NotiferType.Information, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
 
-                var result = await BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId.ToString(), _dataGridSelcContent.TeamID.ToString());
+                var result = await BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId, _dataGridSelcContent.TeamId);
                 if (result.IsSuccess)
                 {
                     NotifierHelper.Show(NotiferType.Success, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
@@ -1568,7 +1568,7 @@ public partial class ScoreView : UserControl
         if (item != null)
         {
             _dataGridSelcContent.IsOK = true;
-            _dataGridSelcContent.TeamID = 1;
+            _dataGridSelcContent.TeamId = 1;
             _dataGridSelcContent.Rank = item.Rank;
             _dataGridSelcContent.Name = item.Name;
             _dataGridSelcContent.PersonaId = item.PersonaId;
@@ -1576,7 +1576,7 @@ public partial class ScoreView : UserControl
         else
         {
             _dataGridSelcContent.IsOK = false;
-            _dataGridSelcContent.TeamID = -1;
+            _dataGridSelcContent.TeamId = -1;
             _dataGridSelcContent.Rank = -1;
             _dataGridSelcContent.Name = string.Empty;
             _dataGridSelcContent.PersonaId = -1;
@@ -1591,7 +1591,7 @@ public partial class ScoreView : UserControl
         if (item != null)
         {
             _dataGridSelcContent.IsOK = true;
-            _dataGridSelcContent.TeamID = 2;
+            _dataGridSelcContent.TeamId = 2;
             _dataGridSelcContent.Rank = item.Rank;
             _dataGridSelcContent.Name = item.Name;
             _dataGridSelcContent.PersonaId = item.PersonaId;
@@ -1599,7 +1599,7 @@ public partial class ScoreView : UserControl
         else
         {
             _dataGridSelcContent.IsOK = false;
-            _dataGridSelcContent.TeamID = -1;
+            _dataGridSelcContent.TeamId = -1;
             _dataGridSelcContent.Rank = -1;
             _dataGridSelcContent.Name = string.Empty;
             _dataGridSelcContent.PersonaId = -1;
@@ -1615,7 +1615,7 @@ public partial class ScoreView : UserControl
         if (_dataGridSelcContent.IsOK)
         {
             sb.Append($"玩家ID : {_dataGridSelcContent.Name}");
-            sb.Append($"  |  队伍ID : {_dataGridSelcContent.TeamID}");
+            sb.Append($"  |  队伍ID : {_dataGridSelcContent.TeamId}");
             sb.Append($"  |  等级 : {_dataGridSelcContent.Rank}");
             sb.Append($"  |  更新时间 : {DateTime.Now}");
         }

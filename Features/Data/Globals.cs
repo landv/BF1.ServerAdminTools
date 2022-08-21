@@ -47,7 +47,7 @@ public static class Globals
     /// <summary>
     /// 服务器管理员，PID
     /// </summary>
-    public static List<string> Server_AdminList_PID = new();
+    public static List<long> Server_AdminList_PID = new();
     /// <summary>
     /// 服务器管理员，名称
     /// </summary>
@@ -55,7 +55,7 @@ public static class Globals
     /// <summary>
     /// 服务器VIP
     /// </summary>
-    public static List<string> Server_VIPList = new();
+    public static List<long> Server_VIPList = new();
 
     /// <summary>
     /// 保存违规玩家列表信息

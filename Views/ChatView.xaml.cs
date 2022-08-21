@@ -46,7 +46,7 @@ public partial class ChatView : UserControl
                 ChatConfig.ChatContents.Add(new ChatConfig.ChatContent()
                 {
                     Name = $"自定义聊天 {i}",
-                    Content = "战地1中文聊天内容测试"
+                    Content = "战地1中文输入测试,最大30个汉字"
                 });
             }
 

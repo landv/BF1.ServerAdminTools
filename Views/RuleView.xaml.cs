@@ -294,12 +294,12 @@ public partial class RuleView : UserControl
 
                 foreach (var item in team1Player)
                 {
-                    CheckBreakLifePlayer(item);
+                    CheckBreakLifePlayerTeam1(item);
                 }
 
                 foreach (var item in team2Player)
                 {
-                    CheckBreakLifePlayer(item);
+                    CheckBreakLifePlayerTeam2(item);
                 }
             }
 
@@ -308,23 +308,23 @@ public partial class RuleView : UserControl
     }
 
     /// <summary>
-    /// 检查生涯违规玩家
+    /// 检查队伍1生涯违规玩家
     /// </summary>
     /// <param name="data"></param>
-    private async void CheckBreakLifePlayer(PlayerData data)
+    private async void CheckBreakLifePlayerTeam1(PlayerData data)
     {
         // 跳过管理员
-        if (Globals.Server_AdminList_PID.Contains(data.PersonaId.ToString()))
+        if (Globals.Server_AdminList_PID.Contains(data.PersonaId))
             return;
 
         // 跳过白名单玩家
         if (Globals.Custom_WhiteList.Contains(data.Name))
             return;
 
-        var resultTemp = await BF1API.DetailedStatsByPersonaId(data.PersonaId.ToString());
-        if (resultTemp.IsSuccess)
+        var result = await BF1API.DetailedStatsByPersonaId(data.PersonaId);
+        if (result.IsSuccess)
         {
-            var detailedStats = JsonUtil.JsonDese<DetailedStats>(resultTemp.Message);
+            var detailedStats = JsonUtil.JsonDese<DetailedStats>(result.Message);
 
             // 拿到该玩家的生涯数据
             int kills = detailedStats.result.basicStats.kills;
@@ -391,6 +391,94 @@ public partial class RuleView : UserControl
             //    return;
             //}
         }
+
+        result = await BF1API.GetWeaponsByPersonaId(data.PersonaId);
+    }
+
+    /// <summary>
+    /// 检查队伍2生涯违规玩家
+    /// </summary>
+    /// <param name="data"></param>
+    private async void CheckBreakLifePlayerTeam2(PlayerData data)
+    {
+        // 跳过管理员
+        if (Globals.Server_AdminList_PID.Contains(data.PersonaId))
+            return;
+
+        // 跳过白名单玩家
+        if (Globals.Custom_WhiteList.Contains(data.Name))
+            return;
+
+        var result = await BF1API.DetailedStatsByPersonaId(data.PersonaId);
+        if (result.IsSuccess)
+        {
+            var detailedStats = JsonUtil.JsonDese<DetailedStats>(result.Message);
+
+            // 拿到该玩家的生涯数据
+            int kills = detailedStats.result.basicStats.kills;
+            int deaths = detailedStats.result.basicStats.deaths;
+
+            float kd = (float)Math.Round((double)kills / deaths, 2);
+            float kpm = detailedStats.result.basicStats.kpm;
+
+            //int weaponStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.weapon[0].highlightDetails.stats.values.kills;
+            //int vehicleStar = (int)detailedStats.result.gameStats.tunguska.highlightsByType.vehicle[0].highlightDetails.stats.values.kills;
+
+            //weaponStar = weaponStar / 100;
+            //vehicleStar = vehicleStar / 100;
+
+            // 限制玩家生涯KD
+            if (ServerRule.Team2.LifeMaxKD != 0 && kd > ServerRule.Team2.LifeMaxKD)
+            {
+                AutoKickPlayer(new BreakRuleInfo
+                {
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life KD Limit {ServerRule.Team2.LifeMaxKD:0.00}"
+                });
+
+                return;
+            }
+
+            // 限制玩家生涯KPM
+            if (ServerRule.Team2.LifeMaxKPM != 0 && kpm > ServerRule.Team2.LifeMaxKPM)
+            {
+                AutoKickPlayer(new BreakRuleInfo
+                {
+                    Name = data.Name,
+                    PersonaId = data.PersonaId,
+                    Reason = $"Life KPM Limit {ServerRule.Team2.LifeMaxKPM:0.00}"
+                });
+
+                return;
+            }
+
+            //// 限制玩家武器星级
+            //if (ServerRule.LifeMaxWeaponStar != 0 && weaponStar > ServerRule.LifeMaxWeaponStar)
+            //{
+            //    AutoKickPlayer(new BreakRuleInfo
+            //    {
+            //        Name = data.Name,
+            //        PersonaId = data.PersonaId,
+            //        Reason = $"Life Weapon Star Limit {ServerRule.LifeMaxWeaponStar:0}"
+            //    });
+
+            //    return;
+            //}
+
+            //// 限制玩家载具星级
+            //if (ServerRule.LifeMaxVehicleStar != 0 && vehicleStar > ServerRule.LifeMaxVehicleStar)
+            //{
+            //    AutoKickPlayer(new BreakRuleInfo
+            //    {
+            //        Name = data.Name,
+            //        PersonaId = data.PersonaId,
+            //        Reason = $"Life Vehicle Star Limit {ServerRule.LifeMaxVehicleStar:0}"
+            //    });
+
+            //    return;
+            //}
+        }
     }
 
     /// <summary>
@@ -399,7 +487,7 @@ public partial class RuleView : UserControl
     /// <param name="info"></param>
     private async void AutoKickPlayer(BreakRuleInfo info)
     {
-        var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+        var result = await BF1API.AdminKickPlayer(info.PersonaId, info.Reason);
         if (result.IsSuccess)
         {
             info.Status = "踢出成功";
@@ -971,12 +1059,12 @@ public partial class RuleView : UserControl
     private async void ManualKickPlayer(BreakRuleInfo info)
     {
         // 跳过管理员
-        if (!Globals.Server_AdminList_PID.Contains(info.Name))
+        if (!Globals.Server_AdminList_PID.Contains(info.PersonaId))
         {
             // 白名单玩家不踢出
             if (!Globals.Custom_WhiteList.Contains(info.Name))
             {
-                var result = await BF1API.AdminKickPlayer(info.PersonaId.ToString(), info.Reason);
+                var result = await BF1API.AdminKickPlayer(info.PersonaId, info.Reason);
 
                 if (result.IsSuccess)
                 {
@@ -1012,12 +1100,12 @@ public partial class RuleView : UserControl
 
             foreach (var item in team1Player)
             {
-                CheckBreakLifePlayer(item);
+                CheckBreakLifePlayerTeam1(item);
             }
 
             foreach (var item in team2Player)
             {
-                CheckBreakLifePlayer(item);
+                CheckBreakLifePlayerTeam2(item);
             }
 
             NotifierHelper.Show(NotiferType.Success, "执行手动踢人操作成功，请查看日志了解执行结果");

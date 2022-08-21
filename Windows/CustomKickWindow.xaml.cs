@@ -10,9 +10,9 @@ namespace BF1.ServerAdminTools.Windows;
 public partial class CustomKickWindow : Window
 {
     public string PlayerName { get; set; }
-    public string PersonaId { get; set; }
+    public long PersonaId { get; set; }
 
-    public CustomKickWindow(string playerName, string personaId)
+    public CustomKickWindow(string playerName, long personaId)
     {
         InitializeComponent();
         this.DataContext = this;

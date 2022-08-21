@@ -293,117 +293,117 @@
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Index}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 FontWeight="Bold"
                                 Header="序号"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Rank}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="等级"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Clan}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="战队"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Name}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="玩家ID"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding SquadId}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="小队"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Admin}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="管理员"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding VIP}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="VIP"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Kill}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="击杀"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Dead}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="死亡"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding KD}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="KD"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding KPM}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="KPM"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Score}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="得分"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS0}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="主要武器"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS1}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="配枪"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS2}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="配备一"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS5}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="配备二"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS3}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="特殊"
                                 IsReadOnly="False" />
-                            <!--<DataGridTextColumn Header="主要武器V" Width="Auto" Binding="{Binding WeaponS4}" ElementStyle="{StaticResource CenterAlignmentStyle1}" IsReadOnly="False"/>-->
+                            <!--<DataGridTextColumn Header="主要武器V" Width="Auto" Binding="{Binding WeaponS4}" ElementStyle="{StaticResource DataGridTextColumnStyle_C1}" IsReadOnly="False"/>-->
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS6}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="手榴弹"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS7}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="近战"
                                 IsReadOnly="False" />
                         </DataGrid.Columns>
@@ -447,117 +447,117 @@
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Index}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 FontWeight="Bold"
                                 Header="序号"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Rank}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="等级"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Clan}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="战队"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Name}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="玩家ID"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding SquadId}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="小队"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Admin}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="管理员"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding VIP}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="VIP"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Kill}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="击杀"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Dead}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="死亡"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding KD}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="KD"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding KPM}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="KPM"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Score}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle2}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C2}"
                                 Header="得分"
                                 IsReadOnly="True" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS0}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="主要武器"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS1}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="配枪"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS2}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="配备一"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS5}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="配备二"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS3}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="特殊"
                                 IsReadOnly="False" />
-                            <!--<DataGridTextColumn Header="主要武器V" Width="Auto" Binding="{Binding WeaponS4}" ElementStyle="{StaticResource CenterAlignmentStyle1}" IsReadOnly="False"/>-->
+                            <!--<DataGridTextColumn Header="主要武器V" Width="Auto" Binding="{Binding WeaponS4}" ElementStyle="{StaticResource DataGridTextColumnStyle_C1}" IsReadOnly="False"/>-->
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS6}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="手榴弹"
                                 IsReadOnly="False" />
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding WeaponS7}"
-                                ElementStyle="{StaticResource CenterAlignmentStyle1}"
+                                ElementStyle="{StaticResource DataGridTextColumnStyle_C1}"
                                 Header="近战"
                                 IsReadOnly="False" />
                         </DataGrid.Columns>

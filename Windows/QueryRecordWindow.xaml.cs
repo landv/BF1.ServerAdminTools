@@ -45,7 +45,7 @@ public partial class QueryRecordWindow : Window
     }
 
     public string PlayerName { get; set; }
-    public string PersonaId { get; set; }
+    public long PersonaId { get; set; }
     public int Rank { get; set; }
 
     public QueryModel QueryModel { get; set; } = new();
@@ -60,7 +60,7 @@ public partial class QueryRecordWindow : Window
         InitializeComponent();
 
         PlayerName = playerName;
-        PersonaId = personaId.ToString();
+        PersonaId = personaId;
         Rank = rank;
     }
 
@@ -70,7 +70,7 @@ public partial class QueryRecordWindow : Window
 
         this.Title = $"{this.Title} - 玩家ID : {PlayerName} - 数字ID : {PersonaId}";
 
-        if (!string.IsNullOrEmpty(PersonaId))
+        if (PersonaId != 0)
         {
             QueryModel.LoadingVisibility = Visibility.Visible;
             count = 0;
@@ -108,7 +108,7 @@ public partial class QueryRecordWindow : Window
         if (result.IsSuccess)
         {
             JsonNode jNode = JsonNode.Parse(result.Message);
-            QueryModel.Avatar = jNode["result"]![PersonaId]!["avatar"].GetValue<string>();
+            QueryModel.Avatar = jNode["result"]![$"{PersonaId}"]!["avatar"].GetValue<string>();
 
             QueryModel.PlayerName = PlayerName;
             QueryModel.PersonaId = $"{PersonaId}";
