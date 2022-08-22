@@ -505,6 +505,9 @@ public partial class RuleView : UserControl
                 }
             }
 
+            if (weaponStar.Count == 0)
+                return;
+
             weaponStar.Sort((x, y) => -x.CompareTo(y));
 
             // 限制玩家武器星级
@@ -537,6 +540,9 @@ public partial class RuleView : UserControl
                     vehicleStar.Add((int)veh.stats.values.kills);
                 }
             }
+
+            if (vehicleStar.Count == 0)
+                return;
 
             vehicleStar.Sort((x, y) => -x.CompareTo(y));
 
