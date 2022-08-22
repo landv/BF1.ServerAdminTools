@@ -1,14 +1,13 @@
 ﻿using BF1.ServerAdminTools.Common.Utils;
-
-using System.Data;
-using Microsoft.Data.Sqlite;
 using BF1.ServerAdminTools.Features.Data;
+
+using Microsoft.Data.Sqlite;
 
 namespace BF1.ServerAdminTools.Common.Helper;
 
 public static class SQLiteHelper
 {
-    private static string kickDbFile = FileUtil.D_Data_Path + @"\AdminLog.db";
+    private static string KickDbFile = FileUtil.D_Data_Path + @"\AdminLog.db";
 
     private static SqliteConnection connection = null;
 
@@ -17,7 +16,7 @@ public static class SQLiteHelper
     /// </summary>
     public static void Initialize()
     {
-        var connStr = new SqliteConnectionStringBuilder("Data Source=" + kickDbFile)
+        var connStr = new SqliteConnectionStringBuilder("Data Source=" + KickDbFile)
         {
             Mode = SqliteOpenMode.ReadWriteCreate
         }.ToString();
@@ -67,7 +66,7 @@ public static class SQLiteHelper
     /// <param name="sqlStr"></param>
     public static void ExecuteNonQuery(string sqlStr)
     {
-        using SqliteCommand cmd = new SqliteCommand(sqlStr, connection);
+        using var cmd = new SqliteCommand(sqlStr, connection);
         cmd.ExecuteNonQuery();
     }
 
