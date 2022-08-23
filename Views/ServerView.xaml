@@ -69,7 +69,7 @@
                                 <Image
                                     Grid.Column="1"
                                     Margin="0,2,0,2"
-                                    Source="{Binding mapImageUrl, Converter={StaticResource MyImageConverter}}"
+                                    Source="{Binding mapImageUrl, Converter={StaticResource ImageConverter}}"
                                     Style="{StaticResource ImageStyle_HQ}" />
 
                                 <StackPanel

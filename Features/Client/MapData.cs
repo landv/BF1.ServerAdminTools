@@ -28,15 +28,15 @@ public static class MapData
     public readonly static List<MapName> AllMapInfo = new()
     {
         new() { English="ID_M_LEVEL_MENU", Chinese="大厅菜单", Team1="_DEF", Team2="_DEF" },
-        new() { English="ID_M_MP_LEVEL_MOUNTAINFORT", Chinese="格拉巴山", Team1="ITA", Team2="AHU", Image=@"\Assets\Images\Client\Maps\MP_MountainFort_LandscapeLarge-8a517533.jpg" },
+        new() { English="ID_M_MP_LEVEL_MOUNTAIN_FORT", Chinese="格拉巴山", Team1="ITA", Team2="AHU", Image=@"\Assets\Images\Client\Maps\MP_MountainFort_LandscapeLarge-8a517533.jpg" },
         new() { English="ID_M_MP_LEVEL_FOREST", Chinese="阿尔贡森林", Team1="USA", Team2="GER", Image=@"\Assets\Images\Client\Maps\MP_Forest_LandscapeLarge-dfbbe910.jpg" },
-        new() { English="ID_M_MP_LEVEL_ITALIANCOAST", Chinese="帝国边境", Team1="ITA", Team2="AHU", Image=@"\Assets\Images\Client\Maps\MP_ItalianCoast_LandscapeLarge-1503eec7.jpg" },
+        new() { English="ID_M_MP_LEVEL_ITALIAN_COAST", Chinese="帝国边境", Team1="ITA", Team2="AHU", Image=@"\Assets\Images\Client\Maps\MP_ItalianCoast_LandscapeLarge-1503eec7.jpg" },
         new() { English="ID_M_MP_LEVEL_CHATEAU", Chinese="流血宴厅", Team1="USA", Team2="GER", Image=@"\Assets\Images\Client\Maps\MP_Chateau_LandscapeLarge-244d5987.jpg" },
         new() { English="ID_M_MP_LEVEL_SCAR", Chinese="圣康坦的伤痕", Team1="GER", Team2="UK", Image=@"\Assets\Images\Client\Maps\MP_Scar_LandscapeLarge-ee25fbd6.jpg" },
         new() { English="ID_M_MP_LEVEL_DESERT", Chinese="西奈沙漠", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Client\Maps\MP_Desert_LandscapeLarge-d8f749da.jpg" },
         new() { English="ID_M_MP_LEVEL_AMIENS", Chinese="亚眠", Team1="GER", Team2="UK", Image=@"\Assets\Images\Client\Maps\MP_Amiens_LandscapeLarge-e195589d.jpg" },
         new() { English="ID_M_MP_LEVEL_SUEZ", Chinese="苏伊士", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Client\Maps\MP_Suez_LandscapeLarge-f630fc76.jpg" },
-        new() { English="ID_M_MP_LEVEL_FAOFORTRESS", Chinese="法欧堡", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Client\Maps\MP_FaoFortress_LandscapeLarge-cad1748e.jpg" },
+        new() { English="ID_M_MP_LEVEL_FAO_FORTRESS", Chinese="法欧堡", Team1="UK", Team2="OTM", Image=@"\Assets\Images\Client\Maps\MP_FaoFortress_LandscapeLarge-cad1748e.jpg" },
         new() { English="ID_M_MP_LEVEL_GIANT", Chinese="庞然暗影", Team1="UK", Team2="GER", Image=@"\Assets\Images\Client\Maps\MP_Giant_LandscapeLarge-dd0b93ef.jpg" },
         new() { English="ID_M_MP_LEVEL_FIELDS", Chinese="苏瓦松", Team1="FRA", Team2="GER", Image=@"\Assets\Images\Client\Maps\MP_Fields_LandscapeLarge-5f53ddc4.jpg" },
         new() { English="ID_M_MP_LEVEL_GRAVEYARD", Chinese="决裂", Team1="FRA", Team2="GER", Image=@"\Assets\Images\Client\Maps\MP_Graveyard_LandscapeLarge-bd1012e6.jpg" },

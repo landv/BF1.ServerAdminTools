@@ -31,7 +31,7 @@
                             Height="70"
                             Margin="5"
                             DockPanel.Dock="Left"
-                            Source="{Binding QueryModel.Avatar, Converter={StaticResource MyImageConverter}}"
+                            Source="{Binding QueryModel.Avatar, Converter={StaticResource ImageConverter}}"
                             Style="{StaticResource ImageStyle_HQ}" />
                         <StackPanel
                             Margin="5,0,0,0"
@@ -85,7 +85,7 @@
                                 <Image
                                     Grid.Column="0"
                                     Margin="5,0,5,0"
-                                    Source="{Binding imageUrl, Converter={StaticResource MyImageConverter}}"
+                                    Source="{Binding imageUrl, Converter={StaticResource ImageConverter}}"
                                     Style="{StaticResource ImageStyle_HQ}" />
 
                                 <StackPanel
@@ -177,7 +177,7 @@
                                 <Image
                                     Grid.Column="0"
                                     Margin="5,0,5,0"
-                                    Source="{Binding imageUrl, Converter={StaticResource MyImageConverter}}"
+                                    Source="{Binding imageUrl, Converter={StaticResource ImageConverter}}"
                                     Style="{StaticResource ImageStyle_HQ}" />
 
                                 <StackPanel

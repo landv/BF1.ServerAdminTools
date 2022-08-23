@@ -13,7 +13,7 @@ public static class CommonUtil
         if (string.IsNullOrWhiteSpace(str))
             return false;
 
-        const string pattern = "^[0-9]*$";
+        var pattern = "^[0-9]*$";
         Regex rx = new(pattern);
 
         return rx.IsMatch(str);

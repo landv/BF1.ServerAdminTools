@@ -2,14 +2,13 @@
 
 public static class HttpHelper
 {
-    private static readonly HttpClient client = new HttpClient();
+    private static readonly HttpClient client = new();
 
     public static async Task<string> HttpClientGET(string url)
     {
         try
         {
             HttpResponseMessage response = await client.GetAsync(url);
-
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 response.EnsureSuccessStatusCode();
@@ -31,7 +30,6 @@ public static class HttpHelper
         try
         {
             HttpResponseMessage response = await client.GetAsync(url);
-
             using (Stream stream = await response.Content.ReadAsStreamAsync())
             {
                 string extension = Path.GetFileName(response.RequestMessage.RequestUri.ToString());

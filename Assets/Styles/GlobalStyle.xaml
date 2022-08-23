@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cvt="clr-namespace:BF1.ServerAdminTools.Converters">
 
-    <cvt:StringToImageSourceConverter x:Key="MyImageConverter" />
+    <cvt:StringToImageSourceConverter x:Key="ImageConverter" />
 
     <!--  超链接全局样式  -->
     <Style TargetType="{x:Type Hyperlink}">

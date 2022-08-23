@@ -468,7 +468,7 @@
                     Height="160"
                     Margin="25,5,5,5"
                     HorizontalAlignment="Left"
-                    Source="{Binding DetailModel.ServerCurrentMap, Converter={StaticResource MyImageConverter}}"
+                    Source="{Binding DetailModel.ServerCurrentMap, Converter={StaticResource ImageConverter}}"
                     Style="{StaticResource ImageStyle_HQ}" />
                 <!--  ################################  -->
                 <TextBlock
@@ -500,7 +500,7 @@
                     Height="80"
                     Margin="25,5,5,5"
                     HorizontalAlignment="Left"
-                    Source="{Binding DetailModel.ServerOwnerImage, Converter={StaticResource MyImageConverter}}"
+                    Source="{Binding DetailModel.ServerOwnerImage, Converter={StaticResource ImageConverter}}"
                     Style="{StaticResource ImageStyle_HQ}" />
                 <!--  ################################  -->
 

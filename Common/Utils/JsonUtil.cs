@@ -2,13 +2,13 @@
 
 public static class JsonUtil
 {
-    private static JsonSerializerOptions Options1 = new JsonSerializerOptions()
+    private static JsonSerializerOptions Options1 = new()
     {
         IncludeFields = true,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    private static JsonSerializerOptions Options2 = new JsonSerializerOptions()
+    private static JsonSerializerOptions Options2 = new()
     {
         WriteIndented = true,
         IncludeFields = true,

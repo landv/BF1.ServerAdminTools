@@ -245,7 +245,7 @@
                     Height="50"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    Source="{Binding ServerInfoModel.ServerMapImg, Converter={StaticResource MyImageConverter}}" />
+                    Source="{Binding ServerInfoModel.ServerMapImg, Converter={StaticResource ImageConverter}}" />
             </Grid>
         </Border>
         <!--  ################################  -->

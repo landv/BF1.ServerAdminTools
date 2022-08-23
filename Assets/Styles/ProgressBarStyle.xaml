@@ -43,7 +43,7 @@
                             Margin="1,0,0,0"
                             SnapsToDevicePixels="True"
                             Source="{TemplateBinding attached:Icon.Value,
-                                                     Converter={StaticResource MyImageConverter}}"
+                                                     Converter={StaticResource ImageConverter}}"
                             Stretch="UniformToFill"
                             Style="{StaticResource ImageStyle_HQ}" />
                     </StackPanel>
@@ -65,7 +65,7 @@
                             Margin="0,0,1,0"
                             SnapsToDevicePixels="True"
                             Source="{TemplateBinding attached:Icon.Value,
-                                                     Converter={StaticResource MyImageConverter}}"
+                                                     Converter={StaticResource ImageConverter}}"
                             Stretch="UniformToFill"
                             Style="{StaticResource ImageStyle_HQ}" />
                         <Grid

@@ -23,7 +23,7 @@
             <Image
                 VerticalAlignment="Center"
                 RenderTransformOrigin="0.5,0.5"
-                Source="{Binding MapImage, Converter={StaticResource MyImageConverter}}"
+                Source="{Binding MapImage, Converter={StaticResource ImageConverter}}"
                 Stretch="UniformToFill">
                 <Image.RenderTransform>
                     <TransformGroup>
