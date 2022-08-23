@@ -9,6 +9,7 @@ using BF1.ServerAdminTools.Features.Config;
 
 using RestSharp;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Xml.Linq;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -386,5 +387,93 @@ public partial class AuthView : UserControl
     private void RadioButton_Mode12_Click(object sender, RoutedEventArgs e)
     {
         Globals.IsUseMode1 = RadioButton_Mode1.IsChecked == true;
+    }
+
+    private async void Button_GetPlayerPlayServer_Click(object sender, RoutedEventArgs e)
+    {
+        var playerName = TextBox_TargetPlayerName.Text.Trim();
+        if (string.IsNullOrEmpty(playerName))
+        {
+            NotifierHelper.Show(NotiferType.Warning, "目标玩家名字为空，操作取消");
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(Globals.Remid) && !string.IsNullOrEmpty(Globals.Sid))
+        {
+            NotifierHelper.Show(NotiferType.Information, "正在查询中，请稍后...");
+
+            var str = "https://accounts.ea.com/connect/auth?response_type=token&locale=zh_CN&client_id=ORIGIN_JS_SDK&redirect_uri=nucleus%3Arest";
+            var options = new RestClientOptions(str)
+            {
+                MaxTimeout = 5000,
+                FollowRedirects = false
+            };
+
+            var client = new RestClient(options);
+            var request = new RestRequest()
+                .AddHeader("Cookie", $"remid={Globals.Remid};sid={Globals.Sid};");
+
+            var response = await client.ExecuteGetAsync(request);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                JsonNode jNode = JsonNode.Parse(response.Content);
+                var access_token = jNode["access_token"].GetValue<string>();
+
+                str = $"https://gateway.ea.com/proxy/identity/personas?namespaceName=cem_ea_id&displayName={playerName}";
+                options = new RestClientOptions(str)
+                {
+                    MaxTimeout = 5000,
+                    FollowRedirects = false
+                };
+
+                client = new RestClient(options);
+                request = new RestRequest()
+                   .AddHeader("X-Expand-Results", true)
+                   .AddHeader("Authorization", $"Bearer {access_token}");
+
+                response = await client.ExecuteGetAsync(request);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    jNode = JsonNode.Parse(response.Content);
+                    if (jNode["personas"]!["persona"] != null)
+                    {
+                        var personaId = jNode["personas"]!["persona"][0]["personaId"].GetValue<long>();
+
+                        var result = await BF1API.GetServersByPersonaIds(personaId);
+                        if (result.IsSuccess)
+                        {
+                            jNode = JsonNode.Parse(result.Message);
+
+                            var obj = jNode["result"]![$"{personaId}"];
+                            if (obj != null)
+                            {
+                                var name = obj["name"].GetValue<string>();
+                                NotifierHelper.Show(NotiferType.Success, $"玩家 {playerName} 正在游玩的服务器为 {name}");
+                            }
+                            else
+                            {
+                                NotifierHelper.Show(NotiferType.Warning, $"未找到玩家 {playerName} 的游玩信息");
+                            }
+                        }
+                        else
+                        {
+                            NotifierHelper.Show(NotiferType.Error, "网络请求错误");
+                        }
+                    }
+                    else
+                    {
+                        NotifierHelper.Show(NotiferType.Warning, $"玩家 {playerName} 不存在");
+                    }
+                }
+                else
+                {
+                    NotifierHelper.Show(NotiferType.Error, "网络请求错误");
+                }
+            }
+            else
+            {
+                NotifierHelper.Show(NotiferType.Error, "玩家Cookies失效，请尝试刷新");
+            }
+        }
     }
 }

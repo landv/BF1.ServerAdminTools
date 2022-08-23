@@ -1235,4 +1235,58 @@ public static class BF1API
 
         return respContent;
     }
+
+    /// <summary>
+    /// 获取玩家正在游玩服务器
+    /// </summary>
+    public static async Task<RespContent> GetServersByPersonaIds(long personaId)
+    {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        var respContent = new RespContent();
+
+        try
+        {
+            headers["X-GatewaySession"] = Globals.SessionId;
+            respContent.IsSuccess = false;
+
+            var reqBody = new
+            {
+                jsonrpc = "2.0",
+                method = "GameServer.getServersByPersonaIds",
+                @params = new
+                {
+                    game = "tunguska",
+                    personaIds = new[] { personaId }
+                },
+                id = Guid.NewGuid()
+            };
+
+            var request = new RestRequest()
+                .AddHeaders(headers)
+                .AddJsonBody(reqBody);
+
+            var response = await client.ExecutePostAsync(request);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                respContent.IsSuccess = true;
+                respContent.Message = response.Content;
+            }
+            else
+            {
+                var respError = JsonUtil.JsonDese<RespError>(response.Content);
+                respContent.Message = $"{respError.error.code} {respError.error.message}";
+            }
+        }
+        catch (Exception ex)
+        {
+            respContent.Message = ex.Message;
+        }
+
+        sw.Stop();
+        respContent.ExecTime = sw.Elapsed.TotalSeconds;
+
+        return respContent;
+    }
 }

@@ -162,6 +162,27 @@
             <TextBox x:Name="TextBox_Sid" Style="{StaticResource TextBoxStyle_Info}" />
             <TextBlock Margin="5" Text="SessionID" />
             <TextBox x:Name="TextBox_SessionId" Style="{StaticResource TextBoxStyle_Info}" />
+            <!--  ################  -->
+            <Label
+                attached:Icon.Value="☕"
+                Content="游戏追踪"
+                Style="{StaticResource LabelStyle_Title}" />
+            <TextBlock Margin="5" Text="请输入要查询的玩家战地1游戏ID" />
+            <DockPanel LastChildFill="True">
+                <Button
+                    x:Name="Button_GetPlayerPlayServer"
+                    Margin="0,5,5,5"
+                    Click="Button_GetPlayerPlayServer_Click"
+                    Content="查询"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource ButtonStyle_Normal}" />
+                <TextBox
+                    x:Name="TextBox_TargetPlayerName"
+                    Margin="5"
+                    Padding="5"
+                    DockPanel.Dock="Left"
+                    Text="" />
+            </DockPanel>
 
         </StackPanel>
     </Grid>
