@@ -1,10 +1,12 @@
-﻿using BF1.ServerAdminTools.Common.Data;
+﻿using BF1.ServerAdminTools.Views;
+using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Windows.Kits;
 using BF1.ServerAdminTools.Features.Core;
 using BF1.ServerAdminTools.Features.Chat;
 
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace BF1.ServerAdminTools;
@@ -12,12 +14,28 @@ namespace BF1.ServerAdminTools;
 /// <summary>
 /// MainWindow.xaml 的交互逻辑
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow
 {
     public delegate void ClosingDispose();
     public static event ClosingDispose ClosingDisposeEvent;
 
     public static MainWindow ThisMainWindow;
+
+    public RelayCommand<string> NavigateCommand { get; private set; }
+
+    ///////////////////////////////////////////////////////
+
+    private HomeView HomeView { get; set; } = new();
+    private ServerView ServerView { get; set; } = new();
+    private AuthView AuthView { get; set; } = new();
+    private ScoreView ScoreView { get; set; } = new();
+    private DetailView DetailView { get; set; } = new();
+    private RuleView RuleView { get; set; } = new();
+    private LogView LogView { get; set; } = new();
+    private ChatView ChatView { get; set; } = new();
+    private RobotView RobotView { get; set; } = new();
+    private OptionView OptionView { get; set; } = new();
+    private AboutView AboutView { get; set; } = new();
 
     ///////////////////////////////////////////////////////
 
@@ -30,6 +48,10 @@ public partial class MainWindow : Window
     {
         this.DataContext = this;
         ThisMainWindow = this;
+
+        NavigateCommand = new(Navigate);
+        // 首页导航
+        ContentControl_Main.Content = HomeView;
 
         ////////////////////////////////
 
@@ -69,6 +91,11 @@ public partial class MainWindow : Window
         LoggerHelper.Info("刷新DNS缓存成功");
 
         LoggerHelper.Info($"正在检测版本更新...");
+        this.Dispatcher.Invoke(() =>
+        {
+            NotifierHelper.Show(NotiferType.Notification, $"正在检测版本更新...");
+        });
+
         // 获取版本更新
         var webConfig = HttpHelper.HttpClientGET(CoreUtil.Config_Address).Result;
         if (!string.IsNullOrEmpty(webConfig))
@@ -117,7 +144,58 @@ public partial class MainWindow : Window
             else
             {
                 LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+                this.Dispatcher.Invoke(() =>
+                {
+                    NotifierHelper.Show(NotiferType.Notification, $"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+                });
             }
+        }
+    }
+
+    /// <summary>
+    /// View页面导航
+    /// </summary>
+    /// <param name="viewName"></param>
+    private void Navigate(string viewName)
+    {
+        if (viewName == null || string.IsNullOrEmpty(viewName))
+            return;
+
+        switch (viewName)
+        {
+            case "HomeView":
+                ContentControl_Main.Content = HomeView;
+                break;
+            case "ServerView":
+                ContentControl_Main.Content = ServerView;
+                break;
+            case "AuthView":
+                ContentControl_Main.Content = AuthView;
+                break;
+            case "ScoreView":
+                ContentControl_Main.Content = ScoreView;
+                break;
+            case "DetailView":
+                ContentControl_Main.Content = DetailView;
+                break;
+            case "RuleView":
+                ContentControl_Main.Content = RuleView;
+                break;
+            case "LogView":
+                ContentControl_Main.Content = LogView;
+                break;
+            case "ChatView":
+                ContentControl_Main.Content = ChatView;
+                break;
+            case "RobotView":
+                ContentControl_Main.Content = RobotView;
+                break;
+            case "OptionView":
+                ContentControl_Main.Content = OptionView;
+                break;
+            case "AboutView":
+                ContentControl_Main.Content = AboutView;
+                break;
         }
     }
 }

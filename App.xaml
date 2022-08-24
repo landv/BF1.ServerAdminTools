@@ -7,6 +7,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WinSkin;component/WinSkin.xaml" />
+
                 <ResourceDictionary Source="Assets/Styles/ColorStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/GlobalStyle.xaml" />
@@ -18,6 +20,7 @@
                 <ResourceDictionary Source="Assets/Styles/TextBlockStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/CheckBoxStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/RadioButtonStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/TextBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/BorderStyle.xaml" />

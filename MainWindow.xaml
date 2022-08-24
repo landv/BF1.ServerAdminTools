@@ -1,23 +1,136 @@
-﻿<Window
+﻿<WinSkin:WinSkinWindow
     x:Class="BF1.ServerAdminTools.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:WinSkin="clr-namespace:WinSkin;assembly=WinSkin"
     xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
-    xmlns:views="clr-namespace:BF1.ServerAdminTools.Views"
     Name="Window_Main"
     Title="战地1服务器管理工具"
-    Width="1920"
-    Height="1080"
+    Width="1280"
+    Height="720"
     MinWidth="1280"
     MinHeight="720"
+    BorderBrush="Gray"
+    BorderThickness="1"
+    CaptionBackground="#F5F5F5"
+    CaptionHeight="40"
     Closing="Window_Main_Closing"
     Loaded="Window_Main_Loaded"
+    Style="{StaticResource WinSkinWindowStyle}"
+    SystemButtonCloseOverColor="Red"
+    SystemButtonColor="{StaticResource TransparentColor}"
+    SystemButtonForeground="Gray"
+    SystemButtonOverColor="#10000000"
+    SystemButtonSize="40"
     WindowStartupLocation="CenterScreen"
-    WindowState="Maximized"
     mc:Ignorable="d">
+
+    <WinSkin:WinSkinWindow.TitleContent>
+        <DockPanel LastChildFill="True">
+            <StackPanel
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                Orientation="Horizontal">
+                <Image
+                    Height="25"
+                    Margin="5"
+                    Source="\Assets\Images\Battlefield-1-Favicon.ico" />
+                <TextBlock
+                    Margin="5,0,10,0"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="战地1服务器管理工具" />
+            </StackPanel>
+            <!--  ################################  -->
+            <StackPanel
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                Orientation="Horizontal">
+                <RadioButton
+                    attached:Icon.Value="🏡"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="HomeView"
+                    Content="主页"
+                    IsChecked="True"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🌎"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="ServerView"
+                    Content="服务器"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🔑"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="AuthView"
+                    Content="权限"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="📖"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="ScoreView"
+                    Content="得分板"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🗂"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="DetailView"
+                    Content="详情"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🖥"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="RuleView"
+                    Content="规则"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🧾"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="LogView"
+                    Content="日志"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="💬"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="ChatView"
+                    Content="聊天栏"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🐧"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="RobotView"
+                    Content="机器人"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="⚙"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="OptionView"
+                    Content="选项"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
+                    attached:Icon.Value="🎈"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="AboutView"
+                    Content="关于"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+            </StackPanel>
+        </DockPanel>
+    </WinSkin:WinSkinWindow.TitleContent>
 
     <Grid>
         <notifications:NotificationArea
@@ -25,73 +138,7 @@
             Panel.ZIndex="999"
             MaxItems="5"
             Position="BottomCenter" />
-        <!--  #############################################################################  -->
-        <TabControl
-            x:Name="TabControl_Main"
-            Grid.Row="0"
-            Margin="5"
-            Style="{StaticResource TabControlStyle_Main}">
-            <TabControl.Resources>
-                <Style TargetType="{x:Type TabPanel}">
-                    <Setter Property="HorizontalAlignment" Value="Center" />
-                </Style>
-                <Style BasedOn="{StaticResource TabItemStyle_Main}" TargetType="{x:Type TabItem}" />
-            </TabControl.Resources>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🏡" Header="主页">
-                <views:HomeView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🌎" Header="服务器">
-                <views:ServerView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🔑" Header="权限">
-                <views:AuthView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="📖" Header="得分板">
-                <views:ScoreView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🗂" Header="详情">
-                <views:DetailView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🖥" Header="规则">
-                <views:RuleView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🧾" Header="日志">
-                <views:LogView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="💬" Header="聊天栏">
-                <views:ChatView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🐧" Header="机器人">
-                <views:RobotView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="⚙" Header="选项">
-                <views:OptionView />
-            </TabItem>
-
-            <!--  #############################################################################  -->
-            <TabItem attached:Icon.Value="🎈" Header="关于">
-                <views:AboutView />
-            </TabItem>
-        </TabControl>
+        <!--  ###############################################  -->
+        <ContentControl x:Name="ContentControl_Main" />
     </Grid>
-</Window>
+</WinSkin:WinSkinWindow>

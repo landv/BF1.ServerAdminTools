@@ -528,10 +528,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Assets\Images\Battlefield-1-Favicon.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <EmbeddedResource Include="Features\Files\config.yml" />
 	  <EmbeddedResource Include="Features\Files\go-cqhttp.exe" />
 	</ItemGroup>
@@ -563,6 +559,7 @@
 		<PackageReference Include="Notification.Wpf" Version="6.1.0.5" />
 		<PackageReference Include="RestSharp" Version="108.0.1" />
 		<PackageReference Include="Websocket.Client" Version="4.4.43" />
+		<PackageReference Include="WinSkin" Version="1.0.1" />
 		<PackageReference Include="XamlAnimatedGif" Version="2.0.2" />
 	</ItemGroup>
 

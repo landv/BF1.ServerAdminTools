@@ -5,11 +5,10 @@
     xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf">
 
     <Style x:Key="TabControlStyle_Main" TargetType="{x:Type TabControl}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -38,7 +37,8 @@
                             BorderThickness="1"
                             KeyboardNavigation.DirectionalNavigation="Contained"
                             KeyboardNavigation.TabIndex="2"
-                            KeyboardNavigation.TabNavigation="Local">
+                            KeyboardNavigation.TabNavigation="Local"
+                            SnapsToDevicePixels="True">
                             <ContentPresenter
                                 x:Name="PART_SelectedContentHost"
                                 Margin="{TemplateBinding Padding}"
