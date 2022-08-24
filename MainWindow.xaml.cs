@@ -1,4 +1,5 @@
 ﻿using BF1.ServerAdminTools.Views;
+using BF1.ServerAdminTools.Models;
 using BF1.ServerAdminTools.Common.Data;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
@@ -19,7 +20,15 @@ public partial class MainWindow
     public delegate void ClosingDispose();
     public static event ClosingDispose ClosingDisposeEvent;
 
+    // 向外暴露主窗口实例
     public static MainWindow ThisMainWindow;
+
+    // 声明一个变量，用于存储软件开始运行的时间
+    private DateTime Origin_DateTime;
+
+    ///////////////////////////////////////////////////////
+
+    public MainModel MainModel { get; set; } = new();
 
     public RelayCommand<string> NavigateCommand { get; private set; }
 
@@ -55,8 +64,10 @@ public partial class MainWindow
 
         ////////////////////////////////
 
-        Title = CoreUtil.MainAppWindowName + CoreUtil.ClientVersionInfo
-            + " - 最后编译时间 : " + File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName);
+        MainModel.AppRunTime = "运行时间 : Loading...";
+
+        // 获取当前时间，存储到对于变量中
+        Origin_DateTime = DateTime.Now;
 
         ////////////////////////////////
 
@@ -65,6 +76,12 @@ public partial class MainWindow
             IsBackground = true
         };
         therad0.Start();
+
+        var thread1 = new Thread(UpdateState)
+        {
+            IsBackground = true
+        };
+        thread1.Start();
     }
 
     private void Window_Main_Closing(object sender, CancelEventArgs e)
@@ -85,6 +102,9 @@ public partial class MainWindow
         LoggerHelper.Info($"程序关闭\n\n");
     }
 
+    /// <summary>
+    /// 初始化线程
+    /// </summary>
     private async void InitThread()
     {
         CoreUtil.FlushDNSCache();
@@ -149,6 +169,29 @@ public partial class MainWindow
                     NotifierHelper.Show(NotiferType.Notification, $"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
                 });
             }
+        }
+    }
+
+    /// <summary>
+    /// 主窗口UI更新线程
+    /// </summary>
+    private void UpdateState()
+    {
+        while (true)
+        {
+            // 获取软件运行时间
+            MainModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
+
+            if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.Close();
+                });
+                return;
+            }
+
+            Thread.Sleep(1000);
         }
     }
 

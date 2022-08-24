@@ -17,11 +17,11 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="5">
-            <GroupBox Header="时间">
-                <TextBlock
-                    Margin="5"
-                    VerticalAlignment="Center"
-                    Text="{Binding OptionModel.AppRunTime, FallbackValue='运行时间 : Loading...'}" />
+            <GroupBox Header="信息">
+                <StackPanel>
+                    <TextBlock x:Name="TextBlock_ClientVersionInfo" Margin="5" />
+                    <TextBlock x:Name="TextBlock_LastWriteTime" Margin="5" />
+                </StackPanel>
             </GroupBox>
             <GroupBox Header="按键音">
                 <WrapPanel>

@@ -48,6 +48,16 @@
             <!--  ################################  -->
             <StackPanel
                 VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="{Binding MainModel.AppRunTime, FallbackValue='运行时间 : Loading...'}" />
+            </StackPanel>
+            <!--  ################################  -->
+            <StackPanel
+                VerticalAlignment="Center"
                 DockPanel.Dock="Left"
                 Orientation="Horizontal">
                 <RadioButton

@@ -9,25 +9,14 @@ namespace BF1.ServerAdminTools.Views;
 /// </summary>
 public partial class OptionView : UserControl
 {
-    public OptionModel OptionModel { get; set; } = new();
-
-    // 声明一个变量，用于存储软件开始运行的时间
-    private DateTime Origin_DateTime;
-
     public OptionView()
     {
         InitializeComponent();
         this.DataContext = this;
         MainWindow.ClosingDisposeEvent += MainWindow_ClosingDisposeEvent;
 
-        OptionModel.AppRunTime = "运行时间 : Loading...";
-
-        // 获取当前时间，存储到对于变量中
-        Origin_DateTime = DateTime.Now;
-
-        var thread0 = new Thread(UpdateState);
-        thread0.IsBackground = true;
-        thread0.Start();
+        TextBlock_ClientVersionInfo.Text = $"当前版本号：{CoreUtil.ClientVersionInfo}";
+        TextBlock_LastWriteTime.Text = $"最后编译时间：{File.GetLastWriteTime(Process.GetCurrentProcess().MainModule.FileName)}";
 
         switch (AudioUtil.ClickSoundIndex)
         {
@@ -86,26 +75,6 @@ public partial class OptionView : UserControl
                 AudioUtil.ClickSoundIndex = 5;
                 AudioUtil.ClickSound();
                 break;
-        }
-    }
-
-    private void UpdateState()
-    {
-        while (true)
-        {
-            // 获取软件运行时间
-            OptionModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
-
-            if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    MainWindow.ThisMainWindow.Close();
-                });
-                return;
-            }
-
-            Thread.Sleep(1000);
         }
     }
 }
