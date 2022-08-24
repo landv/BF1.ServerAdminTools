@@ -5,7 +5,7 @@ namespace BF1.ServerAdminTools.Windows;
 /// <summary>
 /// ChangeMapWindow.xaml 的交互逻辑
 /// </summary>
-public partial class ChangeMapWindow : Window
+public partial class ChangeMapWindow
 {
     public string MapName { get; set; }
     public string MapImage { get; set; }
@@ -13,7 +13,6 @@ public partial class ChangeMapWindow : Window
     public ChangeMapWindow(string mapName, string mapImage)
     {
         InitializeComponent();
-
         this.DataContext = this;
 
         MapName = mapName;
@@ -30,12 +29,6 @@ public partial class ChangeMapWindow : Window
         AudioUtil.ClickSound();
 
         this.DialogResult = true;
-        this.Close();
-    }
-
-    private void Button_Cancel_Click(object sender, RoutedEventArgs e)
-    {
-        this.DialogResult = false;
         this.Close();
     }
 }

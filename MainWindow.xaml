@@ -24,7 +24,7 @@
     SystemButtonColor="{StaticResource TransparentColor}"
     SystemButtonForeground="Gray"
     SystemButtonOverColor="#10000000"
-    SystemButtonSize="40"
+    SystemButtonSize="30"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 

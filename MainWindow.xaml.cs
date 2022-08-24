@@ -48,6 +48,9 @@ public partial class MainWindow
 
     ///////////////////////////////////////////////////////
 
+    // 当前View名称
+    private string CurrentViewName = string.Empty;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -60,7 +63,7 @@ public partial class MainWindow
 
         NavigateCommand = new(Navigate);
         // 首页导航
-        ContentControl_Main.Content = HomeView;
+        Navigate("HomeView");
 
         ////////////////////////////////
 
@@ -202,6 +205,15 @@ public partial class MainWindow
     private void Navigate(string viewName)
     {
         if (viewName == null || string.IsNullOrEmpty(viewName))
+            return;
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+
+        // 防止重复触发
+        if (CurrentViewName != viewName)
+            CurrentViewName = viewName;
+        else
             return;
 
         switch (viewName)

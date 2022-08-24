@@ -12,7 +12,7 @@ namespace BF1.ServerAdminTools.Windows;
 /// <summary>
 /// WebView2Window.xaml 的交互逻辑
 /// </summary>
-public partial class WebView2Window : Window
+public partial class WebView2Window
 {
     private const string Uri = "https://accounts.ea.com/connect/auth?response_type=code&locale=zh_CN&client_id=sparta-backend-as-user-pc";
 
@@ -131,5 +131,11 @@ public partial class WebView2Window : Window
 
             LoggerHelper.Info($"清空WebView2缓存成功");
         }
+    }
+
+    private void Button_Cancel_Click(object sender, RoutedEventArgs e)
+    {
+        this.DialogResult = false;
+        this.Close();
     }
 }

@@ -9,7 +9,7 @@ namespace BF1.ServerAdminTools.Windows;
 /// <summary>
 /// QueryRecordWindow.xaml 的交互逻辑
 /// </summary>
-public partial class QueryRecordWindow : Window
+public partial class QueryRecordWindow
 {
     public class WeaponStats
     {
@@ -68,7 +68,7 @@ public partial class QueryRecordWindow : Window
     {
         this.DataContext = this;
 
-        this.Title = $"{this.Title} - 玩家ID : {PlayerName} - 数字ID : {PersonaId}";
+        TextBlock_WindowTitle.Text = $"{this.Title} - 玩家ID : {PlayerName} - 数字ID : {PersonaId}";
 
         if (PersonaId != 0)
         {

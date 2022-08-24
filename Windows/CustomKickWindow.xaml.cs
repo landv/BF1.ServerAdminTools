@@ -7,7 +7,7 @@ namespace BF1.ServerAdminTools.Windows;
 /// <summary>
 /// CustomKickWindow.xaml 的交互逻辑
 /// </summary>
-public partial class CustomKickWindow : Window
+public partial class CustomKickWindow
 {
     public string PlayerName { get; set; }
     public long PersonaId { get; set; }
@@ -25,18 +25,26 @@ public partial class CustomKickWindow : Window
     {
         AudioUtil.ClickSound();
 
+        this.Hide();
+
+        var reason = TextBox_CustomReason.Text.Trim();
+        if (string.IsNullOrEmpty(reason))
+            reason = "-1";
+        else
+            reason = ChsUtil.ToTraditionalChinese(reason);
+
         NotifierHelper.Show(NotiferType.Information, $"正在踢出玩家 {PlayerName} 中...");
 
-        var reason = ChsUtil.ToTraditionalChinese(TextBox_CustomReason.Text.Trim());
         var result = await BF1API.AdminKickPlayer(PersonaId, reason);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {PlayerName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
-            this.Close();
+            NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {PlayerName} 成功 | 耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"踢出玩家 {PlayerName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotiferType.Error, $"踢出玩家 {PlayerName} 失败 {result.Message} | 耗时: {result.ExecTime:0.00} 秒");
         }
+
+        this.Close();
     }
 }

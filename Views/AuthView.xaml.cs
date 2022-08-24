@@ -9,7 +9,6 @@ using BF1.ServerAdminTools.Features.Config;
 
 using RestSharp;
 using CommunityToolkit.Mvvm.Messaging;
-using System.Xml.Linq;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -21,8 +20,6 @@ public partial class AuthView : UserControl
     private AuthConfig AuthConfig { get; set; } = new();
 
     public ObservableCollection<string> ComboBox_ConfigNames { get; set; } = new();
-
-    private WebView2Window WebView2Window = null;
 
     public AuthView()
     {
@@ -113,8 +110,6 @@ public partial class AuthView : UserControl
 
     private void MainWindow_ClosingDisposeEvent()
     {
-        WebView2Window?.Close();
-
         AuthConfig.IsUseMode1 = Globals.IsUseMode1;
         File.WriteAllText(FileUtil.F_Auth_Path, JsonUtil.JsonSeri(AuthConfig));
     }
@@ -350,30 +345,15 @@ public partial class AuthView : UserControl
     {
         if (CoreUtil.IsWebView2DependencyInstalled())
         {
-            if (WebView2Window == null)
+            var webView2Window = new WebView2Window()
             {
-                WebView2Window = new WebView2Window();
-                WebView2Window.Show();
-            }
-            else
-            {
-                if (WebView2Window.IsVisible)
-                {
-                    WebView2Window.Topmost = true;
-                    WebView2Window.Topmost = false;
-                    WebView2Window.WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    WebView2Window = null;
-                    WebView2Window = new WebView2Window();
-                    WebView2Window.Show();
-                }
-            }
+                Owner = MainWindow.ThisMainWindow
+            };
+            webView2Window.ShowDialog();
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "未安装WebView2对应依赖，请安装依赖或手动获取Cookie");
+            NotifierHelper.Show(NotiferType.Warning, "未检测到WebView2对应依赖，请安装依赖或手动获取Cookie");
         }
     }
 
@@ -391,6 +371,8 @@ public partial class AuthView : UserControl
 
     private async void Button_GetPlayerPlayServer_Click(object sender, RoutedEventArgs e)
     {
+        AudioUtil.ClickSound();
+
         var playerName = TextBox_TargetPlayerName.Text.Trim();
         if (string.IsNullOrEmpty(playerName))
         {

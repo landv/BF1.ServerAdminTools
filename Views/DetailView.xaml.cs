@@ -303,7 +303,6 @@ public partial class DetailView : UserControl
 
                 var changeMapWindow = new ChangeMapWindow(mapInfo, currMap.mapImage);
                 changeMapWindow.Owner = MainWindow.ThisMainWindow;
-
                 if (changeMapWindow.ShowDialog() == true)
                 {
                     NotifierHelper.Show(NotiferType.Information, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
