@@ -37,9 +37,10 @@
                 <Image
                     Height="25"
                     Margin="5"
-                    Source="\Assets\Images\Battlefield-1-Favicon.ico" />
+                    Source="\Assets\Images\Battlefield-1-Favicon.ico"
+                    Style="{StaticResource ImageStyle_HQ}" />
                 <TextBlock
-                    Margin="5,0,10,0"
+                    Margin="0,0,10,0"
                     VerticalAlignment="Center"
                     FontSize="18"
                     FontWeight="Bold"
