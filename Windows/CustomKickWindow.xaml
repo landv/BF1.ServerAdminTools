@@ -15,7 +15,7 @@
     CaptionHeight="30"
     ResizeMode="NoResize"
     Style="{StaticResource WinSkinWindowStyle}"
-    SystemButtonCloseOverColor="Red"
+    SystemButtonCloseOverColor="#E81123"
     SystemButtonColor="{StaticResource TransparentColor}"
     SystemButtonForeground="Gray"
     SystemButtonOverColor="#10000000"
@@ -37,16 +37,17 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid>
-            <TextBlock
-                x:Name="TextBlock_PlayerName"
-                Margin="5,5,5,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="18"
-                FontWeight="Bold"
-                Text="{Binding PlayerName, FallbackValue=你要踢出的玩家名字}" />
-        </Grid>
+        <TextBlock
+            x:Name="TextBlock_PlayerName"
+            Grid.Row="0"
+            Margin="5"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="24"
+            FontWeight="Bold"
+            Text="{Binding PlayerName, FallbackValue=你要踢出的玩家名字}"
+            TextTrimming="WordEllipsis"
+            TextWrapping="NoWrap" />
         <UniformGrid Grid.Row="1" Rows="2">
             <TextBox
                 x:Name="TextBox_CustomReason"

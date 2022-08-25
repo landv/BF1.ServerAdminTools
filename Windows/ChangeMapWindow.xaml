@@ -16,7 +16,7 @@
     Loaded="Window_ChangeMap_Loaded"
     ResizeMode="NoResize"
     Style="{StaticResource WinSkinWindowStyle}"
-    SystemButtonCloseOverColor="Red"
+    SystemButtonCloseOverColor="#E81123"
     SystemButtonColor="{StaticResource TransparentColor}"
     SystemButtonForeground="Gray"
     SystemButtonOverColor="#10000000"

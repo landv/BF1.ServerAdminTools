@@ -55,6 +55,7 @@
                 Name="MenuItem_QueryPlayerRecord"
                 Click="MenuItem_QueryPlayerRecord_Click"
                 Header="查询玩家数据" />
+            <Separator />
             <MenuItem
                 Name="MenuItem_QueryPlayerRecordWeb_BT"
                 Click="MenuItem_QueryPlayerRecordWeb_BT_Click"

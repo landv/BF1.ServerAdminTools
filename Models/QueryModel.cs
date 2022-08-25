@@ -26,6 +26,16 @@ public class QueryModel : ObservableObject
         set => SetProperty(ref _avatar, value);
     }
 
+    private string _emblem;
+    /// <summary>
+    /// 玩家图章
+    /// </summary>
+    public string Emblem
+    {
+        get => _emblem;
+        set => SetProperty(ref _emblem, value);
+    }
+
     private string _playerName;
     /// <summary>
     /// 玩家名称

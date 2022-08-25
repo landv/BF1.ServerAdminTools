@@ -9,7 +9,7 @@ namespace BF1.ServerAdminTools.Windows.Kits;
 /// <summary>
 /// UpdateWindow.xaml 的交互逻辑
 /// </summary>
-public partial class UpdateWindow : Window
+public partial class UpdateWindow
 {
     private DownloadService downloader;
 

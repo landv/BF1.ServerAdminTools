@@ -1,5 +1,5 @@
-﻿using BF1.ServerAdminTools.Common.Helper;
-using BF1.ServerAdminTools.Common.Utils;
+﻿using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.API;
 
 namespace BF1.ServerAdminTools.Windows;
@@ -24,7 +24,6 @@ public partial class CustomKickWindow
     private async void Button_KickPlayer_Click(object sender, RoutedEventArgs e)
     {
         AudioUtil.ClickSound();
-
         this.Hide();
 
         var reason = TextBox_CustomReason.Text.Trim();

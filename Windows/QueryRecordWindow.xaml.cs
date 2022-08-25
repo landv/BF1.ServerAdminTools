@@ -114,6 +114,17 @@ public partial class QueryRecordWindow
             QueryModel.PersonaId = $"{PersonaId}";
             QueryModel.Rank = $"等级 : {Rank}";
 
+            result = await BF1API.GetEquippedEmblem(PersonaId);
+            if (result.IsSuccess)
+            {
+                jNode = JsonNode.Parse(result.Message);
+                if (jNode["result"] != null)
+                {
+                    var img = jNode["result"].GetValue<string>();
+                    QueryModel.Emblem = img.Replace("[SIZE]", "256").Replace("[FORMAT]", "png");
+                }
+            }
+
             IsAllFinish();
         }
     }

@@ -19,7 +19,7 @@
     Closing="Window_QueryRecord_Closing"
     Loaded="Window_QueryRecord_Loaded"
     Style="{StaticResource WinSkinWindowStyle}"
-    SystemButtonCloseOverColor="Red"
+    SystemButtonCloseOverColor="#E81123"
     SystemButtonColor="{StaticResource TransparentColor}"
     SystemButtonForeground="Gray"
     SystemButtonOverColor="#10000000"
@@ -53,24 +53,21 @@
                             DockPanel.Dock="Left"
                             Source="{Binding QueryModel.Avatar, Converter={StaticResource ImageConverter}}"
                             Style="{StaticResource ImageStyle_HQ}" />
+                        <Image
+                            Height="70"
+                            DockPanel.Dock="Left"
+                            Source="{Binding QueryModel.Emblem, Converter={StaticResource ImageConverter}}"
+                            Style="{StaticResource ImageStyle_HQ}" />
                         <StackPanel
                             Margin="5,0,0,0"
+                            HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             DockPanel.Dock="Right">
                             <TextBlock
-                                Margin="0,0,0,3"
-                                VerticalAlignment="Bottom"
-                                FontSize="20"
-                                FontWeight="Bold"
-                                Text="{Binding QueryModel.PlayerName}" />
-                            <TextBlock Margin="0,0,0,5" Text="{Binding QueryModel.PersonaId}" />
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-                                    Margin="0,0,10,0"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding QueryModel.Rank}" />
-                                <TextBlock VerticalAlignment="Center" Text="{Binding QueryModel.PlayTime}" />
-                            </StackPanel>
+                                Margin="0,0,0,5"
+                                VerticalAlignment="Center"
+                                Text="{Binding QueryModel.Rank}" />
+                            <TextBlock VerticalAlignment="Center" Text="{Binding QueryModel.PlayTime}" />
                         </StackPanel>
                     </DockPanel>
                 </StackPanel>

@@ -20,7 +20,7 @@
     Closing="Window_Main_Closing"
     Loaded="Window_Main_Loaded"
     Style="{StaticResource WinSkinWindowStyle}"
-    SystemButtonCloseOverColor="Red"
+    SystemButtonCloseOverColor="#E81123"
     SystemButtonColor="{StaticResource TransparentColor}"
     SystemButtonForeground="Gray"
     SystemButtonOverColor="#10000000"
