@@ -39,39 +39,44 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="1.3*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.45*" />
+                <ColumnDefinition Width="0.35*" />
             </Grid.ColumnDefinitions>
-
+            <!--  ####################  -->
             <DockPanel Grid.Column="0" LastChildFill="True">
-                <StackPanel Margin="0,0,20,0" DockPanel.Dock="Top">
-                    <DockPanel LastChildFill="True">
-                        <Image
-                            Height="70"
-                            Margin="5"
-                            DockPanel.Dock="Left"
-                            Source="{Binding QueryModel.Avatar, Converter={StaticResource ImageConverter}}"
-                            Style="{StaticResource ImageStyle_HQ}" />
-                        <Image
-                            Height="70"
-                            DockPanel.Dock="Left"
-                            Source="{Binding QueryModel.Emblem, Converter={StaticResource ImageConverter}}"
-                            Style="{StaticResource ImageStyle_HQ}" />
-                        <StackPanel
-                            Margin="5,0,0,0"
-                            HorizontalAlignment="Center"
+                <StackPanel
+                    Margin="0,0,20,0"
+                    DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+                    <Border
+                        Height="50"
+                        Margin="5"
+                        BorderBrush="#ADADAD"
+                        BorderThickness="1"
+                        SnapsToDevicePixels="True">
+                        <Image Source="{Binding QueryModel.Avatar, Converter={StaticResource ImageConverter}}" Style="{StaticResource ImageStyle_HQ}" />
+                    </Border>
+                    <Border
+                        Height="50"
+                        Margin="5"
+                        BorderBrush="#ADADAD"
+                        BorderThickness="1"
+                        SnapsToDevicePixels="True">
+                        <Image Source="{Binding QueryModel.Emblem, Converter={StaticResource ImageConverter}}" Style="{StaticResource ImageStyle_HQ}" />
+                    </Border>
+                    <StackPanel
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            Margin="0,0,0,5"
                             VerticalAlignment="Center"
-                            DockPanel.Dock="Right">
-                            <TextBlock
-                                Margin="0,0,0,5"
-                                VerticalAlignment="Center"
-                                Text="{Binding QueryModel.Rank}" />
-                            <TextBlock VerticalAlignment="Center" Text="{Binding QueryModel.PlayTime}" />
-                        </StackPanel>
-                    </DockPanel>
+                            Text="{Binding QueryModel.Rank}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding QueryModel.PlayTime}" />
+                    </StackPanel>
                 </StackPanel>
-
+                <!--  ####################  -->
                 <ListBox
                     Margin="5,5,0,5"
                     DockPanel.Dock="Bottom"
@@ -79,7 +84,7 @@
                     ItemsSource="{Binding PlayerDataOC}"
                     Style="{StaticResource ListBoxStyle_PlayerData}" />
             </DockPanel>
-
+            <!--  ####################  -->
             <ListBox
                 Grid.Column="1"
                 Margin="5"
@@ -249,8 +254,11 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-
-        <Border Visibility="{Binding QueryModel.LoadingVisibility}">
+        <!--  ####################  -->
+        <Border
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding QueryModel.LoadingVisibility}">
             <Image
                 Width="100"
                 Height="100"
