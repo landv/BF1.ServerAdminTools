@@ -8,7 +8,6 @@ using BF1.ServerAdminTools.Features.Utils;
 
 using RestSharp;
 using CommunityToolkit.Mvvm.Input;
-using System.Xml.Linq;
 
 namespace BF1.ServerAdminTools.Views;
 
