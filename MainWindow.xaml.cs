@@ -35,8 +35,9 @@ public partial class MainWindow
     ///////////////////////////////////////////////////////
 
     private HomeView HomeView { get; set; } = new();
-    private ServerView ServerView { get; set; } = new();
     private AuthView AuthView { get; set; } = new();
+    private ServerView ServerView { get; set; } = new(); 
+    private QueryView QueryView { get; set; } = new();
     private ScoreView ScoreView { get; set; } = new();
     private DetailView DetailView { get; set; } = new();
     private RuleView RuleView { get; set; } = new();
@@ -67,7 +68,7 @@ public partial class MainWindow
 
         ////////////////////////////////
 
-        MainModel.AppRunTime = "运行时间 : Loading...";
+        MainModel.AppRunTime = "Loading...";
 
         // 获取当前时间，存储到对于变量中
         Origin_DateTime = DateTime.Now;
@@ -183,7 +184,7 @@ public partial class MainWindow
         while (true)
         {
             // 获取软件运行时间
-            MainModel.AppRunTime = "运行时间 : " + CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
+            MainModel.AppRunTime = CoreUtil.ExecDateDiff(Origin_DateTime, DateTime.Now);
 
             if (!ProcessUtil.IsAppRun(CoreUtil.TargetAppName))
             {
@@ -221,11 +222,14 @@ public partial class MainWindow
             case "HomeView":
                 ContentControl_Main.Content = HomeView;
                 break;
+            case "AuthView":
+                ContentControl_Main.Content = AuthView;
+                break;
             case "ServerView":
                 ContentControl_Main.Content = ServerView;
                 break;
-            case "AuthView":
-                ContentControl_Main.Content = AuthView;
+            case "QueryView":
+                ContentControl_Main.Content = QueryView;
                 break;
             case "ScoreView":
                 ContentControl_Main.Content = ScoreView;

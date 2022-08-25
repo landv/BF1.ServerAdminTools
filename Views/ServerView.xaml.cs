@@ -1,11 +1,12 @@
 ﻿using BF1.ServerAdminTools.Models;
 using BF1.ServerAdminTools.Common.Utils;
+using BF1.ServerAdminTools.Common.Helper;
 using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
 using CommunityToolkit.Mvvm.Input;
-using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -73,7 +74,13 @@ public partial class ServerView : UserControl
     {
         AudioUtil.ClickSound();
 
-        if (!string.IsNullOrEmpty(ServerModel.ServerName))
+        if (string.IsNullOrEmpty(ServerModel.ServerName))
+        {
+            NotifierHelper.Show(NotifierType.Warning, $"请输入正确的服务器名称");
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(Globals.Remid) && !string.IsNullOrEmpty(Globals.Sid))
         {
             ServersItems.Clear();
             ServerModel.LoadingVisibility = Visibility.Visible;
@@ -120,7 +127,7 @@ public partial class ServerView : UserControl
         }
         else
         {
-            NotifierHelper.Show(NotifierType.Warning, $"请输入正确的服务器名称");
+            NotifierHelper.Show(NotifierType.Error, "操作失败，玩家Remid或Sid为空");
         }
     }
 

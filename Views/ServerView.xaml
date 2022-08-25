@@ -11,35 +11,36 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <StackPanel
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <TextBox
-                Width="250"
-                Margin="5"
-                Padding="5,10,5,10"
-                InputLanguageManager.InputLanguage="en-US"
-                Text="{Binding ServerModel.ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="输入完成后按回车键即可快捷查询">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Enter" Command="{Binding QueryServerCommand}" />
-                </TextBox.InputBindings>
-            </TextBox>
-            <Button
-                Margin="0,5,0,5"
-                Command="{Binding QueryServerCommand}"
-                Content="&#xe610;"
-                Style="{StaticResource ButtonStyle_ServerSearch}" />
-        </StackPanel>
-
-        <Grid Grid.Row="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <!--  ####################  -->
+            <StackPanel
+                Grid.Row="0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBox
+                    Width="250"
+                    Margin="5"
+                    Padding="5,10,5,10"
+                    InputLanguageManager.InputLanguage="en-US"
+                    Text="{Binding ServerModel.ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ToolTip="输入完成后按回车键即可快捷查询">
+                    <TextBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding QueryServerCommand}" />
+                    </TextBox.InputBindings>
+                </TextBox>
+                <Button
+                    Margin="0,5,0,5"
+                    Command="{Binding QueryServerCommand}"
+                    Content="&#xe610;"
+                    Style="{StaticResource ButtonStyle_SearchIcon}" />
+            </StackPanel>
+            <!--  ####################  -->
             <ListBox
+                Grid.Row="1"
                 Margin="5,0,5,5"
                 ItemContainerStyle="{StaticResource ListBoxItemStyle_ServerList}"
                 ItemsSource="{Binding ServersItems}"
@@ -180,23 +181,25 @@
                                         Command="{Binding DataContext.ServerInfoCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListBox}}"
                                         CommandParameter="{Binding gameId}"
                                         Content="&#xe68a;"
-                                        Style="{StaticResource ButtonStyle_ServerSearch}" />
+                                        Style="{StaticResource ButtonStyle_SearchIcon}" />
                                 </StackPanel>
                             </Grid>
-
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-            <Border Visibility="{Binding ServerModel.LoadingVisibility}">
-                <Image
-                    Width="100"
-                    Height="100"
-                    gif:AnimationBehavior.SourceUri="/Assets/Images/Other/Loading.gif"
-                    Style="{StaticResource ImageStyle_HQ}" />
-            </Border>
         </Grid>
-
+        <!--  ####################  -->
+        <Border
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding ServerModel.LoadingVisibility}">
+            <Image
+                Width="100"
+                Height="100"
+                gif:AnimationBehavior.SourceUri="/Assets/Images/Other/Loading.gif"
+                Style="{StaticResource ImageStyle_HQ}" />
+        </Border>
     </Grid>
+
 </UserControl>

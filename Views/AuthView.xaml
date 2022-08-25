@@ -76,26 +76,6 @@
                 提示：如果欢迎语不是中文，请重新获取（必须是中文才可以，英文可能会导致问题）
             </TextBlock>
             <!--  ################  -->
-            <Label
-                attached:Icon.Value="☕"
-                Content="游戏追踪"
-                Style="{StaticResource LabelStyle_Title}" />
-            <TextBlock Margin="5" Text="请输入要查询的玩家战地1游戏ID" />
-            <DockPanel LastChildFill="True">
-                <Button
-                    x:Name="Button_GetPlayerPlayServer"
-                    Margin="0,5,5,5"
-                    Click="Button_GetPlayerPlayServer_Click"
-                    Content="查询"
-                    DockPanel.Dock="Right"
-                    Style="{StaticResource ButtonStyle_Normal}" />
-                <TextBox
-                    x:Name="TextBox_TargetPlayerName"
-                    Margin="5"
-                    Padding="5"
-                    DockPanel.Dock="Left"
-                    Text="" />
-            </DockPanel>
 
         </StackPanel>
         <!--  ################################  -->

@@ -64,6 +64,7 @@
                 Name="MenuItem_QueryPlayerRecordWeb_GT"
                 Click="MenuItem_QueryPlayerRecordWeb_GT_Click"
                 Header="查询玩家数据（GT-网页）" />
+            <Separator />
             <MenuItem Header="其他">
                 <MenuItem
                     Name="MenuItem_ClearScoreSort"

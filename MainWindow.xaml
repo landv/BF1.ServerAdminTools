@@ -5,6 +5,7 @@
     xmlns:WinSkin="clr-namespace:WinSkin;assembly=WinSkin"
     xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:notifications="clr-namespace:Notification.Wpf.Controls;assembly=Notification.Wpf"
     Name="Window_Main"
@@ -51,10 +52,14 @@
                 VerticalAlignment="Center"
                 DockPanel.Dock="Right"
                 Orientation="Horizontal">
+                <emoji:TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="⏱" />
                 <TextBlock
                     Margin="5"
                     VerticalAlignment="Center"
-                    Text="{Binding MainModel.AppRunTime, FallbackValue='运行时间 : Loading...'}" />
+                    Text="{Binding MainModel.AppRunTime, FallbackValue='00:00:00'}" />
             </StackPanel>
             <!--  ################################  -->
             <StackPanel
@@ -70,6 +75,13 @@
                     Style="{StaticResource RadioButtonStyle_Title}"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
                 <RadioButton
+                    attached:Icon.Value="🔑"
+                    Command="{Binding NavigateCommand}"
+                    CommandParameter="AuthView"
+                    Content="权限"
+                    Style="{StaticResource RadioButtonStyle_Title}"
+                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                <RadioButton
                     attached:Icon.Value="🌎"
                     Command="{Binding NavigateCommand}"
                     CommandParameter="ServerView"
@@ -77,10 +89,10 @@
                     Style="{StaticResource RadioButtonStyle_Title}"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
                 <RadioButton
-                    attached:Icon.Value="🔑"
+                    attached:Icon.Value="👮"
                     Command="{Binding NavigateCommand}"
-                    CommandParameter="AuthView"
-                    Content="权限"
+                    CommandParameter="QueryView"
+                    Content="查询"
                     Style="{StaticResource RadioButtonStyle_Title}"
                     WindowChrome.IsHitTestVisibleInChrome="True" />
                 <RadioButton

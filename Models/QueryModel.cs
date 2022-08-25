@@ -75,4 +75,16 @@ public class QueryModel : ObservableObject
         get => _playTime;
         set => SetProperty(ref _playTime, value);
     }
+
+    //////////////////////////////////////
+
+    private string _playingServer;
+    /// <summary>
+    /// 玩家正在游玩服务器
+    /// </summary>
+    public string PlayingServer
+    {
+        get => _playingServer;
+        set => SetProperty(ref _playingServer, value);
+    }
 }
