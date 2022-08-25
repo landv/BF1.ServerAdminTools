@@ -254,7 +254,7 @@ public partial class AuthView : UserControl
         {
             TextBlock_CheckSessionIdStatus.Text = "正在验证中，请等待...";
             TextBlock_CheckSessionIdStatus.Background = Brushes.Gray;
-            NotifierHelper.Show(NotiferType.Information, "正在验证中，请等待...");
+            NotifierHelper.Show(NotifierType.Information, "正在验证中，请等待...");
 
             await BF1API.SetAPILocale();
             var result = await BF1API.GetWelcomeMessage();
@@ -267,19 +267,19 @@ public partial class AuthView : UserControl
                 TextBlock_CheckSessionIdStatus.Text = msg;
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Green;
 
-                NotifierHelper.Show(NotiferType.Success, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotifierType.Success, $"验证成功 {msg}  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
                 TextBlock_CheckSessionIdStatus.Text = "验证失败";
                 TextBlock_CheckSessionIdStatus.Background = Brushes.Red;
 
-                NotifierHelper.Show(NotiferType.Error, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotifierType.Error, $"验证失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID后，再执行本操作");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID后，再执行本操作");
         }
     }
 
@@ -287,7 +287,7 @@ public partial class AuthView : UserControl
     {
         AudioUtil.ClickSound();
 
-        NotifierHelper.Show(NotiferType.Information, "正在获取中，请等待...");
+        NotifierHelper.Show(NotifierType.Information, "正在获取中，请等待...");
 
         Task.Run(() =>
         {
@@ -297,12 +297,12 @@ public partial class AuthView : UserControl
             if (str.Result != string.Empty)
             {
                 Globals.SessionId_Mode1 = str.Result;
-                NotifierHelper.Show(NotiferType.Success, $"获取玩家SessionID成功 {Globals.SessionId}");
+                NotifierHelper.Show(NotifierType.Success, $"获取玩家SessionID成功 {Globals.SessionId}");
             }
             else
             {
                 LoggerHelper.Error($"获取玩家SessionID失败");
-                NotifierHelper.Show(NotiferType.Error, $"获取玩家SessionID失败，请尝试刷新伺服器列表");
+                NotifierHelper.Show(NotifierType.Error, $"获取玩家SessionID失败，请尝试刷新伺服器列表");
             }
         });
     }
@@ -353,7 +353,7 @@ public partial class AuthView : UserControl
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "未检测到WebView2对应依赖，请安装依赖或手动获取Cookie");
+            NotifierHelper.Show(NotifierType.Warning, "未检测到WebView2对应依赖，请安装依赖或手动获取Cookie");
         }
     }
 
@@ -376,13 +376,13 @@ public partial class AuthView : UserControl
         var playerName = TextBox_TargetPlayerName.Text.Trim();
         if (string.IsNullOrEmpty(playerName))
         {
-            NotifierHelper.Show(NotiferType.Warning, "目标玩家名字为空，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "目标玩家名字为空，操作取消");
             return;
         }
 
         if (!string.IsNullOrEmpty(Globals.Remid) && !string.IsNullOrEmpty(Globals.Sid))
         {
-            NotifierHelper.Show(NotiferType.Information, "正在查询中，请稍后...");
+            NotifierHelper.Show(NotifierType.Information, "正在查询中，请稍后...");
 
             var str = "https://accounts.ea.com/connect/auth?response_type=token&locale=zh_CN&client_id=ORIGIN_JS_SDK&redirect_uri=nucleus%3Arest";
             var options = new RestClientOptions(str)
@@ -430,31 +430,31 @@ public partial class AuthView : UserControl
                             if (obj != null)
                             {
                                 var name = obj["name"].GetValue<string>();
-                                NotifierHelper.Show(NotiferType.Success, $"玩家 {playerName} 正在游玩的服务器为 {name}");
+                                NotifierHelper.Show(NotifierType.Success, $"玩家 {playerName} 正在游玩的服务器为 {name}");
                             }
                             else
                             {
-                                NotifierHelper.Show(NotiferType.Warning, $"未找到玩家 {playerName} 的游玩信息");
+                                NotifierHelper.Show(NotifierType.Warning, $"未找到玩家 {playerName} 的游玩信息");
                             }
                         }
                         else
                         {
-                            NotifierHelper.Show(NotiferType.Error, "网络请求错误");
+                            NotifierHelper.Show(NotifierType.Error, "网络请求错误");
                         }
                     }
                     else
                     {
-                        NotifierHelper.Show(NotiferType.Warning, $"玩家 {playerName} 不存在");
+                        NotifierHelper.Show(NotifierType.Warning, $"玩家 {playerName} 不存在");
                     }
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, "网络请求错误");
+                    NotifierHelper.Show(NotifierType.Error, "网络请求错误");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Error, "玩家Cookies失效，请尝试刷新");
+                NotifierHelper.Show(NotifierType.Error, "玩家Cookies失效，请尝试刷新");
             }
         }
     }

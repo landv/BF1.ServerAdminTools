@@ -26,12 +26,8 @@
             <TextBox
                 x:Name="TextBox_KickOKLog"
                 Margin="5,5,2.5,5"
-                Padding="5"
-                Cursor="Arrow"
                 Foreground="Green"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto">
+                Style="{StaticResource TextBoxStyle_Logger}">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem
@@ -44,12 +40,8 @@
             <TextBox
                 x:Name="TextBox_KickNOLog"
                 Margin="2.5,5,2.5,5"
-                Padding="5"
-                Cursor="Arrow"
                 Foreground="Red"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto">
+                Style="{StaticResource TextBoxStyle_Logger}">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem
@@ -62,11 +54,7 @@
             <TextBox
                 x:Name="TextBox_ChangeTeamLog"
                 Margin="2.5,5,5,5"
-                Padding="5"
-                Cursor="Arrow"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto">
+                Style="{StaticResource TextBoxStyle_Logger}">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem

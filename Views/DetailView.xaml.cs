@@ -142,7 +142,7 @@ public partial class DetailView : UserControl
                 /////////////////////////////////////////////////////////////////////////////////
 
                 if (!isInit)
-                    NotifierHelper.Show(NotiferType.Information, $"正在获取服务器 {Globals.GameId} 详细数据中...");
+                    NotifierHelper.Show(NotifierType.Information, $"正在获取服务器 {Globals.GameId} 详细数据中...");
 
                 await BF1API.SetAPILocale();
                 var result = await BF1API.GetFullServerDetails();
@@ -231,24 +231,24 @@ public partial class DetailView : UserControl
                     }
 
                     if (!isInit)
-                        NotifierHelper.Show(NotiferType.Success, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        NotifierHelper.Show(NotifierType.Success, $"获取服务器 {Globals.GameId} 详细数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
                     if (!isInit)
-                        NotifierHelper.Show(NotiferType.Error, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        NotifierHelper.Show(NotifierType.Error, $"获取服务器 {Globals.GameId} 详细数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
                 if (!isInit)
-                    NotifierHelper.Show(NotiferType.Warning, "请先进入服务器获取GameID");
+                    NotifierHelper.Show(NotifierType.Warning, "请先进入服务器获取GameID");
             }
         }
         else
         {
             if (!isInit)
-                NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+                NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
     }
 
@@ -267,26 +267,26 @@ public partial class DetailView : UserControl
         {
             if (!string.IsNullOrEmpty(Globals.GameId))
             {
-                NotifierHelper.Show(NotiferType.Information, $"正在离开服务器 {Globals.GameId} 中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在离开服务器 {Globals.GameId} 中...");
 
                 var result = await BF1API.LeaveGame();
                 if (result.IsSuccess)
                 {
-                    NotifierHelper.Show(NotiferType.Success, $"离开服务器 {Globals.GameId} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"离开服务器 {Globals.GameId} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, $"离开服务器 {Globals.GameId} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"离开服务器 {Globals.GameId} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请先进入服务器获取GameID");
+                NotifierHelper.Show(NotifierType.Warning, "请先进入服务器获取GameID");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
     }
 
@@ -305,22 +305,22 @@ public partial class DetailView : UserControl
                 changeMapWindow.Owner = MainWindow.ThisMainWindow;
                 if (changeMapWindow.ShowDialog() == true)
                 {
-                    NotifierHelper.Show(NotiferType.Information, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
+                    NotifierHelper.Show(NotifierType.Information, $"正在更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 中...");
 
                     var result = await BF1API.ChangeServerMap(Globals.PersistedGameId, index);
                     if (result.IsSuccess)
                     {
-                        NotifierHelper.Show(NotiferType.Success, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                        NotifierHelper.Show(NotifierType.Success, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                     else
                     {
-                        NotifierHelper.Show(NotiferType.Error, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                        NotifierHelper.Show(NotifierType.Error, $"更换服务器 {Globals.GameId} 地图为 {currMap.mapPrettyName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                     }
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "PersistedGameId异常，请重新获取服务器详细信息");
+                NotifierHelper.Show(NotifierType.Warning, "PersistedGameId异常，请重新获取服务器详细信息");
             }
         }
 
@@ -334,16 +334,16 @@ public partial class DetailView : UserControl
 
         RSPInfo rSPInfo = ListBox_Admin.SelectedItem as RSPInfo;
 
-        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器管理员 {rSPInfo.displayName} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在移除服务器管理员 {rSPInfo.displayName} 中...");
 
         var result = await BF1API.RemoveServerAdmin(rSPInfo.personaId);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"移除服务器管理员 {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"移除服务器管理员 {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"移除服务器管理员 {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"移除服务器管理员 {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -351,16 +351,16 @@ public partial class DetailView : UserControl
     {
         AudioUtil.ClickSound();
 
-        NotifierHelper.Show(NotiferType.Information, $"正在增加服务器管理员 {TextBox_NewAdminName.Text} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在增加服务器管理员 {TextBox_NewAdminName.Text} 中...");
 
         var result = await BF1API.AddServerAdmin(TextBox_NewAdminName.Text);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"增加服务器管理员 {TextBox_NewAdminName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"增加服务器管理员 {TextBox_NewAdminName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"增加服务器管理员 {TextBox_NewAdminName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"增加服务器管理员 {TextBox_NewAdminName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -370,16 +370,16 @@ public partial class DetailView : UserControl
 
         RSPInfo rSPInfo = ListBox_VIP.SelectedItem as RSPInfo;
 
-        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器VIP {rSPInfo.displayName} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在移除服务器VIP {rSPInfo.displayName} 中...");
 
         var result = await BF1API.RemoveServerVip(rSPInfo.personaId);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"移除服务器VIP {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"移除服务器VIP {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"移除服务器VIP {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"移除服务器VIP {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -387,16 +387,16 @@ public partial class DetailView : UserControl
     {
         AudioUtil.ClickSound();
 
-        NotifierHelper.Show(NotiferType.Information, $"正在增加服务器VIP {TextBox_NewVIPName.Text} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在增加服务器VIP {TextBox_NewVIPName.Text} 中...");
 
         var result = await BF1API.AddServerVip(TextBox_NewVIPName.Text);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"增加服务器VIP {TextBox_NewVIPName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"增加服务器VIP {TextBox_NewVIPName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"增加服务器VIP {TextBox_NewVIPName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"增加服务器VIP {TextBox_NewVIPName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -406,16 +406,16 @@ public partial class DetailView : UserControl
 
         RSPInfo rSPInfo = ListBox_BAN.SelectedItem as RSPInfo;
 
-        NotifierHelper.Show(NotiferType.Information, $"正在移除服务器BAN {rSPInfo.displayName} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在移除服务器BAN {rSPInfo.displayName} 中...");
 
         var result = await BF1API.RemoveServerBan(rSPInfo.personaId);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"移除服务器BAN {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"移除服务器BAN {rSPInfo.displayName} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"移除服务器BAN {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"移除服务器BAN {rSPInfo.displayName} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -423,16 +423,16 @@ public partial class DetailView : UserControl
     {
         AudioUtil.ClickSound();
 
-        NotifierHelper.Show(NotiferType.Information, $"正在增加服务器BAN {TextBox_NewBANName.Text} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在增加服务器BAN {TextBox_NewBANName.Text} 中...");
 
         var result = await BF1API.AddServerBan(TextBox_NewBANName.Text);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"增加服务器BAN {TextBox_NewBANName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"增加服务器BAN {TextBox_NewBANName.Text} 成功  |  耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"增加服务器BAN {TextBox_NewBANName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"增加服务器BAN {TextBox_NewBANName.Text} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
@@ -444,23 +444,23 @@ public partial class DetailView : UserControl
         {
             SpectatorInfo info = ListBox_Spectator.SelectedItem as SpectatorInfo;
 
-            NotifierHelper.Show(NotiferType.Information, $"正在踢出玩家 {info.Name} 中...");
+            NotifierHelper.Show(NotifierType.Information, $"正在踢出玩家 {info.Name} 中...");
 
             var reason = ChsUtil.ToTraditionalChinese(TextBox_KickSelectedSpectatorReason.Text);
 
             var result = await BF1API.AdminKickPlayer(info.PersonaId, reason);
             if (result.IsSuccess)
             {
-                NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {info.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotifierType.Success, $"踢出玩家 {info.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Error, $"踢出玩家 {info.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotifierType.Error, $"踢出玩家 {info.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
     }
 
@@ -492,7 +492,7 @@ public partial class DetailView : UserControl
         {
             if (!string.IsNullOrEmpty(Globals.ServerId))
             {
-                NotifierHelper.Show(NotiferType.Information, $"正在获取服务器 {Globals.ServerId} 数据中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在获取服务器 {Globals.ServerId} 数据中...");
 
                 var result = await BF1API.GetServerDetails();
                 if (result.IsSuccess)
@@ -504,21 +504,21 @@ public partial class DetailView : UserControl
 
                     isGetServerDetailsOK = true;
 
-                    NotifierHelper.Show(NotiferType.Success, $"获取服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"获取服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, $"获取服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"获取服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请先进入服务器获取ServerID");
+                NotifierHelper.Show(NotifierType.Warning, "请先进入服务器获取ServerID");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
     }
 
@@ -528,7 +528,7 @@ public partial class DetailView : UserControl
 
         if (!isGetServerDetailsOK)
         {
-            NotifierHelper.Show(NotiferType.Warning, $"请先获取服务器信息后，再执行本操作");
+            NotifierHelper.Show(NotifierType.Warning, $"请先获取服务器信息后，再执行本操作");
             return;
         }
 
@@ -537,7 +537,7 @@ public partial class DetailView : UserControl
 
         if (string.IsNullOrEmpty(serverName))
         {
-            NotifierHelper.Show(NotiferType.Warning, $"服务器名称不能为空");
+            NotifierHelper.Show(NotifierType.Warning, $"服务器名称不能为空");
             return;
         }
 
@@ -545,7 +545,7 @@ public partial class DetailView : UserControl
         {
             if (!string.IsNullOrEmpty(Globals.ServerId))
             {
-                NotifierHelper.Show(NotiferType.Information, $"正在更新服务器 {Globals.ServerId} 数据中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在更新服务器 {Globals.ServerId} 数据中...");
 
                 UpdateServerReqBody reqBody = new UpdateServerReqBody();
                 reqBody.jsonrpc = "2.0";
@@ -605,21 +605,21 @@ public partial class DetailView : UserControl
 
                 if (result.IsSuccess)
                 {
-                    NotifierHelper.Show(NotiferType.Success, $"更新服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"更新服务器 {Globals.ServerId} 数据成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, $"更新服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"更新服务器 {Globals.ServerId} 数据失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请先进入服务器获取ServerID");
+                NotifierHelper.Show(NotifierType.Warning, "请先进入服务器获取ServerID");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
 
         isGetServerDetailsOK = false;
@@ -633,12 +633,12 @@ public partial class DetailView : UserControl
 
         if (string.IsNullOrEmpty(serverDescription))
         {
-            NotifierHelper.Show(NotiferType.Warning, $"服务器描述不能为空");
+            NotifierHelper.Show(NotifierType.Warning, $"服务器描述不能为空");
             return;
         }
 
         TextBox_ServerDescription.Text = ChsUtil.ToTraditionalChinese(serverDescription);
 
-        NotifierHelper.Show(NotiferType.Success, $"转换服务器描述文本为繁体中文成功");
+        NotifierHelper.Show(NotifierType.Success, $"转换服务器描述文本为繁体中文成功");
     }
 }

@@ -13,7 +13,6 @@
 
                 <ResourceDictionary Source="Assets/Styles/GlobalStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/ScrollViewerStyle.xaml" />
-                <ResourceDictionary Source="Assets/Styles/WindowStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/MenuStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/LabelStyle.xaml" />
@@ -21,6 +20,7 @@
                 <ResourceDictionary Source="Assets/Styles/ButtonStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/CheckBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/RadioButtonStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ToggleButtonStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/TextBoxStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/BorderStyle.xaml" />

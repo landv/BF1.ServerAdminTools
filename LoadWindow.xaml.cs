@@ -13,7 +13,7 @@ namespace BF1.ServerAdminTools;
 /// <summary>
 /// LoadWindow.xaml 的交互逻辑
 /// </summary>
-public partial class LoadWindow : Window
+public partial class LoadWindow
 {
     public LoadModel LoadModel { get; set; } = new();
 

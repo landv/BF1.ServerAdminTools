@@ -519,16 +519,18 @@
                 <TextBlock
                     Margin="5"
                     HorizontalAlignment="Center"
-                    FontSize="24"
+                    FontSize="20"
                     FontWeight="Bold"
                     Text="开启自动踢人功能" />
-                <CheckBox
-                    x:Name="CheckBox_RunAutoKick"
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    Click="CheckBox_RunAutoKick_Click"
-                    IsChecked="False"
-                    Style="{StaticResource CheckBox_Slider}" />
+                <Viewbox Width="80">
+                    <ToggleButton
+                        x:Name="ToggleButton_RunAutoKick"
+                        Margin="5"
+                        Click="ToggleButton_RunAutoKick_Click"
+                        IsChecked="False"
+                        Style="{StaticResource ToggleButtonStyle_Normal}" />
+                </Viewbox>
+
                 <!--  ################################  -->
                 <TextBlock />
                 <TextBlock Style="{StaticResource TextBlockStyle_Hint}">

@@ -118,7 +118,7 @@ public partial class ChatView : UserControl
 
         if (string.IsNullOrEmpty(TextBox_InputMsg.Text.Trim()))
         {
-            NotifierHelper.Show(NotiferType.Warning, "聊天框内容为空，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "聊天框内容为空，操作取消");
             return;
         }
 
@@ -167,21 +167,21 @@ public partial class ChatView : UserControl
                     // 恢复战地1进程
                     NtProc.ResumeProcess(Memory.GetProcessId());
 
-                    NotifierHelper.Show(NotiferType.Success, "发送文本到战地1聊天框成功");
+                    NotifierHelper.Show(NotifierType.Success, "发送文本到战地1聊天框成功");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Warning, "聊天框消息指针未发现");
+                    NotifierHelper.Show(NotifierType.Warning, "聊天框消息指针未发现");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "聊天框未开启");
+                NotifierHelper.Show(NotifierType.Warning, "聊天框未开启");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, "聊天功能初始化失败，请重启程序");
+            NotifierHelper.Show(NotifierType.Error, "聊天功能初始化失败，请重启程序");
         }
     }
 
@@ -276,12 +276,12 @@ public partial class ChatView : UserControl
             timerAutoSendMsg.Interval = TimeSpan.FromMinutes(Slider_AutoSendMsg.Value).TotalMilliseconds;
             timerAutoSendMsg.Start();
 
-            NotifierHelper.Show(NotiferType.Notification, "已启用定时发送指定文本功能");
+            NotifierHelper.Show(NotifierType.Notification, "已启用定时发送指定文本功能");
         }
         else
         {
             timerAutoSendMsg.Stop();
-            NotifierHelper.Show(NotiferType.Notification, "已关闭定时发送指定文本功能");
+            NotifierHelper.Show(NotifierType.Notification, "已关闭定时发送指定文本功能");
         }
     }
 
@@ -290,12 +290,12 @@ public partial class ChatView : UserControl
         if (CheckBox_ActiveNoAFK.IsChecked == true)
         {
             timerNoAFK.Start();
-            NotifierHelper.Show(NotiferType.Notification, "已启用游戏内挂机防踢功能");
+            NotifierHelper.Show(NotifierType.Notification, "已启用游戏内挂机防踢功能");
         }
         else
         {
             timerNoAFK.Stop();
-            NotifierHelper.Show(NotiferType.Notification, "已关闭游戏内挂机防踢功能");
+            NotifierHelper.Show(NotifierType.Notification, "已关闭游戏内挂机防踢功能");
         }
     }
 }

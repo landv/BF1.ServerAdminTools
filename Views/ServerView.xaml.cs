@@ -80,7 +80,7 @@ public partial class ServerView : UserControl
 
             ServerModel.ServerName = ServerModel.ServerName.Trim();
 
-            NotifierHelper.Show(NotiferType.Information, $"正在查询服务器 {ServerModel.ServerName} 数据中...");
+            NotifierHelper.Show(NotifierType.Information, $"正在查询服务器 {ServerModel.ServerName} 数据中...");
 
             var result = await BF1API.SearchServers(ServerModel.ServerName);
             if (result.IsSuccess)
@@ -109,18 +109,18 @@ public partial class ServerView : UserControl
                     }));
                 }
 
-                NotifierHelper.Show(NotiferType.Success, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotifierType.Success, $"服务器 {ServerModel.ServerName} 数据查询成功  |  耗时: {result.ExecTime:0.00} 秒");
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Error, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
+                NotifierHelper.Show(NotifierType.Error, $"服务器 {ServerModel.ServerName} 数据查询失败  |  耗时: {result.ExecTime:0.00} 秒");
             }
 
             ServerModel.LoadingVisibility = Visibility.Collapsed;
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, $"请输入正确的服务器名称");
+            NotifierHelper.Show(NotifierType.Warning, $"请输入正确的服务器名称");
         }
     }
 

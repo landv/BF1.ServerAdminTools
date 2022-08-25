@@ -11,7 +11,7 @@ public static class NotifierHelper
     private static readonly NotificationManager __NotificationManager = new();
 
     private const string AreaName = "WindowArea";
-    private static TimeSpan ExpirationTime = TimeSpan.FromSeconds(2);
+    private static readonly TimeSpan ExpirationTime = TimeSpan.FromSeconds(2);
 
     static NotifierHelper()
     {
@@ -20,8 +20,8 @@ public static class NotifierHelper
         NotificationConstants.MessagePosition = NotificationPosition.BottomCenter;
         NotificationConstants.NotificationsOverlayWindowMaxCount = 5;
 
-        NotificationConstants.MinWidth = 700D;
-        NotificationConstants.MaxWidth = 700D;
+        NotificationConstants.MinWidth = 500D;
+        NotificationConstants.MaxWidth = 500D;
 
         NotificationConstants.FontName = "微软雅黑";
         NotificationConstants.TitleSize = 14;
@@ -43,27 +43,27 @@ public static class NotifierHelper
     /// </summary>
     /// <param name="type"></param>
     /// <param name="message"></param>
-    public static void Show(NotiferType type, string message)
+    public static void Show(NotifierType type, string message)
     {
         string title;
         switch (type)
         {
-            case NotiferType.None:
+            case NotifierType.None:
                 title = "";
                 break;
-            case NotiferType.Information:
+            case NotifierType.Information:
                 title = "信息";
                 break;
-            case NotiferType.Success:
+            case NotifierType.Success:
                 title = "成功";
                 break;
-            case NotiferType.Warning:
+            case NotifierType.Warning:
                 title = "警告";
                 break;
-            case NotiferType.Error:
+            case NotifierType.Error:
                 title = "错误";
                 break;
-            case NotiferType.Notification:
+            case NotifierType.Notification:
                 title = "通知";
                 break;
             default:
@@ -83,7 +83,7 @@ public static class NotifierHelper
     }
 }
 
-public enum NotiferType
+public enum NotifierType
 {
     /// <summary>
     /// 无

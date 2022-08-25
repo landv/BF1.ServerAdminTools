@@ -116,7 +116,7 @@ public partial class MainWindow
         LoggerHelper.Info($"正在检测版本更新...");
         this.Dispatcher.Invoke(() =>
         {
-            NotifierHelper.Show(NotiferType.Notification, $"正在检测版本更新...");
+            NotifierHelper.Show(NotifierType.Notification, $"正在检测版本更新...");
         });
 
         // 获取版本更新
@@ -169,7 +169,7 @@ public partial class MainWindow
                 LoggerHelper.Info($"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
                 this.Dispatcher.Invoke(() =>
                 {
-                    NotifierHelper.Show(NotiferType.Notification, $"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
+                    NotifierHelper.Show(NotifierType.Notification, $"当前已是最新版本 {CoreUtil.ServerVersionInfo}");
                 });
             }
         }

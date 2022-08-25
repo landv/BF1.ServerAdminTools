@@ -35,7 +35,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="borderHeader" Property="BorderThickness" Value="0,0,0,5" />
-                            <Setter TargetName="borderHeader" Property="BorderBrush" Value="#0078D4" />
+                            <Setter TargetName="borderHeader" Property="BorderBrush" Value="#FFA200" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,5" />

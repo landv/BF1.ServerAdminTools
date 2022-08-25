@@ -517,12 +517,15 @@ public partial class ScoreView : UserControl
 
             ////////////////////////////////////////////////////////////////////////////////
 
-            this.Dispatcher.Invoke(() =>
+            this.Dispatcher.BeginInvoke(() =>
             {
                 UpdateDataGridTeam1();
-                UpdateDataGridTeam2();
-
                 DataGrid_PlayerList_Team1.Sort();
+            });
+
+            this.Dispatcher.BeginInvoke(() =>
+            {
+                UpdateDataGridTeam2();
                 DataGrid_PlayerList_Team2.Sort();
             });
 
@@ -1263,26 +1266,26 @@ public partial class ScoreView : UserControl
         {
             if (_dataGridSelcContent.IsOK)
             {
-                NotifierHelper.Show(NotiferType.Information, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
 
                 var result = await BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId, reason);
                 if (result.IsSuccess)
                 {
-                    NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, $"踢出玩家 {_dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"踢出玩家 {_dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家");
+                NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
     }
 
@@ -1376,9 +1379,13 @@ public partial class ScoreView : UserControl
     }
 
     #region 右键菜单事件
+    /// <summary>
+    /// 右键菜单 踢出玩家 - 自定义理由
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_Admin_KickPlayer_Custom_Click(object sender, RoutedEventArgs e)
     {
-        // 右键菜单 踢出玩家 - 自定义理由
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
             if (_dataGridSelcContent.IsOK)
@@ -1391,171 +1398,218 @@ public partial class ScoreView : UserControl
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家");
+                NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID");
         }
     }
 
+    /// <summary>
+    /// 右键菜单 踢出玩家 - 攻击性行为
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_Admin_KickPlayer_OffensiveBehavior_Click(object sender, RoutedEventArgs e)
     {
-        // 右键菜单 踢出玩家 - 攻击性行为
         KickPlayer("OFFENSIVEBEHAVIOR");
     }
 
+    /// <summary>
+    /// 右键菜单 踢出玩家 - 延迟
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_Admin_KickPlayer_Latency_Click(object sender, RoutedEventArgs e)
     {
-        // 右键菜单 踢出玩家 - 延迟
         KickPlayer("LATENCY");
     }
 
+    /// <summary>
+    /// 右键菜单 踢出玩家 - 违反规则
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_Admin_KickPlayer_RuleViolation_Click(object sender, RoutedEventArgs e)
     {
-        // 右键菜单 踢出玩家 - 违反规则
         KickPlayer("RULEVIOLATION");
     }
 
+    /// <summary>
+    /// 右键菜单 踢出玩家 - 其他
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_Admin_KickPlayer_General_Click(object sender, RoutedEventArgs e)
     {
-        // 右键菜单 踢出玩家 - 其他
         KickPlayer("GENERAL");
     }
 
+    /// <summary>
+    /// 右键菜单 更换玩家队伍
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void MenuItem_Admin_ChangePlayerTeam_Click(object sender, RoutedEventArgs e)
     {
-        // 右键菜单 更换玩家队伍
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
             if (_dataGridSelcContent.IsOK)
             {
-                NotifierHelper.Show(NotiferType.Information, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
 
                 var result = await BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId, _dataGridSelcContent.TeamId);
                 if (result.IsSuccess)
                 {
-                    NotifierHelper.Show(NotiferType.Success, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotiferType.Error, $"更换玩家 {_dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"更换玩家 {_dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
             {
-                NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家，操作取消");
+                NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家，操作取消");
             }
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请先获取玩家SessionID后，再执行本操作");
+            NotifierHelper.Show(NotifierType.Warning, "请先获取玩家SessionID后，再执行本操作");
         }
     }
 
+    /// <summary>
+    /// 复制玩家ID（无队标）
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_CopyPlayerName_Click(object sender, RoutedEventArgs e)
     {
         if (_dataGridSelcContent.IsOK)
         {
-            // 复制玩家ID（无队标）
             Clipboard.SetText(_dataGridSelcContent.Name);
-            NotifierHelper.Show(NotiferType.Success, $"复制玩家ID {_dataGridSelcContent.Name} 到剪切板成功");
+            NotifierHelper.Show(NotifierType.Success, $"复制玩家ID {_dataGridSelcContent.Name} 到剪切板成功");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家，操作取消");
         }
     }
 
+    /// <summary>
+    /// 复制玩家数字ID
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_CopyPlayerName_PID_Click(object sender, RoutedEventArgs e)
     {
         if (_dataGridSelcContent.IsOK)
         {
-            // 复制玩家数字ID
             Clipboard.SetText(_dataGridSelcContent.PersonaId.ToString());
-            NotifierHelper.Show(NotiferType.Success, $"复制玩家数字ID {_dataGridSelcContent.PersonaId} 到剪切板成功");
+            NotifierHelper.Show(NotifierType.Success, $"复制玩家数字ID {_dataGridSelcContent.PersonaId} 到剪切板成功");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家，操作取消");
         }
     }
 
+    /// <summary>
+    /// 查询玩家战绩
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_QueryPlayerRecord_Click(object sender, RoutedEventArgs e)
     {
         if (_dataGridSelcContent.IsOK)
         {
-            // 查询玩家战绩
             var queryRecordWindow = new QueryRecordWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId, _dataGridSelcContent.Rank);
             queryRecordWindow.Show();
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家，操作取消");
         }
     }
 
+    /// <summary>
+    /// 查询玩家战绩（BT）
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_QueryPlayerRecordWeb_BT_Click(object sender, RoutedEventArgs e)
     {
-        // 查询玩家战绩（BT）
         if (_dataGridSelcContent.IsOK)
         {
             string playerName = _dataGridSelcContent.Name;
 
             ProcessUtil.OpenLink(@"https://battlefieldtracker.com/bf1/profile/pc/" + playerName);
-            NotifierHelper.Show(NotiferType.Success, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+            NotifierHelper.Show(NotifierType.Success, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家，操作取消");
         }
     }
 
+    /// <summary>
+    /// 查询玩家战绩（GT）
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_QueryPlayerRecordWeb_GT_Click(object sender, RoutedEventArgs e)
     {
-        // 查询玩家战绩（GT）
         if (_dataGridSelcContent.IsOK)
         {
             string playerName = _dataGridSelcContent.Name;
 
             ProcessUtil.OpenLink(@"https://gametools.network/stats/pc/name/" + playerName + "?game=bf1");
-            NotifierHelper.Show(NotiferType.Success, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+            NotifierHelper.Show(NotifierType.Success, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Warning, "请选择正确的玩家，操作取消");
+            NotifierHelper.Show(NotifierType.Warning, "请选择正确的玩家，操作取消");
         }
     }
 
+    /// <summary>
+    /// 清理得分板标题排序
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_ClearScoreSort_Click(object sender, RoutedEventArgs e)
     {
-        // 清理得分板标题排序
-
-        Dispatcher.BeginInvoke(new Action(delegate
+        Dispatcher.BeginInvoke(()=>
         {
             CollectionViewSource.GetDefaultView(DataGrid_Team1.ItemsSource).SortDescriptions.Clear();
             CollectionViewSource.GetDefaultView(DataGrid_Team2.ItemsSource).SortDescriptions.Clear();
 
-            NotifierHelper.Show(NotiferType.Success, "清理得分板标题排序成功（默认为玩家得分从高到低排序）");
-        }));
+            NotifierHelper.Show(NotifierType.Success, "清理得分板标题排序成功（默认为玩家得分从高到低排序）");
+        });
     }
 
+    /// <summary>
+    /// 显示中文武器名称（参考）
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MenuItem_ShowWeaponNameZHCN_Click(object sender, RoutedEventArgs e)
     {
-        // 显示中文武器名称（参考）
-        var item = sender as MenuItem;
+        MenuItem item = sender as MenuItem;
         if (item != null)
         {
             if (item.IsChecked)
             {
                 Globals.IsShowCHSWeaponName = true;
-                NotifierHelper.Show(NotiferType.Success, $"当前得分板正在显示中文武器名称");
+                NotifierHelper.Show(NotifierType.Success, $"当前得分板正在显示中文武器名称");
             }
             else
             {
                 Globals.IsShowCHSWeaponName = false;
-                NotifierHelper.Show(NotiferType.Success, $"当前得分板正在显示英文武器名称");
+                NotifierHelper.Show(NotifierType.Success, $"当前得分板正在显示英文武器名称");
             }
         }
     }
@@ -1615,14 +1669,14 @@ public partial class ScoreView : UserControl
         if (_dataGridSelcContent.IsOK)
         {
             sb.Append($"玩家ID : {_dataGridSelcContent.Name}");
-            sb.Append($"  |  队伍ID : {_dataGridSelcContent.TeamId}");
-            sb.Append($"  |  等级 : {_dataGridSelcContent.Rank}");
-            sb.Append($"  |  更新时间 : {DateTime.Now}");
+            sb.Append($" | 队伍ID : {_dataGridSelcContent.TeamId}");
+            sb.Append($" | 等级 : {_dataGridSelcContent.Rank}");
+            sb.Append($" | 更新时间 : {DateTime.Now}");
         }
         else
         {
             sb.Append($"当前未选中任何玩家");
-            sb.Append($"  |  更新时间 : {DateTime.Now}");
+            sb.Append($" | 更新时间 : {DateTime.Now}");
         }
 
         TextBlock_DataGridSelectionContent.Text = sb.ToString();

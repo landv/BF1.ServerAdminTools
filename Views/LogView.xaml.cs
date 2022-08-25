@@ -119,18 +119,18 @@ public partial class LogView : UserControl
     private void MenuItem_ClearKickOKLog_Click(object sender, RoutedEventArgs e)
     {
         TextBox_KickOKLog.Clear();
-        NotifierHelper.Show(NotiferType.Success, "清空踢人成功日志成功");
+        NotifierHelper.Show(NotifierType.Success, "清空踢人成功日志成功");
     }
 
     private void MenuItem_ClearKickNOLog_Click(object sender, RoutedEventArgs e)
     {
         TextBox_KickNOLog.Clear();
-        NotifierHelper.Show(NotiferType.Success, "清空踢人失败日志成功");
+        NotifierHelper.Show(NotifierType.Success, "清空踢人失败日志成功");
     }
 
     private void MenuItem_ClearChangeTeamLog_Click(object sender, RoutedEventArgs e)
     {
         TextBox_ChangeTeamLog.Clear();
-        NotifierHelper.Show(NotiferType.Success, "清空更换队伍日志成功");
+        NotifierHelper.Show(NotifierType.Success, "清空更换队伍日志成功");
     }
 }

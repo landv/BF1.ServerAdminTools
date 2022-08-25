@@ -33,16 +33,16 @@ public partial class CustomKickWindow
         else
             reason = ChsUtil.ToTraditionalChinese(reason);
 
-        NotifierHelper.Show(NotiferType.Information, $"正在踢出玩家 {PlayerName} 中...");
+        NotifierHelper.Show(NotifierType.Information, $"正在踢出玩家 {PlayerName} 中...");
 
         var result = await BF1API.AdminKickPlayer(PersonaId, reason);
         if (result.IsSuccess)
         {
-            NotifierHelper.Show(NotiferType.Success, $"踢出玩家 {PlayerName} 成功 | 耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"踢出玩家 {PlayerName} 成功 | 耗时: {result.ExecTime:0.00} 秒");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"踢出玩家 {PlayerName} 失败 {result.Message} | 耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"踢出玩家 {PlayerName} 失败 {result.Message} | 耗时: {result.ExecTime:0.00} 秒");
         }
 
         this.Close();

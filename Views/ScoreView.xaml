@@ -577,12 +577,12 @@
                 <TextBlock
                     Margin="5,0,5,0"
                     VerticalAlignment="Center"
-                    Text="│" />
+                    Text="|" />
                 <TextBlock Margin="5" Text="{Binding PlayerOtherModel.MySelfTeamID, FallbackValue='队伍ID : '}" />
                 <TextBlock
                     Margin="5,0,5,0"
                     VerticalAlignment="Center"
-                    Text="│" />
+                    Text="|" />
                 <TextBlock
                     Margin="5"
                     VerticalAlignment="Center"
@@ -599,7 +599,7 @@
                     Name="TextBlock_DataGridSelectionContent"
                     Margin="5,0,5,0"
                     VerticalAlignment="Center"
-                    Text="玩家ID : NULL  |  玩家武器 : NULL" />
+                    Text="玩家ID : NULL | 玩家武器 : NULL" />
             </StackPanel>
         </UniformGrid>
     </Grid>

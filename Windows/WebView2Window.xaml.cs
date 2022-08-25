@@ -67,7 +67,7 @@ public partial class WebView2Window
         var cookies = await WebView2.CoreWebView2.CookieManager.GetCookiesAsync(null);
         if (cookies == null)
         {
-            NotifierHelper.Show(NotiferType.Error, $"登录成功，获取Cookie失败，请尝试清除缓存");
+            NotifierHelper.Show(NotifierType.Error, $"登录成功，获取Cookie失败，请尝试清除缓存");
             return;
         }
 
@@ -96,7 +96,7 @@ public partial class WebView2Window
 
         string code = WebView2.Source.ToString().Replace("http://127.0.0.1/success?code=", "");
         TextBox_AuthCode.Text = code;
-        NotifierHelper.Show(NotiferType.Success, $"登录完成，正在获取SessionId，Code为{code}");
+        NotifierHelper.Show(NotifierType.Success, $"登录完成，正在获取SessionId，Code为{code}");
 
         var result = await BF1API.GetEnvIdViaAuthCode(code);
         if (result.IsSuccess)
@@ -104,13 +104,13 @@ public partial class WebView2Window
             var envIdViaAuthCode = JsonUtil.JsonDese<EnvIdViaAuthCode>(result.Message);
             Globals.SessionId_Mode2 = envIdViaAuthCode.result.sessionId;
             TextBox_SessionId.Text = Globals.SessionId;
-            NotifierHelper.Show(NotiferType.Success, $"获取SessionID成功:{Globals.SessionId}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Success, $"获取SessionID成功:{Globals.SessionId}  |  耗时: {result.ExecTime:0.00} 秒");
 
             WeakReferenceMessenger.Default.Send("", "SendRemidSid");
         }
         else
         {
-            NotifierHelper.Show(NotiferType.Error, $"获取SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+            NotifierHelper.Show(NotifierType.Error, $"获取SessionID失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
         }
     }
 
