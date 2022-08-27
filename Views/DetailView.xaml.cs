@@ -83,8 +83,7 @@ public partial class DetailView : UserControl
                         DetailModel.ServerID = string.Empty;
                         DetailModel.ServerGameID = string.Empty;
 
-                        DetailModel.ServerOwnerImage = null;
-                        DetailModel.ServerCurrentMap = null;
+                        DetailModel.ServerOwnerImage = string.Empty;
 
                         ListBox_Map.Items.Clear();
                         ListBox_Admin.Items.Clear();
@@ -127,8 +126,7 @@ public partial class DetailView : UserControl
                 DetailModel.ServerID = "获取中...";
                 DetailModel.ServerGameID = "获取中...";
 
-                DetailModel.ServerOwnerImage = null;
-                DetailModel.ServerCurrentMap = null;
+                DetailModel.ServerOwnerImage = string.Empty;
 
                 ListBox_Map.Items.Clear();
                 ListBox_Admin.Items.Clear();
@@ -163,7 +161,6 @@ public partial class DetailView : UserControl
                     DetailModel.ServerOwnerName = fullServerDetails.result.rspInfo.owner.displayName;
                     DetailModel.ServerOwnerPersonaId = fullServerDetails.result.rspInfo.owner.personaId;
                     DetailModel.ServerOwnerImage = fullServerDetails.result.rspInfo.owner.avatar;
-                    DetailModel.ServerCurrentMap = PlayerUtil.GetTempImagePath(fullServerDetails.result.serverInfo.mapImageUrl, "maps");
 
                     // 地图列表
                     foreach (var item in fullServerDetails.result.serverInfo.rotation)

@@ -183,6 +183,9 @@
                             <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
                                 说明：行动模式队伍1为进攻方，队伍2为防守方
                             </TextBlock>
+                            <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
+                                提示：黑名单和白名单不能加队标
+                            </TextBlock>
                         </StackPanel>
                     </DockPanel>
                 </UniformGrid>
@@ -409,12 +412,8 @@
             <TextBox
                 x:Name="TextBox_RuleLog"
                 Margin="0,5,0,5"
-                Padding="5"
-                Cursor="Arrow"
                 DockPanel.Dock="Bottom"
-                HorizontalScrollBarVisibility="Disabled"
-                IsReadOnly="True"
-                VerticalScrollBarVisibility="Auto" />
+                Style="{StaticResource TextBoxStyle_Logger}" />
         </DockPanel>
         <!--  ################################  -->
         <DockPanel Grid.Column="2" LastChildFill="True">
@@ -499,9 +498,9 @@
                     Content="② 查询当前规则" />
                 <Button
                     x:Name="Button_CheckBreakRulePlayer"
+                    Margin="5"
                     Click="Button_CheckBreakRulePlayer_Click"
                     Content="③ 检查违规玩家" />
-                <TextBlock />
                 <Button
                     x:Name="Button_CheckKickEnv"
                     Margin="5,5,5,0"
@@ -510,37 +509,37 @@
                     Style="{StaticResource ButtonStyle_WebGreen}" />
                 <Button
                     x:Name="Button_ManualKickBreakRulePlayer"
-                    Margin="5,5,5,0"
                     Click="Button_ManualKickBreakRulePlayer_Click"
                     Content="手动踢出全部违规玩家"
                     Style="{StaticResource ButtonStyle_WebRed}" />
                 <!--  ################################  -->
-                <TextBlock />
-                <TextBlock
-                    Margin="5"
+                <Label
+                    attached:Icon.Value="☕"
+                    Content="自动踢人"
+                    Style="{StaticResource LabelStyle_Title}" />
+                <StackPanel
                     HorizontalAlignment="Center"
-                    FontSize="20"
-                    FontWeight="Bold"
-                    Text="开启自动踢人功能" />
-                <Viewbox Width="80">
-                    <ToggleButton
-                        x:Name="ToggleButton_RunAutoKick"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Viewbox Width="70">
+                        <ToggleButton
+                            x:Name="ToggleButton_RunAutoKick"
+                            Margin="5"
+                            Click="ToggleButton_RunAutoKick_Click"
+                            IsChecked="False"
+                            Style="{StaticResource ToggleButtonStyle_Normal}" />
+                    </Viewbox>
+                    <TextBlock
                         Margin="5"
-                        Click="ToggleButton_RunAutoKick_Click"
-                        IsChecked="False"
-                        Style="{StaticResource ToggleButtonStyle_Normal}" />
-                </Viewbox>
-
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="#1E88E5"
+                        Text="开启自动踢人功能" />
+                </StackPanel>
                 <!--  ################################  -->
-                <TextBlock />
                 <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
                     提示：如果修改了规则，必须重新点击【应用当前规则】才能生效
-                </TextBlock>
-                <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
-                    提示：黑名单和白名单不能加队标
-                </TextBlock>
-                <TextBlock Style="{StaticResource TextBlockStyle_Hint}">
-                    提示：无法踢出管理员和服主（即使用游戏内部的管理员菜单也无法踢出，这是战地1游戏机制），自动踢人会跳过服主、管理员和白名单玩家，但是他们还是会在出现违规列表中，这样会有个提醒作用
                 </TextBlock>
                 <!--  ################################  -->
 

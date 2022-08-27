@@ -49,22 +49,32 @@
                     Margin="0,0,20,0"
                     DockPanel.Dock="Top"
                     Orientation="Horizontal">
-                    <Border
+                    <Image
                         Height="50"
                         Margin="5"
-                        BorderBrush="#ADADAD"
-                        BorderThickness="1"
-                        SnapsToDevicePixels="True">
-                        <Image Source="{Binding QueryModel.Avatar, Converter={StaticResource ImageConverter}}" Style="{StaticResource ImageStyle_HQ}" />
-                    </Border>
-                    <Border
+                        Source="{Binding QueryModel.Avatar, Converter={StaticResource ImageConverter}}"
+                        Style="{StaticResource ImageStyle_HQ}">
+                        <Image.Effect>
+                            <DropShadowEffect
+                                BlurRadius="5"
+                                Opacity="0.3"
+                                ShadowDepth="0"
+                                Color="Gray" />
+                        </Image.Effect>
+                    </Image>
+                    <Image
                         Height="50"
                         Margin="5"
-                        BorderBrush="#ADADAD"
-                        BorderThickness="1"
-                        SnapsToDevicePixels="True">
-                        <Image Source="{Binding QueryModel.Emblem, Converter={StaticResource ImageConverter}}" Style="{StaticResource ImageStyle_HQ}" />
-                    </Border>
+                        Source="{Binding QueryModel.Emblem, Converter={StaticResource ImageConverter}}"
+                        Style="{StaticResource ImageStyle_HQ}">
+                        <Image.Effect>
+                            <DropShadowEffect
+                                BlurRadius="5"
+                                Opacity="0.3"
+                                ShadowDepth="0"
+                                Color="Gray" />
+                        </Image.Effect>
+                    </Image>
                     <StackPanel
                         Margin="5,0,0,0"
                         HorizontalAlignment="Center"

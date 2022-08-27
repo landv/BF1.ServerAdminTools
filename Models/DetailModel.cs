@@ -73,14 +73,4 @@ public class DetailModel : ObservableObject
         get => _serverOwnerImage;
         set => SetProperty(ref _serverOwnerImage, value);
     }
-
-    private string _serverCurrentMap;
-    /// <summary>
-    /// 服务器当前地图
-    /// </summary>
-    public string ServerCurrentMap
-    {
-        get => _serverCurrentMap;
-        set => SetProperty(ref _serverCurrentMap, value);
-    }
 }
