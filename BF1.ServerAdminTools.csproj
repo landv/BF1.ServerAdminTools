@@ -555,7 +555,7 @@
 		<PackageReference Include="Emoji.Wpf" Version="0.3.3" />
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.8" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1293.44" />
-		<PackageReference Include="NLog" Version="5.0.2" />
+		<PackageReference Include="NLog" Version="5.0.4" />
 		<PackageReference Include="Notification.Wpf" Version="6.1.0.5" />
 		<PackageReference Include="RestSharp" Version="108.0.1" />
 		<PackageReference Include="Websocket.Client" Version="4.4.43" />
