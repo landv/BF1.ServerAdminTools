@@ -31,13 +31,13 @@ public partial class ScoreView : UserControl
     public PlayerOtherModel PlayerOtherModel { get; set; } = new();
 
     /// <summary>
-    /// 绑定UI队伍1动态数据集合，用于更新DataGrid
+    /// 绑定UI队伍1动态数据集合，用于更新ListView
     /// </summary>
-    public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team1 { get; set; } = new();
+    public ObservableCollection<PlayerListModel> ListView_PlayerList_Team1 { get; set; } = new();
     /// <summary>
-    /// 绑定UI队伍2动态数据集合，用于更新DataGrid
+    /// 绑定UI队伍2动态数据集合，用于更新ListView
     /// </summary>
-    public ObservableCollection<PlayerListModel> DataGrid_PlayerList_Team2 { get; set; } = new();
+    public ObservableCollection<PlayerListModel> ListView_PlayerList_Team2 { get; set; } = new();
 
     /// <summary>
     /// 最大玩家数量
@@ -83,7 +83,7 @@ public partial class ScoreView : UserControl
     }
     private ServerInfo _serverInfo;
 
-    private struct DataGridSelcContent
+    private struct ListViewSelcContent
     {
         public bool IsOK;
         public int TeamId;
@@ -91,7 +91,7 @@ public partial class ScoreView : UserControl
         public string Name;
         public long PersonaId;
     }
-    private DataGridSelcContent _dataGridSelcContent;
+    private ListViewSelcContent _listViewSelcContent;
 
     ///////////////////////////////////////////////////////
 
@@ -510,23 +510,21 @@ public partial class ScoreView : UserControl
 
             //////////////////////////////// 统计信息数据 ////////////////////////////////
 
-            ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {_statisticData_Team1.PlayerCount} / {_statisticData_Team1.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team1.AllKillCount}  |  总死亡数 : {_statisticData_Team1.AllDeadCount}";
-            ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {_statisticData_Team2.PlayerCount} / {_statisticData_Team2.MaxPlayerCount}  |  150等级人数 : {_statisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team2.AllKillCount}  |  总死亡数 : {_statisticData_Team2.AllDeadCount}";
+            ServerInfoModel.Team1Info = $"已部署/队伍1人数 : {_statisticData_Team1.PlayerCount} / {_statisticData_Team1.MaxPlayerCount}  |  150人数 : {_statisticData_Team1.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team1.AllKillCount}  |  总死亡数 : {_statisticData_Team1.AllDeadCount}";
+            ServerInfoModel.Team2Info = $"已部署/队伍2人数 : {_statisticData_Team2.PlayerCount} / {_statisticData_Team2.MaxPlayerCount}  |  150人数 : {_statisticData_Team2.Rank150PlayerCount}  |  总击杀数 : {_statisticData_Team2.AllKillCount}  |  总死亡数 : {_statisticData_Team2.AllDeadCount}";
 
-            PlayerOtherModel.ServerPlayerCountInfo = $"服务器总人数 : {_statisticData_Team1.MaxPlayerCount + _statisticData_Team2.MaxPlayerCount}";
+            PlayerOtherModel.ServerPlayerCountInfo = $"总人数 : {_statisticData_Team1.MaxPlayerCount + _statisticData_Team2.MaxPlayerCount}";
 
             ////////////////////////////////////////////////////////////////////////////////
 
             this.Dispatcher.BeginInvoke(() =>
             {
-                UpdateDataGridTeam1();
-                DataGrid_PlayerList_Team1.Sort();
+                UpdateListViewTeam1();
             });
 
             this.Dispatcher.BeginInvoke(() =>
             {
-                UpdateDataGridTeam2();
-                DataGrid_PlayerList_Team2.Sort();
+                UpdateListViewTeam2();
             });
 
             ////////////////////////////////////////////////////////////////////////////////
@@ -546,55 +544,55 @@ public partial class ScoreView : UserControl
     }
 
     /// <summary>
-    /// 动态更新 DataGrid 队伍1
+    /// 动态更新 ListView 队伍1
     /// </summary>
-    private void UpdateDataGridTeam1()
+    private void UpdateListViewTeam1()
     {
-        if (PlayerList_Team1.Count == 0 && DataGrid_PlayerList_Team1.Count != 0)
+        if (PlayerList_Team1.Count == 0 && ListView_PlayerList_Team1.Count != 0)
         {
-            DataGrid_PlayerList_Team1.Clear();
+            ListView_PlayerList_Team1.Clear();
         }
 
         if (PlayerList_Team1.Count != 0)
         {
-            // 更新DataGrid中现有的玩家数据，并把DataGrid中已经不在服务器的玩家清除
-            for (int i = 0; i < DataGrid_PlayerList_Team1.Count; i++)
+            // 更新ListView中现有的玩家数据，并把ListView中已经不在服务器的玩家清除
+            for (int i = 0; i < ListView_PlayerList_Team1.Count; i++)
             {
-                int index = PlayerList_Team1.FindIndex(val => val.Name == DataGrid_PlayerList_Team1[i].Name);
+                int index = PlayerList_Team1.FindIndex(val => val.Name == ListView_PlayerList_Team1[i].Name);
                 if (index != -1)
                 {
-                    DataGrid_PlayerList_Team1[i].Rank = PlayerList_Team1[index].Rank;
-                    DataGrid_PlayerList_Team1[i].Clan = PlayerList_Team1[index].Clan;
-                    DataGrid_PlayerList_Team1[i].Admin = PlayerList_Team1[index].Admin;
-                    DataGrid_PlayerList_Team1[i].VIP = PlayerList_Team1[index].VIP;
-                    DataGrid_PlayerList_Team1[i].SquadId = PlayerList_Team1[index].SquadId;
-                    DataGrid_PlayerList_Team1[i].Kill = PlayerList_Team1[index].Kill;
-                    DataGrid_PlayerList_Team1[i].Dead = PlayerList_Team1[index].Dead;
-                    DataGrid_PlayerList_Team1[i].KD = PlayerList_Team1[index].KD.ToString("0.00");
-                    DataGrid_PlayerList_Team1[i].KPM = PlayerList_Team1[index].KPM.ToString("0.00");
-                    DataGrid_PlayerList_Team1[i].Score = PlayerList_Team1[index].Score;
-                    DataGrid_PlayerList_Team1[i].WeaponS0 = PlayerList_Team1[index].WeaponS0;
-                    DataGrid_PlayerList_Team1[i].WeaponS1 = PlayerList_Team1[index].WeaponS1;
-                    DataGrid_PlayerList_Team1[i].WeaponS2 = PlayerList_Team1[index].WeaponS2;
-                    DataGrid_PlayerList_Team1[i].WeaponS3 = PlayerList_Team1[index].WeaponS3;
-                    DataGrid_PlayerList_Team1[i].WeaponS4 = PlayerList_Team1[index].WeaponS4;
-                    DataGrid_PlayerList_Team1[i].WeaponS5 = PlayerList_Team1[index].WeaponS5;
-                    DataGrid_PlayerList_Team1[i].WeaponS6 = PlayerList_Team1[index].WeaponS6;
-                    DataGrid_PlayerList_Team1[i].WeaponS7 = PlayerList_Team1[index].WeaponS7;
+                    ListView_PlayerList_Team1[i].Rank = PlayerList_Team1[index].Rank;
+                    ListView_PlayerList_Team1[i].Clan = PlayerList_Team1[index].Clan;
+                    ListView_PlayerList_Team1[i].Admin = PlayerList_Team1[index].Admin;
+                    ListView_PlayerList_Team1[i].VIP = PlayerList_Team1[index].VIP;
+                    ListView_PlayerList_Team1[i].SquadId = PlayerList_Team1[index].SquadId;
+                    ListView_PlayerList_Team1[i].Kill = PlayerList_Team1[index].Kill;
+                    ListView_PlayerList_Team1[i].Dead = PlayerList_Team1[index].Dead;
+                    ListView_PlayerList_Team1[i].KD = PlayerList_Team1[index].KD.ToString("0.00");
+                    ListView_PlayerList_Team1[i].KPM = PlayerList_Team1[index].KPM.ToString("0.00");
+                    ListView_PlayerList_Team1[i].Score = PlayerList_Team1[index].Score;
+                    ListView_PlayerList_Team1[i].WeaponS0 = PlayerList_Team1[index].WeaponS0;
+                    ListView_PlayerList_Team1[i].WeaponS1 = PlayerList_Team1[index].WeaponS1;
+                    ListView_PlayerList_Team1[i].WeaponS2 = PlayerList_Team1[index].WeaponS2;
+                    ListView_PlayerList_Team1[i].WeaponS3 = PlayerList_Team1[index].WeaponS3;
+                    ListView_PlayerList_Team1[i].WeaponS4 = PlayerList_Team1[index].WeaponS4;
+                    ListView_PlayerList_Team1[i].WeaponS5 = PlayerList_Team1[index].WeaponS5;
+                    ListView_PlayerList_Team1[i].WeaponS6 = PlayerList_Team1[index].WeaponS6;
+                    ListView_PlayerList_Team1[i].WeaponS7 = PlayerList_Team1[index].WeaponS7;
                 }
                 else
                 {
-                    DataGrid_PlayerList_Team1.RemoveAt(i);
+                    ListView_PlayerList_Team1.RemoveAt(i);
                 }
             }
 
-            // 增加DataGrid没有的玩家数据
+            // 增加ListView没有的玩家数据
             for (int i = 0; i < PlayerList_Team1.Count; i++)
             {
-                int index = DataGrid_PlayerList_Team1.ToList().FindIndex(val => val.Name == PlayerList_Team1[i].Name);
+                int index = ListView_PlayerList_Team1.ToList().FindIndex(val => val.Name == PlayerList_Team1[i].Name);
                 if (index == -1)
                 {
-                    DataGrid_PlayerList_Team1.Add(new PlayerListModel()
+                    ListView_PlayerList_Team1.Add(new PlayerListModel()
                     {
                         Rank = PlayerList_Team1[i].Rank,
                         Clan = PlayerList_Team1[i].Clan,
@@ -621,64 +619,67 @@ public partial class ScoreView : UserControl
                 }
             }
 
+            // 按得分排序
+            ListView_PlayerList_Team1.Sort();
+
             // 修正序号
-            for (int i = 0; i < DataGrid_PlayerList_Team1.Count; i++)
+            for (int i = 0; i < ListView_PlayerList_Team1.Count; i++)
             {
-                DataGrid_PlayerList_Team1[i].Index = i + 1;
+                ListView_PlayerList_Team1[i].Index = i + 1;
             }
         }
     }
 
     /// <summary>
-    /// 动态更新 DataGrid 队伍2
+    /// 动态更新 ListView 队伍2
     /// </summary>
-    private void UpdateDataGridTeam2()
+    private void UpdateListViewTeam2()
     {
-        if (PlayerList_Team2.Count == 0 && DataGrid_PlayerList_Team2.Count != 0)
+        if (PlayerList_Team2.Count == 0 && ListView_PlayerList_Team2.Count != 0)
         {
-            DataGrid_PlayerList_Team2.Clear();
+            ListView_PlayerList_Team2.Clear();
         }
 
         if (PlayerList_Team2.Count != 0)
         {
-            // 更新DataGrid中现有的玩家数据，并把DataGrid中已经不在服务器的玩家清除
-            for (int i = 0; i < DataGrid_PlayerList_Team2.Count; i++)
+            // 更新ListView中现有的玩家数据，并把ListView中已经不在服务器的玩家清除
+            for (int i = 0; i < ListView_PlayerList_Team2.Count; i++)
             {
-                int index = PlayerList_Team2.FindIndex(val => val.Name == DataGrid_PlayerList_Team2[i].Name);
+                int index = PlayerList_Team2.FindIndex(val => val.Name == ListView_PlayerList_Team2[i].Name);
                 if (index != -1)
                 {
-                    DataGrid_PlayerList_Team2[i].Rank = PlayerList_Team2[index].Rank;
-                    DataGrid_PlayerList_Team2[i].Clan = PlayerList_Team2[index].Clan;
-                    DataGrid_PlayerList_Team2[i].Admin = PlayerList_Team2[index].Admin;
-                    DataGrid_PlayerList_Team2[i].VIP = PlayerList_Team2[index].VIP;
-                    DataGrid_PlayerList_Team2[i].SquadId = PlayerList_Team2[index].SquadId;
-                    DataGrid_PlayerList_Team2[i].Kill = PlayerList_Team2[index].Kill;
-                    DataGrid_PlayerList_Team2[i].Dead = PlayerList_Team2[index].Dead;
-                    DataGrid_PlayerList_Team2[i].KD = PlayerList_Team2[index].KD.ToString("0.00");
-                    DataGrid_PlayerList_Team2[i].KPM = PlayerList_Team2[index].KPM.ToString("0.00");
-                    DataGrid_PlayerList_Team2[i].Score = PlayerList_Team2[index].Score;
-                    DataGrid_PlayerList_Team2[i].WeaponS0 = PlayerList_Team2[index].WeaponS0;
-                    DataGrid_PlayerList_Team2[i].WeaponS1 = PlayerList_Team2[index].WeaponS1;
-                    DataGrid_PlayerList_Team2[i].WeaponS2 = PlayerList_Team2[index].WeaponS2;
-                    DataGrid_PlayerList_Team2[i].WeaponS3 = PlayerList_Team2[index].WeaponS3;
-                    DataGrid_PlayerList_Team2[i].WeaponS4 = PlayerList_Team2[index].WeaponS4;
-                    DataGrid_PlayerList_Team2[i].WeaponS5 = PlayerList_Team2[index].WeaponS5;
-                    DataGrid_PlayerList_Team2[i].WeaponS6 = PlayerList_Team2[index].WeaponS6;
-                    DataGrid_PlayerList_Team2[i].WeaponS7 = PlayerList_Team2[index].WeaponS7;
+                    ListView_PlayerList_Team2[i].Rank = PlayerList_Team2[index].Rank;
+                    ListView_PlayerList_Team2[i].Clan = PlayerList_Team2[index].Clan;
+                    ListView_PlayerList_Team2[i].Admin = PlayerList_Team2[index].Admin;
+                    ListView_PlayerList_Team2[i].VIP = PlayerList_Team2[index].VIP;
+                    ListView_PlayerList_Team2[i].SquadId = PlayerList_Team2[index].SquadId;
+                    ListView_PlayerList_Team2[i].Kill = PlayerList_Team2[index].Kill;
+                    ListView_PlayerList_Team2[i].Dead = PlayerList_Team2[index].Dead;
+                    ListView_PlayerList_Team2[i].KD = PlayerList_Team2[index].KD.ToString("0.00");
+                    ListView_PlayerList_Team2[i].KPM = PlayerList_Team2[index].KPM.ToString("0.00");
+                    ListView_PlayerList_Team2[i].Score = PlayerList_Team2[index].Score;
+                    ListView_PlayerList_Team2[i].WeaponS0 = PlayerList_Team2[index].WeaponS0;
+                    ListView_PlayerList_Team2[i].WeaponS1 = PlayerList_Team2[index].WeaponS1;
+                    ListView_PlayerList_Team2[i].WeaponS2 = PlayerList_Team2[index].WeaponS2;
+                    ListView_PlayerList_Team2[i].WeaponS3 = PlayerList_Team2[index].WeaponS3;
+                    ListView_PlayerList_Team2[i].WeaponS4 = PlayerList_Team2[index].WeaponS4;
+                    ListView_PlayerList_Team2[i].WeaponS5 = PlayerList_Team2[index].WeaponS5;
+                    ListView_PlayerList_Team2[i].WeaponS6 = PlayerList_Team2[index].WeaponS6;
+                    ListView_PlayerList_Team2[i].WeaponS7 = PlayerList_Team2[index].WeaponS7;
                 }
                 else
                 {
-                    DataGrid_PlayerList_Team2.RemoveAt(i);
+                    ListView_PlayerList_Team2.RemoveAt(i);
                 }
             }
 
-            // 增加DataGrid没有的玩家数据
+            // 增加ListView没有的玩家数据
             for (int i = 0; i < PlayerList_Team2.Count; i++)
             {
-                int index = DataGrid_PlayerList_Team2.ToList().FindIndex(val => val.Name == PlayerList_Team2[i].Name);
+                int index = ListView_PlayerList_Team2.ToList().FindIndex(val => val.Name == PlayerList_Team2[i].Name);
                 if (index == -1)
                 {
-                    DataGrid_PlayerList_Team2.Add(new PlayerListModel()
+                    ListView_PlayerList_Team2.Add(new PlayerListModel()
                     {
                         Rank = PlayerList_Team2[i].Rank,
                         Clan = PlayerList_Team2[i].Clan,
@@ -704,10 +705,13 @@ public partial class ScoreView : UserControl
                 }
             }
 
+            // 按得分排序
+            ListView_PlayerList_Team2.Sort();
+
             // 修正序号
-            for (int i = 0; i < DataGrid_PlayerList_Team2.Count; i++)
+            for (int i = 0; i < ListView_PlayerList_Team2.Count; i++)
             {
-                DataGrid_PlayerList_Team2[i].Index = i + 1;
+                ListView_PlayerList_Team2[i].Index = i + 1;
             }
         }
     }
@@ -1264,18 +1268,18 @@ public partial class ScoreView : UserControl
     {
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
-            if (_dataGridSelcContent.IsOK)
+            if (_listViewSelcContent.IsOK)
             {
-                NotifierHelper.Show(NotifierType.Information, $"正在踢出玩家 {_dataGridSelcContent.Name} 中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在踢出玩家 {_listViewSelcContent.Name} 中...");
 
-                var result = await BF1API.AdminKickPlayer(_dataGridSelcContent.PersonaId, reason);
+                var result = await BF1API.AdminKickPlayer(_listViewSelcContent.PersonaId, reason);
                 if (result.IsSuccess)
                 {
-                    NotifierHelper.Show(NotifierType.Success, $"踢出玩家 {_dataGridSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"踢出玩家 {_listViewSelcContent.Name} 成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotifierType.Error, $"踢出玩家 {_dataGridSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"踢出玩家 {_listViewSelcContent.Name} 失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
@@ -1388,9 +1392,9 @@ public partial class ScoreView : UserControl
     {
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
-            if (_dataGridSelcContent.IsOK)
+            if (_listViewSelcContent.IsOK)
             {
-                var customKickWindow = new CustomKickWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId)
+                var customKickWindow = new CustomKickWindow(_listViewSelcContent.Name, _listViewSelcContent.PersonaId)
                 {
                     Owner = MainWindow.ThisMainWindow
                 };
@@ -1456,18 +1460,18 @@ public partial class ScoreView : UserControl
     {
         if (!string.IsNullOrEmpty(Globals.SessionId))
         {
-            if (_dataGridSelcContent.IsOK)
+            if (_listViewSelcContent.IsOK)
             {
-                NotifierHelper.Show(NotifierType.Information, $"正在更换玩家 {_dataGridSelcContent.Name} 队伍中...");
+                NotifierHelper.Show(NotifierType.Information, $"正在更换玩家 {_listViewSelcContent.Name} 队伍中...");
 
-                var result = await BF1API.AdminMovePlayer(_dataGridSelcContent.PersonaId, _dataGridSelcContent.TeamId);
+                var result = await BF1API.AdminMovePlayer(_listViewSelcContent.PersonaId, _listViewSelcContent.TeamId);
                 if (result.IsSuccess)
                 {
-                    NotifierHelper.Show(NotifierType.Success, $"更换玩家 {_dataGridSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Success, $"更换玩家 {_listViewSelcContent.Name} 队伍成功  |  耗时: {result.ExecTime:0.00} 秒");
                 }
                 else
                 {
-                    NotifierHelper.Show(NotifierType.Error, $"更换玩家 {_dataGridSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
+                    NotifierHelper.Show(NotifierType.Error, $"更换玩家 {_listViewSelcContent.Name} 队伍失败 {result.Message}  |  耗时: {result.ExecTime:0.00} 秒");
                 }
             }
             else
@@ -1488,10 +1492,10 @@ public partial class ScoreView : UserControl
     /// <param name="e"></param>
     private void MenuItem_CopyPlayerName_Click(object sender, RoutedEventArgs e)
     {
-        if (_dataGridSelcContent.IsOK)
+        if (_listViewSelcContent.IsOK)
         {
-            Clipboard.SetText(_dataGridSelcContent.Name);
-            NotifierHelper.Show(NotifierType.Success, $"复制玩家ID {_dataGridSelcContent.Name} 到剪切板成功");
+            Clipboard.SetText(_listViewSelcContent.Name);
+            NotifierHelper.Show(NotifierType.Success, $"复制玩家ID {_listViewSelcContent.Name} 到剪切板成功");
         }
         else
         {
@@ -1506,10 +1510,10 @@ public partial class ScoreView : UserControl
     /// <param name="e"></param>
     private void MenuItem_CopyPlayerName_PID_Click(object sender, RoutedEventArgs e)
     {
-        if (_dataGridSelcContent.IsOK)
+        if (_listViewSelcContent.IsOK)
         {
-            Clipboard.SetText(_dataGridSelcContent.PersonaId.ToString());
-            NotifierHelper.Show(NotifierType.Success, $"复制玩家数字ID {_dataGridSelcContent.PersonaId} 到剪切板成功");
+            Clipboard.SetText(_listViewSelcContent.PersonaId.ToString());
+            NotifierHelper.Show(NotifierType.Success, $"复制玩家数字ID {_listViewSelcContent.PersonaId} 到剪切板成功");
         }
         else
         {
@@ -1524,9 +1528,9 @@ public partial class ScoreView : UserControl
     /// <param name="e"></param>
     private void MenuItem_QueryPlayerRecord_Click(object sender, RoutedEventArgs e)
     {
-        if (_dataGridSelcContent.IsOK)
+        if (_listViewSelcContent.IsOK)
         {
-            var queryRecordWindow = new QueryRecordWindow(_dataGridSelcContent.Name, _dataGridSelcContent.PersonaId, _dataGridSelcContent.Rank);
+            var queryRecordWindow = new QueryRecordWindow(_listViewSelcContent.Name, _listViewSelcContent.PersonaId, _listViewSelcContent.Rank);
             queryRecordWindow.Show();
         }
         else
@@ -1542,12 +1546,12 @@ public partial class ScoreView : UserControl
     /// <param name="e"></param>
     private void MenuItem_QueryPlayerRecordWeb_BT_Click(object sender, RoutedEventArgs e)
     {
-        if (_dataGridSelcContent.IsOK)
+        if (_listViewSelcContent.IsOK)
         {
-            string playerName = _dataGridSelcContent.Name;
+            string playerName = _listViewSelcContent.Name;
 
             ProcessUtil.OpenLink(@"https://battlefieldtracker.com/bf1/profile/pc/" + playerName);
-            NotifierHelper.Show(NotifierType.Success, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+            NotifierHelper.Show(NotifierType.Success, $"查询玩家（{_listViewSelcContent.Name}）战绩成功，请前往浏览器查看");
         }
         else
         {
@@ -1562,12 +1566,12 @@ public partial class ScoreView : UserControl
     /// <param name="e"></param>
     private void MenuItem_QueryPlayerRecordWeb_GT_Click(object sender, RoutedEventArgs e)
     {
-        if (_dataGridSelcContent.IsOK)
+        if (_listViewSelcContent.IsOK)
         {
-            string playerName = _dataGridSelcContent.Name;
+            string playerName = _listViewSelcContent.Name;
 
             ProcessUtil.OpenLink(@"https://gametools.network/stats/pc/name/" + playerName + "?game=bf1");
-            NotifierHelper.Show(NotifierType.Success, $"查询玩家（{_dataGridSelcContent.Name}）战绩成功，请前往浏览器查看");
+            NotifierHelper.Show(NotifierType.Success, $"查询玩家（{_listViewSelcContent.Name}）战绩成功，请前往浏览器查看");
         }
         else
         {
@@ -1599,48 +1603,48 @@ public partial class ScoreView : UserControl
     }
     #endregion
 
-    #region DataGrid相关方法
-    private void DataGrid_Team1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    #region ListView相关方法
+    private void ListView_Team1_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var item = DataGrid_Team1.SelectedItem as PlayerListModel;
+        var item = ListView_Team1.SelectedItem as PlayerListModel;
         if (item != null)
         {
-            _dataGridSelcContent.IsOK = true;
-            _dataGridSelcContent.TeamId = 1;
-            _dataGridSelcContent.Rank = item.Rank;
-            _dataGridSelcContent.Name = item.Name;
-            _dataGridSelcContent.PersonaId = item.PersonaId;
+            _listViewSelcContent.IsOK = true;
+            _listViewSelcContent.TeamId = 1;
+            _listViewSelcContent.Rank = item.Rank;
+            _listViewSelcContent.Name = item.Name;
+            _listViewSelcContent.PersonaId = item.PersonaId;
         }
         else
         {
-            _dataGridSelcContent.IsOK = false;
-            _dataGridSelcContent.TeamId = -1;
-            _dataGridSelcContent.Rank = -1;
-            _dataGridSelcContent.Name = string.Empty;
-            _dataGridSelcContent.PersonaId = -1;
+            _listViewSelcContent.IsOK = false;
+            _listViewSelcContent.TeamId = -1;
+            _listViewSelcContent.Rank = -1;
+            _listViewSelcContent.Name = string.Empty;
+            _listViewSelcContent.PersonaId = -1;
         }
 
         Update_DateGrid_Selection();
     }
 
-    private void DataGrid_Team2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ListView_Team2_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var item = DataGrid_Team2.SelectedItem as PlayerListModel;
+        var item = ListView_Team2.SelectedItem as PlayerListModel;
         if (item != null)
         {
-            _dataGridSelcContent.IsOK = true;
-            _dataGridSelcContent.TeamId = 2;
-            _dataGridSelcContent.Rank = item.Rank;
-            _dataGridSelcContent.Name = item.Name;
-            _dataGridSelcContent.PersonaId = item.PersonaId;
+            _listViewSelcContent.IsOK = true;
+            _listViewSelcContent.TeamId = 2;
+            _listViewSelcContent.Rank = item.Rank;
+            _listViewSelcContent.Name = item.Name;
+            _listViewSelcContent.PersonaId = item.PersonaId;
         }
         else
         {
-            _dataGridSelcContent.IsOK = false;
-            _dataGridSelcContent.TeamId = -1;
-            _dataGridSelcContent.Rank = -1;
-            _dataGridSelcContent.Name = string.Empty;
-            _dataGridSelcContent.PersonaId = -1;
+            _listViewSelcContent.IsOK = false;
+            _listViewSelcContent.TeamId = -1;
+            _listViewSelcContent.Rank = -1;
+            _listViewSelcContent.Name = string.Empty;
+            _listViewSelcContent.PersonaId = -1;
         }
 
         Update_DateGrid_Selection();
@@ -1650,11 +1654,11 @@ public partial class ScoreView : UserControl
     {
         var sb = new StringBuilder();
 
-        if (_dataGridSelcContent.IsOK)
+        if (_listViewSelcContent.IsOK)
         {
-            sb.Append($"玩家ID : {_dataGridSelcContent.Name}");
-            sb.Append($" | 队伍ID : {_dataGridSelcContent.TeamId}");
-            sb.Append($" | 等级 : {_dataGridSelcContent.Rank}");
+            sb.Append($"玩家ID : {_listViewSelcContent.Name}");
+            sb.Append($" | 队伍ID : {_listViewSelcContent.TeamId}");
+            sb.Append($" | 等级 : {_listViewSelcContent.Rank}");
             sb.Append($" | 更新时间 : {DateTime.Now}");
         }
         else
@@ -1663,7 +1667,7 @@ public partial class ScoreView : UserControl
             sb.Append($" | 更新时间 : {DateTime.Now}");
         }
 
-        TextBlock_DataGridSelectionContent.Text = sb.ToString();
+        TextBlock_ListViewSelectionContent.Text = sb.ToString();
     }
     #endregion
 }

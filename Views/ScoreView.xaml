@@ -278,12 +278,12 @@
                     </StackPanel>
                     <!--  ################################  -->
                     <ListView
-                        x:Name="DataGrid_Team1"
+                        x:Name="ListView_Team1"
                         Margin="5,5,2.5,5"
                         ContextMenu="{StaticResource ContextMenu_Main}"
                         DockPanel.Dock="Bottom"
-                        ItemsSource="{Binding DataGrid_PlayerList_Team1}"
-                        SelectionChanged="DataGrid_Team1_SelectionChanged"
+                        ItemsSource="{Binding ListView_PlayerList_Team1}"
+                        SelectionChanged="ListView_Team1_SelectionChanged"
                         Style="{StaticResource ListViewStyle_Team1}"
                         ToolTip="点击鼠标右键弹出菜单">
                         <ListView.View>
@@ -394,12 +394,12 @@
                     </StackPanel>
                     <!--  ################################  -->
                     <ListView
-                        x:Name="DataGrid_Team2"
+                        x:Name="ListView_Team2"
                         Margin="2.5,5,5,5"
                         ContextMenu="{StaticResource ContextMenu_Main}"
                         DockPanel.Dock="Bottom"
-                        ItemsSource="{Binding DataGrid_PlayerList_Team2}"
-                        SelectionChanged="DataGrid_Team2_SelectionChanged"
+                        ItemsSource="{Binding ListView_PlayerList_Team2}"
+                        SelectionChanged="ListView_Team2_SelectionChanged"
                         Style="{StaticResource ListViewStyle_Team2}"
                         ToolTip="点击鼠标右键弹出菜单">
                         <ListView.View>
@@ -517,7 +517,7 @@
                     FontWeight="Bold"
                     Text="[当前选中]" />
                 <TextBlock
-                    Name="TextBlock_DataGridSelectionContent"
+                    Name="TextBlock_ListViewSelectionContent"
                     Margin="5,0,5,0"
                     VerticalAlignment="Center"
                     Text="玩家ID : NULL | 玩家武器 : NULL" />
