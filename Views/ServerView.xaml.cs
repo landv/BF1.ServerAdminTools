@@ -93,8 +93,9 @@ public partial class ServerView : UserControl
             if (result.IsSuccess)
             {
                 var searchServers = JsonUtil.JsonDese<SearchServers>(result.Message);
+                var gameservers = searchServers.result.gameservers.OrderByDescending(c => c.slots.Soldier.current);
 
-                foreach (var item in searchServers.result.gameservers)
+                foreach (var item in gameservers)
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                     {

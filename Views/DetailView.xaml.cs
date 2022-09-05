@@ -62,6 +62,9 @@ public partial class DetailView : UserControl
 
     }
 
+    /// <summary>
+    /// 智能更新服务器详情
+    /// </summary>
     private void UpdateServerDetils()
     {
         bool isClear = true;

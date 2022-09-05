@@ -92,6 +92,7 @@
                     <TextBlock
                         Margin="5"
                         DockPanel.Dock="Top"
+                        Foreground="Green"
                         Text="{Binding QueryModel.PlayingServer}"
                         TextWrapping="Wrap" />
                     <!--  ####################  -->

@@ -125,10 +125,11 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#409EFF" />
+                                        <Setter TargetName="border" Property="Background" Value="#EEEEEE" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="Orange" />
+                                        <Setter TargetName="border" Property="Background" Value="#1E88E5" />
+                                        <Setter Property="Foreground" Value="White" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -201,10 +202,11 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="#409EFF" />
+                                        <Setter TargetName="border" Property="Background" Value="#EEEEEE" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="border" Property="Background" Value="Orange" />
+                                        <Setter TargetName="border" Property="Background" Value="#1E88E5" />
+                                        <Setter Property="Foreground" Value="White" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

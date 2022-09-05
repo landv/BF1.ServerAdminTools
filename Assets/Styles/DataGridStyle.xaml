@@ -10,7 +10,7 @@
         <Setter Property="CanUserAddRows" Value="False" />
         <Setter Property="HeadersVisibility" Value="Column" />
         <Setter Property="SelectionMode" Value="Single" />
-        <Setter Property="GridLinesVisibility" Value="Vertical" />
+        <Setter Property="GridLinesVisibility" Value="None" />
         <Setter Property="VerticalGridLinesBrush" Value="#FFACACAC" />
         <Setter Property="CanUserResizeRows" Value="False" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
