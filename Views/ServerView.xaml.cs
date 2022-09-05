@@ -1,12 +1,12 @@
 ﻿using BF1.ServerAdminTools.Models;
 using BF1.ServerAdminTools.Common.Utils;
 using BF1.ServerAdminTools.Common.Helper;
+using BF1.ServerAdminTools.Features.Data;
 using BF1.ServerAdminTools.Features.Utils;
 using BF1.ServerAdminTools.Features.API;
 using BF1.ServerAdminTools.Features.API.RespJson;
 
 using CommunityToolkit.Mvvm.Input;
-using BF1.ServerAdminTools.Features.Data;
 
 namespace BF1.ServerAdminTools.Views;
 
@@ -66,8 +66,6 @@ public partial class ServerView : UserControl
         ServerInfoCommand = new RelayCommand<string>(ServerInfo);
 
         ServerModel.LoadingVisibility = Visibility.Collapsed;
-
-        ServerModel.ServerName = "QQ";
     }
 
     private async void QueryServer()

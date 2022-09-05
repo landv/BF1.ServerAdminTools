@@ -38,11 +38,10 @@
                         Margin="5"
                         Style="{StaticResource ListBoxStyle_Admin}" />
                     <StackPanel>
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="当前选中项" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="当前选中项"
+                            Style="{StaticResource LabelStyle_Title}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -83,18 +82,14 @@
                             </Button.Style>
                         </Button>
                         <!--  ################################  -->
-                        <TextBlock />
-                        <TextBlock />
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="添加新的Admin玩家" />
-                        <TextBlock
-                            Margin="5"
-                            FontWeight="Bold"
-                            Text="请输入玩家ID" />
-                        <TextBox Name="TextBox_NewAdminName" Style="{StaticResource TextBoxNormalStyle}" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="添加新的Admin玩家"
+                            Style="{StaticResource LabelStyle_Title}" />
+                        <TextBox
+                            Name="TextBox_NewAdminName"
+                            attached:Text.Value="请输入玩家ID"
+                            Style="{StaticResource TextBoxStyle_Hit}" />
                         <Button
                             x:Name="Button_AddNewAdmin"
                             Click="Button_AddNewAdmin_Click"
@@ -126,11 +121,10 @@
                         Margin="5"
                         Style="{StaticResource ListBoxStyle_Admin}" />
                     <StackPanel>
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="当前选中项" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="当前选中项"
+                            Style="{StaticResource LabelStyle_Title}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -171,18 +165,14 @@
                             </Button.Style>
                         </Button>
                         <!--  ################################  -->
-                        <TextBlock />
-                        <TextBlock />
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="添加新的VIP玩家" />
-                        <TextBlock
-                            Margin="5"
-                            FontWeight="Bold"
-                            Text="请输入玩家ID" />
-                        <TextBox Name="TextBox_NewVIPName" Style="{StaticResource TextBoxNormalStyle}" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="添加新的VIP玩家"
+                            Style="{StaticResource LabelStyle_Title}" />
+                        <TextBox
+                            Name="TextBox_NewVIPName"
+                            attached:Text.Value="请输入玩家ID"
+                            Style="{StaticResource TextBoxStyle_Hit}" />
                         <Button
                             x:Name="Button_AddNewVIP"
                             Click="Button_AddNewVIP_Click"
@@ -208,11 +198,10 @@
                         Margin="5"
                         Style="{StaticResource ListBoxStyle_Admin}" />
                     <StackPanel>
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="当前选中项" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="当前选中项"
+                            Style="{StaticResource LabelStyle_Title}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -253,18 +242,14 @@
                             </Button.Style>
                         </Button>
                         <!--  ################################  -->
-                        <TextBlock />
-                        <TextBlock />
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="添加新的BAN玩家" />
-                        <TextBlock
-                            Margin="5"
-                            FontWeight="Bold"
-                            Text="请输入玩家ID" />
-                        <TextBox Name="TextBox_NewBANName" Style="{StaticResource TextBoxNormalStyle}" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="添加新的BAN玩家"
+                            Style="{StaticResource LabelStyle_Title}" />
+                        <TextBox
+                            Name="TextBox_NewBANName"
+                            attached:Text.Value="请输入玩家ID"
+                            Style="{StaticResource TextBoxStyle_Hit}" />
                         <Button
                             x:Name="Button_AddNewBAN"
                             Click="Button_AddNewBAN_Click"
@@ -286,11 +271,10 @@
             <TabItem attached:Icon.Value="🍑" Header="高级">
                 <UniformGrid Columns="2">
                     <StackPanel>
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="更新服务器信息" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="更新服务器信息"
+                            Style="{StaticResource LabelStyle_Title}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -344,11 +328,10 @@
                         Margin="5"
                         Style="{StaticResource ListBoxStyle_Spectator}" />
                     <StackPanel>
-                        <TextBlock
-                            Margin="5"
-                            FontSize="24"
-                            FontWeight="Bold"
-                            Text="当前选中项" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="当前选中项"
+                            Style="{StaticResource LabelStyle_Title}" />
                         <TextBlock
                             Margin="5"
                             FontWeight="Bold"
@@ -374,11 +357,14 @@
                             FontWeight="Bold"
                             Text="玩家索引" />
                         <TextBlock Margin="25,5,5,5" Text="{Binding ElementName=ListBox_Spectator, Path=SelectedIndex}" />
-                        <TextBlock
-                            Margin="5"
-                            FontWeight="Bold"
-                            Text="踢出理由" />
-                        <TextBox Name="TextBox_KickSelectedSpectatorReason" Style="{StaticResource TextBoxNormalStyle}" />
+                        <Label
+                            attached:Icon.Value="☕"
+                            Content="踢出理由"
+                            Style="{StaticResource LabelStyle_Title}" />
+                        <TextBox
+                            Name="TextBox_KickSelectedSpectatorReason"
+                            attached:Text.Value="请输入踢出理由，可为空"
+                            Style="{StaticResource TextBoxStyle_Hit}" />
                         <Button
                             x:Name="Button_KickSelectedSpectator"
                             Click="Button_KickSelectedSpectator_Click"

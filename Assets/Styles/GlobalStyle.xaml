@@ -4,6 +4,7 @@
     xmlns:cvt="clr-namespace:BF1.ServerAdminTools.Converters">
 
     <cvt:StringToImageSourceConverter x:Key="ImageConverter" />
+    <cvt:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
 
     <!--  超链接全局样式  -->
     <Style TargetType="{x:Type Hyperlink}">

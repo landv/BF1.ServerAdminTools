@@ -325,7 +325,7 @@
                             Style="{StaticResource TextBlockStyle_Title}"
                             Text="全局黑名单" />
                         <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-                            <WrapPanel DockPanel.Dock="Right">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                 <Button
                                     x:Name="Button_Add_BlackList"
                                     Margin="5"
@@ -344,13 +344,15 @@
                                     Click="Button_Clear_BlackList_Click"
                                     Content="清空"
                                     Style="{StaticResource ButtonStyle_Normal}" />
-                            </WrapPanel>
+                            </StackPanel>
                             <TextBox
                                 x:Name="TextBox_BlackList_PlayerName"
-                                Margin="5"
+                                Margin="5,5,0,5"
                                 Padding="5"
                                 VerticalContentAlignment="Center"
-                                DockPanel.Dock="Left" />
+                                attached:Text.Value="请输入玩家ID"
+                                DockPanel.Dock="Left"
+                                Style="{StaticResource TextBoxStyle_Hit}" />
                         </DockPanel>
                         <!--  ################  -->
                         <ListBox
@@ -366,7 +368,7 @@
                             Style="{StaticResource TextBlockStyle_Title}"
                             Text="全局白名单" />
                         <DockPanel DockPanel.Dock="Top" LastChildFill="True">
-                            <WrapPanel DockPanel.Dock="Right">
+                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                 <Button
                                     x:Name="Button_Add_WhiteList"
                                     Margin="5"
@@ -385,12 +387,14 @@
                                     Click="Button_Clear_WhiteList_Click"
                                     Content="清空"
                                     Style="{StaticResource ButtonStyle_Normal}" />
-                            </WrapPanel>
+                            </StackPanel>
                             <TextBox
                                 x:Name="TextBox_WhiteList_PlayerName"
-                                Margin="5"
+                                Margin="5,5,0,5"
                                 Padding="5"
-                                DockPanel.Dock="Left" />
+                                attached:Text.Value="请输入玩家ID"
+                                DockPanel.Dock="Left"
+                                Style="{StaticResource TextBoxStyle_Hit}" />
                         </DockPanel>
                         <!--  ################  -->
                         <ListBox
@@ -464,9 +468,10 @@
                         Style="{StaticResource ButtonStyle_Normal}" />
                     <TextBox
                         x:Name="TextBox_ReNameRule"
-                        Margin="5"
                         Padding="5"
+                        attached:Text.Value="请输入规则名称"
                         DockPanel.Dock="Left"
+                        Style="{StaticResource TextBoxStyle_Hit}"
                         Text="{Binding ElementName=ComboBox_CustomConfigName, Path=SelectedValue, Mode=OneWay}" />
                 </DockPanel>
                 <ComboBox

@@ -66,8 +66,6 @@ public partial class QueryView : UserControl
         QueryPlayerCommand = new(QueryPlayer);
 
         QueryModel.LoadingVisibility = Visibility.Collapsed;
-
-        QueryModel.PlayerName = "CrazyZhang666";
     }
 
     private async void QueryPlayer()
@@ -191,10 +189,18 @@ public partial class QueryView : UserControl
         if (result.IsSuccess)
         {
             JsonNode jNode = JsonNode.Parse(result.Message);
-            QueryModel.Avatar = jNode["result"]![$"{personaId}"]!["avatar"].GetValue<string>();
-            QueryModel.PersonaId = jNode["result"]![$"{personaId}"]!["personaId"].GetValue<string>();
+            if (jNode["result"]![$"{personaId}"] != null)
+            {
+                QueryModel.Avatar = jNode["result"]![$"{personaId}"]!["avatar"].GetValue<string>();
+                QueryModel.PersonaId = jNode["result"]![$"{personaId}"]!["personaId"].GetValue<string>();
 
-            QueryModel.Rank = $"等级 : 0";
+                QueryModel.Rank = $"等级 : 0";
+            }
+            else
+            {
+                IsAllFinish();
+                return;
+            }
 
             IsAllFinish();
         }
@@ -219,7 +225,7 @@ public partial class QueryView : UserControl
             if (obj != null)
             {
                 var name = obj["name"].GetValue<string>();
-                QueryModel.PlayingServer= $"正在游玩 : {name}";
+                QueryModel.PlayingServer = $"正在游玩 : {name}";
             }
             else
             {

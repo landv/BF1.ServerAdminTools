@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:WinSkin="clr-namespace:WinSkin;assembly=WinSkin"
+    xmlns:attached="clr-namespace:BF1.ServerAdminTools.Assets.Styles.Attached"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Name="Window_CustomKick"
@@ -52,8 +53,9 @@
             <TextBox
                 x:Name="TextBox_CustomReason"
                 Margin="5,5,5,0"
-                Padding="5,10,5,10"
-                VerticalAlignment="Center" />
+                VerticalAlignment="Center"
+                attached:Text.Value="请输入踢出理由，可为空"
+                Style="{StaticResource TextBoxStyle_Hit}" />
             <Button
                 x:Name="Button_KickPlayer"
                 Click="Button_KickPlayer_Click"

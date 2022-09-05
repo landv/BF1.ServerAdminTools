@@ -2,7 +2,7 @@
 
     <Style TargetType="{x:Type ContextMenu}" />
 
-    <Style x:Key="sep" TargetType="{x:Type Separator}" />
+    <Style TargetType="{x:Type Separator}" />
 
     <Style TargetType="{x:Type MenuItem}" />
 

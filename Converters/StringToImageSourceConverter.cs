@@ -2,7 +2,6 @@
 
 public class StringToImageSourceConverter : IValueConverter
 {
-    #region Converter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         string path = (string)value;
@@ -20,5 +19,4 @@ public class StringToImageSourceConverter : IValueConverter
     {
         return null;
     }
-    #endregion
 }
