@@ -42,7 +42,6 @@
             <ListBox
                 Grid.Row="1"
                 Margin="5,0,5,5"
-                ItemContainerStyle="{StaticResource ListBoxItemStyle_ServerList}"
                 ItemsSource="{Binding ServersItems}"
                 Style="{StaticResource ListBoxStyle_ServerList}">
                 <ListBox.ItemTemplate>
@@ -53,7 +52,7 @@
                             ToolTip="{Binding description}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="30" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
@@ -69,13 +68,13 @@
                                     Text="{Binding favoriteStar}" />
                                 <Image
                                     Grid.Column="1"
-                                    Margin="0,2,0,2"
+                                    Margin="0,3,0,3"
                                     Source="{Binding mapImageUrl, Converter={StaticResource ImageConverter}}"
                                     Style="{StaticResource ImageStyle_HQ}" />
 
                                 <StackPanel
                                     Grid.Column="2"
-                                    Margin="10"
+                                    Margin="10,0,10,0"
                                     VerticalAlignment="Center">
                                     <StackPanel.Resources>
                                         <Style TargetType="{x:Type TextBlock}">
@@ -91,7 +90,7 @@
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap" />
                                         <TextBlock
-                                            Margin="0,5,0,5"
+                                            Margin="0,3,0,3"
                                             Text="{Binding description}"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap" />

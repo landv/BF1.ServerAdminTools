@@ -749,11 +749,11 @@ public partial class RuleView : UserControl
         AppendLog($"玩家最低等级限制 : {ServerRule.Team1.MinRank}");
         AppendLog($"玩家最高等级限制 : {ServerRule.Team1.MaxRank}");
 
-        AppendLog($"玩家最高生涯KD限制 : {ServerRule.Team1.LifeMaxKD}");
-        AppendLog($"玩家最高生涯KPM限制 : {ServerRule.Team1.LifeMaxKPM}");
+        AppendLog($"# 玩家最高生涯KD限制 : {ServerRule.Team1.LifeMaxKD}");
+        AppendLog($"# 玩家最高生涯KPM限制 : {ServerRule.Team1.LifeMaxKPM}");
 
-        AppendLog($"玩家最高生涯武器星数限制 : {ServerRule.Team1.LifeMaxWeaponStar}");
-        AppendLog($"玩家最高生涯载具星数限制 : {ServerRule.Team1.LifeMaxVehicleStar}");
+        AppendLog($"# 玩家最高生涯武器星数限制 : {ServerRule.Team1.LifeMaxWeaponStar}");
+        AppendLog($"# 玩家最高生涯载具星数限制 : {ServerRule.Team1.LifeMaxVehicleStar}");
         AppendLog("");
 
         AppendLog("==== 队伍2 ====");
@@ -769,11 +769,11 @@ public partial class RuleView : UserControl
         AppendLog($"玩家最低等级限制 : {ServerRule.Team2.MinRank}");
         AppendLog($"玩家最高等级限制 : {ServerRule.Team2.MaxRank}");
 
-        AppendLog($"玩家最高生涯KD限制 : {ServerRule.Team2.LifeMaxKD}");
-        AppendLog($"玩家最高生涯KPM限制 : {ServerRule.Team2.LifeMaxKPM}");
+        AppendLog($"# 玩家最高生涯KD限制 : {ServerRule.Team2.LifeMaxKD}");
+        AppendLog($"# 玩家最高生涯KPM限制 : {ServerRule.Team2.LifeMaxKPM}");
 
-        AppendLog($"玩家最高生涯武器星数限制 : {ServerRule.Team2.LifeMaxWeaponStar}");
-        AppendLog($"玩家最高生涯载具星数限制 : {ServerRule.Team2.LifeMaxVehicleStar}");
+        AppendLog($"# 玩家最高生涯武器星数限制 : {ServerRule.Team2.LifeMaxWeaponStar}");
+        AppendLog($"# 玩家最高生涯载具星数限制 : {ServerRule.Team2.LifeMaxVehicleStar}");
 
         AppendLog("\n");
 
