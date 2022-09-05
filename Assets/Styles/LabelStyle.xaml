@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Grid  SnapsToDevicePixels="True">
+                    <Grid SnapsToDevicePixels="True">
                         <Border
                             Background="#B3E19D"
                             BorderBrush="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}"

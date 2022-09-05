@@ -1576,22 +1576,6 @@ public partial class ScoreView : UserControl
     }
 
     /// <summary>
-    /// 清理得分板标题排序
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void MenuItem_ClearScoreSort_Click(object sender, RoutedEventArgs e)
-    {
-        Dispatcher.BeginInvoke(()=>
-        {
-            CollectionViewSource.GetDefaultView(DataGrid_Team1.ItemsSource).SortDescriptions.Clear();
-            CollectionViewSource.GetDefaultView(DataGrid_Team2.ItemsSource).SortDescriptions.Clear();
-
-            NotifierHelper.Show(NotifierType.Success, "清理得分板标题排序成功（默认为玩家得分从高到低排序）");
-        });
-    }
-
-    /// <summary>
     /// 显示中文武器名称（参考）
     /// </summary>
     /// <param name="sender"></param>

@@ -21,8 +21,8 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
                                 <Grid
-                                    Width="300"
-                                    Height="160"
+                                    Width="280"
+                                    Height="140"
                                     Margin="5"
                                     Background="#4C4A48">
                                     <Border Name="border" BorderThickness="0" />
@@ -48,7 +48,7 @@
                     <DockPanel Background="Transparent" LastChildFill="True">
                         <UniformGrid
                             Name="uniformGrid"
-                            Height="90"
+                            Height="80"
                             DockPanel.Dock="Bottom"
                             Rows="2">
                             <TextBlock
@@ -76,9 +76,9 @@
                                     <DoubleAnimation
                                         Storyboard.TargetName="uniformGrid"
                                         Storyboard.TargetProperty="Height"
-                                        From="90"
-                                        To="130"
-                                        Duration="0:0:.1" />
+                                        From="80"
+                                        To="110"
+                                        Duration="0:0:0.1" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -88,9 +88,9 @@
                                     <DoubleAnimation
                                         Storyboard.TargetName="uniformGrid"
                                         Storyboard.TargetProperty="Height"
-                                        From="130"
-                                        To="90"
-                                        Duration="0:0:.1" />
+                                        From="110"
+                                        To="80"
+                                        Duration="0:0:0.2" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

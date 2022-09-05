@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="Assets/Styles/ProgressBarStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/ListBoxStyle.xaml" />
+                <ResourceDictionary Source="Assets/Styles/ListViewStyle.xaml" />
                 <ResourceDictionary Source="Assets/Styles/DataGridStyle.xaml" />
 
                 <ResourceDictionary Source="Assets/Styles/TabControlStyle.xaml" />
